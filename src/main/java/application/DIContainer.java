@@ -2,12 +2,12 @@ package application;
 
 import application.Utils.DataGenerator;
 import application.Utils.ViewUtil;
+import application.controller.EventController;
 import application.controller.IndexController;
 import application.dao.EventDaoJPA;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.xml.crypto.Data;
 
 public class DIContainer {
 
@@ -17,9 +17,10 @@ public class DIContainer {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("jpaTestingPU");
         EventDaoJPA eventDaoJPA = new EventDaoJPA(entityManagerFactory);
         DataGenerator dataGenerator = new DataGenerator(eventDaoJPA);
-        IndexController indexController = new IndexController(viewUtil);
+        IndexController indexController = new IndexController(viewUtil, eventDaoJPA);
+        EventController eventController = new EventController(eventDaoJPA);
 
 
-        return new Application(indexController, viewUtil, dataGenerator);
+        return new Application(indexController, viewUtil, dataGenerator, eventController);
     }
 }
