@@ -16,7 +16,7 @@ function changeEventDisplay(event) {
     $("body").css("background-image", "url(images/backgrounds/" + event.event["imgPath"] + ")")
         .css("background-size", "cover")
         .css("background-attachment", "fixed")
-        .css("background-repeat", "no-repeat")
+        .css("background-repeat", "no-repeat");
     $("#information").fadeIn();
 }
 
@@ -38,65 +38,53 @@ function loadEventByID(ID) {
         } catch(e) {
             loadLatestEvent();
         }
+    });
+}
+function changeMenuDisplay(menu) {
+    console.log("asd");
+    $(".menu-content").empty();
+    $(".menu-content").append("<h1>"  + menu.menu["title"] + "</h1>")
+        .append("<p> Helyszin:  " + menu.menu["description"] + "</p>");
+    $(".menu").css("visibility", "visible");
+}
 
 
+function loadMenuContentByID(ID) {
+    var url = "/menu/" + ID;
+    $.get(url).done(function (data) {
+        try {
+            var menu = JSON.parse(data);
+            changeMenuDisplay(menu);
+        } catch(e) {
+            console.log(e);
+            loadLatestEvent();
+        }
     });
 }
 
 function loadMenu() {
-    var isMenuOpen = false;
     $(".home").click(function (e) {
-        if(isMenuOpen) {
-            $(".menu-content").css("visibility", "hidden");
-            isMenuOpen = false;
-        } else {
-            $(".menu-content").css("visibility", "visible");
-            isMenuOpen = true;
-        }
+        loadMenuContentByID(1);
     });
 
     $(".documents").click(function (e) {
-        if(isMenuOpen) {
-            $(".menu-content").css("visibility", "hidden");
-            isMenuOpen = false;
-        } else {
-            $(".menu-content").css("visibility", "visible");
-            isMenuOpen = true;
-        }
+        loadMenuContentByID(2);
     });
 
     $(".forum").click(function (e) {
-        if(isMenuOpen) {
-            $(".menu-content").css("visibility", "hidden");
-            isMenuOpen = false;
-        } else {
-            $(".menu-content").css("visibility", "visible");
-            isMenuOpen = true;
-        }
+        loadMenuContentByID(3);
     });
 
     $(".contact").click(function (e) {
-        if(isMenuOpen) {
-            $(".menu-content").css("visibility", "hidden");
-            isMenuOpen = false;
-        } else {
-            $(".menu-content").css("visibility", "visible");
-            isMenuOpen = true;
-        }
+        loadMenuContentByID(4);
     });
 
     $(".about").click(function (e) {
-        if(isMenuOpen) {
-            $(".menu-content").css("visibility", "hidden");
-            isMenuOpen = false;
-        } else {
-            $(".menu-content").css("visibility", "visible");
-            isMenuOpen = true;
-        }
+        loadMenuContentByID(5);
     });
 
     $("#menu-close").click(function (e) {
-       $(".menu-content").css("visibility", "hidden");
+        $(".menu").css("visibility", "hidden");
     });
 
 }
@@ -105,11 +93,11 @@ function main() {
     loadLatestEvent();
     loadMenu();
 
-    if (fullScreenApi.supportsFullScreen) {
-        myButton.addEventListener('click', function() {
-            fullScreenApi.requestFullScreen(someElement);
-        }, true);
-    }
+
+    $("#login-btn").click(function (e) {
+        $("#login-form").css("visibility", "visible");
+    });
+
 
     $("#arrow_left").click(function(e) {
         e.preventDefault();

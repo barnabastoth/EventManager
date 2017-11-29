@@ -3,7 +3,10 @@ package application.controller;
 import application.Utils.Path;
 import application.Utils.ViewUtil;
 import application.dao.EventDaoJPA;
+import application.dao.MenuDaoJPA;
+import application.model.Menu.Menu;
 import com.google.gson.Gson;
+import spark.Route;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +14,11 @@ import java.util.Map;
 public class IndexController {
 
     private ViewUtil viewUtil;
-    private EventDaoJPA eventDaoJPA;
+    private MenuDaoJPA menuDaoJPA;
 
-    public IndexController(ViewUtil viewUtil, EventDaoJPA eventDaoJPA) {
+    public IndexController(ViewUtil viewUtil, MenuDaoJPA menuDaoJPA) {
         this.viewUtil = viewUtil;
-        this.eventDaoJPA = eventDaoJPA;
+        this.menuDaoJPA = menuDaoJPA;
     }
 
     public spark.Route serveIndexPage = (request, response) -> {
@@ -25,10 +28,14 @@ public class IndexController {
         return viewUtil.render(request, model, Path.Template.INDEX, null);
     };
 
-    public String getAllMenu() {
+    public void addMenu(Menu menu) {
+        menuDaoJPA.addMenu(menu);
+    }
+
+    public String getMenuByID(Long id) {
         HashMap<String, Object> menus = new HashMap<>();
 
-        System.out.println(menus.get("menus"));
+        menus.put("menu",menuDaoJPA.getMenuByID(id));
 
         return new Gson().toJson(menus);
     }

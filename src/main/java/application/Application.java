@@ -36,9 +36,14 @@ public class Application {
 
         get(Path.Web.INDEX, indexController.serveIndexPage);
         get(Path.Web.LATEST_EVENT, (req, res) -> eventController.getLatestEvent());
+        post(Path.Web.LOGIN, (req, res) -> eventController.getLatestEvent());
         get(Path.Web.EVENT_BY_ID, (req, res) -> {
             Long eventID = Long.parseLong(req.params(":id"));
             return eventController.getEventByID(eventID);
+        });
+        get(Path.Web.MENU_BY_ID, (req, res) -> {
+            Long menuID = Long.parseLong(req.params(":id"));
+            return indexController.getMenuByID(menuID);
         });
     }
 

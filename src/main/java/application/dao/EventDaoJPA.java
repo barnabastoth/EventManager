@@ -60,16 +60,4 @@ public class EventDaoJPA {
         }
         return null;
     }
-
-//    public void addSpeakerToEvent(Event event, String speaker) {
-//        EntityManager em = entityManagerFactory.createEntityManager();
-//        em.getTransaction().begin();
-//
-//        Event mergedEvent = em.merge(event);
-//
-//        mergedEvent.addSpeaker(speaker);
-//
-//        em.getTransaction().commit();
-//        em.close();
-//    }
 }

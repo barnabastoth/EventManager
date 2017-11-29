@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.dao.EventDaoJPA;
+import application.model.Event.Event;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -10,6 +11,10 @@ public class EventController {
 
     public EventController(EventDaoJPA eventDaoJPA) {
         this.eventDaoJPA = eventDaoJPA;
+    }
+
+    public void addEvent(Event event) {
+        eventDaoJPA.addEvent(event);
     }
 
     public String getLatestEvent() {

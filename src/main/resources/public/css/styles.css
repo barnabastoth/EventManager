@@ -1,5 +1,8 @@
 /* Import Fonts */
 @import url(http://fonts.googleapis.com/css?family=Coustard|Open+Sans);
+html {
+	height: 100%
+}
 body, html{
 	margin:0;
 	padding:0;
@@ -66,10 +69,10 @@ a:hover {text-decoration:underline;}
 
 #logo {
 	font-family: 'Coustard', serif;
-	font-size: 49px;
-	bottom:40px;
+	font-size: 30px;
+	bottom: 20px;
 	height:auto;
-	left:40px;
+	left:20px;
 	position:absolute;
 	width:20%;
 	z-index:1000;
@@ -78,8 +81,8 @@ a:hover {text-decoration:underline;}
 
 .main-nav{
 	position:absolute;
-	bottom: 23px;
-	left:210px;
+	bottom: 25px;
+	left:280px;
 	z-index:1001;
 }
 .main-nav ul li { 
@@ -88,6 +91,7 @@ a:hover {text-decoration:underline;}
 	padding-right: 10px;
 	padding-left: 10px;
 	border-left: 1px solid #b7b7b7;
+	color: white;
 }
 .main-nav ul li a.active {color: #ffa800;}
 
@@ -122,7 +126,7 @@ button.full-screen{
 button.full-screen:hover {opacity: 1;}
 
 #arrow_left, #arrow_right {
-	bottom:30px;
+	bottom:10px;
 	height:42px;
 	position:absolute;
 	right:40px;
@@ -148,7 +152,7 @@ button.full-screen:hover {opacity: 1;}
 
 
 .middle {
-	left: 0px !important;
+	left: 20px !important;
 	overflow: auto;
 	height: 65%;
 	width: 100%;
@@ -159,8 +163,10 @@ button.full-screen:hover {opacity: 1;}
 #bottom {
 	position: fixed;
 	bottom: 0px;
-	height: 10%;
+	height: 7%;
 	width: 100%;
+	z-index: 10000;
+	background-color:rgba(0, 0, 0, 0.5);
 }
 
 
@@ -175,7 +181,7 @@ button.full-screen:hover {opacity: 1;}
 	height: 100%;
 }
 
-.menu-content {
+.menu {
 	background-color:rgba(0, 0, 0, 0.9);
 	visibility: hidden;
 	position: fixed;
@@ -194,5 +200,50 @@ button.full-screen:hover {opacity: 1;}
 	height: 45px;
 	width: auto;
 	max-widt: 45px;
-
 }
+
+.login-btn {
+	position: absolute;
+	top: 0px;
+	right: 20%;
+	background-color:rgba(0, 0, 0, 0.5);
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 250px;
+	height: 30px;
+}
+
+#login-btn {
+	width: 120px;
+}
+#reg-btn {
+	width: 120px;
+}
+
+#login-form {
+	visibility: hidden;
+	position: absolute;
+	top: 30px;
+	right: 20%;
+	background-color:rgba(0, 0, 0, 0.5);
+	padding: 20px;
+}
+
+.button p {
+	font-size: 25px;
+	line-height: 50px;
+	font-family: 'Trebuchet MS', sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: fff;
+}
+
+.button:hover {
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#b1432a), to(#d46d45));
+	background: -moz-linear-gradient(19% 75% 90deg,#d46d45, #b1432a);
+	border-top: solid 2px #b1432a;
+	border-bottom: solid 1px #e28d79;
+}
+

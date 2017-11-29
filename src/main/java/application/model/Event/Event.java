@@ -27,9 +27,6 @@ public class Event {
     private String imgPath;
     private String ticketLink;
 
-//    @ElementCollection
-//    private Set<String> speakers = new HashSet<>();
-
 
     public Event() {
     }
@@ -93,14 +90,4 @@ public class Event {
     public String getTicketLink() { return ticketLink; }
     public void setTicketLink(String ticketLink) { this.ticketLink = ticketLink; }
 
-//    public Set<String> getSpeakers() {
-//        return speakers;
-//    }
-//
-//    public void setSpeakers(Set<String> speakers) {
-//        this.speakers = speakers;
-//    }
-//
-//    public void addSpeaker (String speaker) {speakers.add(speaker);}
-//    public void removeSpeaker (Speaker speaker) {speakers.remove(speaker);}
 }
