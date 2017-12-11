@@ -187,3 +187,4 @@ buildNumber.properties
 /src/main/resources/META-INF/drop-schema.ddl
 /src/main/resources/META-INF/create-schema.ddl
 /src/main/resources/META-INF/persistence.xml
+/src/main/resources/application.properties

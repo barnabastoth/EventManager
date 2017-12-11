@@ -9,10 +9,15 @@ public class Speaker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long ID;
-    String name;
-    String url;
-    String imgPath;
+    private long ID;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
+
+    private String name;
+    private String url;
+    private String imgPath;
 
     public long getID() {
         return ID;

@@ -16,7 +16,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long ID;
+    private long ID;
 
     private String name;
     private String location;
@@ -26,6 +26,9 @@ public class Event {
     private Long duration;
     private String imgPath;
     private String ticketLink;
+
+    @OneToMany(mappedBy = "event")
+    private List<Speaker> speakers;
 
 
     public Event() {
