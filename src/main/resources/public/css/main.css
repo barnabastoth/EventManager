@@ -138,7 +138,7 @@ small
 #menu li {
     display: inline-block;
     width: 173px;
-    margin: 0 10px;
+    margin: 20px;
     position: relative;
     -webkit-transform: skewy(-3deg);
     -webkit-backface-visibility: hidden;
