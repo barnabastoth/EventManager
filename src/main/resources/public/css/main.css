@@ -8,12 +8,34 @@
     height: 85px;
 }
 
+#main_content {
+    background: url("../images/backgrounds/bg-img-1.jpg") no-repeat center center fixed;
+    /*background: #eee url(https://subtlepatterns.com/patterns/extra_clean_paper.png);*/
+    background-color: white;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,800,700,300);
 @import url(https://fonts.googleapis.com/css?family=Squada+One);
 #events {
-    padding: 20px 80px;
+    /*padding: 20px 80px;*/
+    /*background: #eee url(https://subtlepatterns.com/patterns/extra_clean_paper.png);*/
+    height: 100%;
+    width: 70%;
+    padding: 20px;
+    margin: 0px auto;
     background: #eee url(https://subtlepatterns.com/patterns/extra_clean_paper.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
+
+
 #logo {
     font-family: 'Open Sans', sans-serif;
     color: #555;
@@ -43,8 +65,6 @@
     text-shadow: none;
 }
 #menu {
-    width: 1090px;
-    height: 80px;
     list-style: none;
     margin: 10px 0 0 0;
     padding: 20px 10px;
@@ -54,8 +74,17 @@
     text-align: center;
 }
 
+.event-title-text {
+    text-align: center;
+}
+
+#event-background img {
+    max-height: 400px;
+    width: 100%;
+    border: 5px solid #000;
+}
+
 .event-information {
-    width: 1090px;
     margin: 10px 0 0 0;
     padding: 20px 10px;
     list-style: none;
@@ -67,6 +96,7 @@
 .event-information h1 {
     padding-bottom: 10px;
     border-bottom: 2px double #AAA;
+    margin: 0 auto;
 }
 
 .event-information li {
@@ -76,12 +106,9 @@
 }
 
 .event-speakers {
-    width: 1090px;
     margin: 10px 0 0 0;
     padding: 20px 10px;
     list-style: none;
-    /*margin: 50px 0px 50px 0px;*/
-    /*text-align: center;*/
     border: 4px double #AAA;
 }
 
@@ -175,3 +202,27 @@ small
     bottom: -4px;
     background-image: -webkit-linear-gradient(right, transparent 0%, rgba(0,0,0,.4) 100%);
 }
+
+
+.icon-bar {
+    width: 70%;
+    margin : 120px auto 0;
+    background-color: #555;
+    overflow: auto;
+}
+
+.icon-bar a {
+    float: left;
+    width: 10%;
+    text-align: center;
+    padding: 6px 0;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 15px;
+}
+
+.icon-bar a:hover {
+    background-color: #000;
+}
+
+

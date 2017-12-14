@@ -1,62 +1,88 @@
-<div class="right_col" align="center" role="main" id="events">
+<div class="right_col" role="main" id="main_content">
+    <div class="icon-bar">
+        <a data-toggle="tooltip" data-placement="top" title="Előző esemény" class="pull-left" href="#"><i class="fa fa-arrow-left"></i></a>
+        <a class="pull-left" href="#"><i class="fa fa-search"></i></a>
+        <a class="pull-left" href="#"><i class="fa fa-envelope"></i></a>
+        <a data-toggle="tooltip" data-placement="top" title="Következő esemény" class="pull-right" href="#"><i class="fa fa-arrow-right"></i></a>
+        <a class="pull-right" href="#"><i class="fa fa-globe"></i></a>
+    </div>
+    <div id="events">
+        <!--<div class="event-navigation-bar">-->
+            <!--<div id="previous-event-btn">-->
+                <!--<a id="left-arrow" href=""><img class="pull-left" th:src="@{~/images/arrow-left.png}"></a>-->
+                <!--<button class="btn-primary pull-left">Előző esemény</button>-->
+            <!--</div>-->
 
+            <!--<div id="next-event-btn")>-->
+                <!--<a id="right-arrow" href=""><img class="pull-right" th:src="@{~/images/arrow-right.png}"></a>-->
+                <!--<button class="btn-success pull-right">Következő esemény</button>-->
+            <!--</div>-->
+        <!--</div>-->
 
-    <div id="header">
-        <a id="logo">Magyarország jövőjéről Budapesten</a>
-        <ul id="menu">
-            <li id="event-information-btn"><a><span>Általános</span></a></li>
-            <li id="event-speakers-btn"><a><span>Előadók</span></a></li>
-            <li id="event-tickets-btn"><a><span>Jegyek</span></a></li>
-            <li id="event-location-btn"><a><span>Helyszin</span></a></li>
-            <li id="event-comments-btn"><a><span>Kommentek</span></a></li>
-        </ul>
-        <div class="event-information" id="event-information">
-            <h1>Általános Információ</h1>
-            <ul>
-                <li>
-                    <h4>Esemény neve: </h4>
-                    <p>Magyarország jövőjéről Budapesten!</p>
-                </li>
-                <li>
-                    <h4>Esemény helyszine:</h4>
-                    <p>1124 Váci út 123/12</p>
-                </li>
-                <li>
-                    <h4>Esemény időpontja:</h4>
-                    <p>2017.12.19 18:00 CET</p>
-                </li>
-                <li>
-                    <h4>Esemény leirása</h4>
-                    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr. Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</p>
-                </li>
+        <div id="header">
+            <a id="logo" class="event-title-text" th:text="${event.title}"></a>
+            <!--<div id="event-background">-->
+            <!--<img src="images/backgrounds/bg-img-3.jpg" alt="esemény-háttérkép" />-->
+            <!--</div>-->
+            <ul id="menu">
+                <li id="event-information-btn"><a><span>Általános</span></a></li>
+                <li id="event-speakers-btn"><a><span>Előadók</span></a></li>
+                <li id="event-tickets-btn"><a><span>Jegyek</span></a></li>
+                <li id="event-location-btn"><a><span>Helyszin</span></a></li>
+                <li id="event-comments-btn"><a><span>Kommentek</span></a></li>
             </ul>
-        </div>
+            <br>
 
-        <div class="event-information" id="event-speakers">
-            <h1>Előadók</h1>
-            <div class="container wrap">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-                        <div class="well well-sm">
-                            <div class="row">
-                                <div class="col-sm-4 col-md-6 col-lg-7">
-                                    <img src="https://www.hypnosisdownloads.com/sites/www.hypnosisdownloads.com/files/product-images/poker-face.jpg" alt="" class="img-rounded img-responsive" />
-                                </div>
-                                <div class="col-sm-8 col-md-6 col-lg-5">
-                                    <h4>Abraham Lincoln</h4>
-                                    <small><cite title="San Diego, USA">San Diego, USA <i class="glyphicon glyphicon-map-marker"></i></cite></small>
-                                    <p>
-                                        <i class="glyphicon glyphicon-envelope"></i>lorem@random.net
-                                        <br />
-                                        <i class="glyphicon glyphicon-globe"></i><a href="https://www.prepbootstrap.com">www.prepbootstrap.com</a>
-                                        <br />
-                                        <i class="glyphicon glyphicon-gift"></i>January 19, 1993
-                                    </p>
-                                    <div class="btn-group">
-                                        <a href="#" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
-                                        <a href="#" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
-                                        <a href="#" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
-                                        <a href="#" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
+
+            <div class="event-information" id="event-information">
+                <h1>Általános Információ</h1>
+                <input class="event-id-text" type="hidden" th:value="${event.id}" id="event-id">
+                <ul>
+                    <li>
+                        <h4>Esemény neve: </h4>
+                        <p class="event-name-text" th:text="${event.name}"></p>
+                    </li>
+                    <li>
+                        <h4>Esemény helyszine:</h4>
+                        <p class="event-address-text" th:text="${event.address}"></p>
+                    </li>
+                    <li>
+                        <h4>Esemény időpontja:</h4>
+                        <p class="event-date-text" th:text="${event.date}">2017.12.19 18:00 CET</p>
+                    </li>
+                    <li>
+                        <h4>Esemény leirása</h4>
+                        <p class="event-description-text" th:text="${event.description}"></p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="event-information" id="event-speakers">
+                <h1>Előadók</h1>
+                <div class="container wrap">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+                            <div class="well well-sm">
+                                <div class="row" th:each="speaker : ${event.speakers}">
+                                    <div class="col-sm-4 col-md-6 col-lg-7">
+                                        <img th:src="@{~/images/} + ${speaker.imgPath}" />
+                                    </div>
+                                    <div class="col-sm-8 col-md-6 col-lg-5">
+                                        <h4 th:text="speaker.name"></h4>
+                                        <small><cite title="San Diego, USA" th:text="${speaker.birthLocation}"><i class="glyphicon glyphicon-map-marker"></i></cite></small>
+                                        <p>
+                                            <i class="glyphicon glyphicon-envelope" th:text="${speaker.email}"></i>
+                                            <br />
+                                            <i class="glyphicon glyphicon-globe"></i><a th:href="${speaker.webPage}" th:text="${speaker.webPage}"></a>
+                                            <br />
+                                            <i class="glyphicon glyphicon-gift" th:text="${speaker.bornDate}"></i>
+                                        </p>
+                                        <div class="btn-group">
+                                            <a th:href="${speaker.facebook}" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
+                                            <a th:href="${speaker.facebook}" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
+                                            <a th:href="${speaker.facebook}" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
+                                            <a th:href="${speaker.facebook}" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -64,117 +90,69 @@
                     </div>
                 </div>
             </div>
-            <div class="container wrap">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-                        <div class="well well-sm">
-                            <div class="row">
-                                <div class="col-sm-4 col-md-6 col-lg-7">
-                                    <img src="https://www.hypnosisdownloads.com/sites/www.hypnosisdownloads.com/files/product-images/poker-face.jpg" alt="" class="img-rounded img-responsive" />
-                                </div>
-                                <div class="col-sm-8 col-md-6 col-lg-5">
-                                    <h4>Abraham Lincoln</h4>
-                                    <small><cite title="San Diego, USA">San Diego, USA <i class="glyphicon glyphicon-map-marker"></i></cite></small>
-                                    <p>
-                                        <i class="glyphicon glyphicon-envelope"></i>lorem@random.net
-                                        <br />
-                                        <i class="glyphicon glyphicon-globe"></i><a href="https://www.prepbootstrap.com">www.prepbootstrap.com</a>
-                                        <br />
-                                        <i class="glyphicon glyphicon-gift"></i>January 19, 1993
-                                    </p>
-                                    <div class="btn-group">
-                                        <a href="#" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
-                                        <a href="#" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
-                                        <a href="#" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
-                                        <a href="#" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+            <div class="event-information" id="event-tickets">
+                <h1>Jegyek:</h1>
+                <ul>
+                    <li>
+                        <h4>Ticketportal: </h4>
+                        <p><a href="http://www.ticketportal.hu/event.aspx?id=48662">LINK</a></p>
+                    </li>
+                    <li>
+                        <h4>Helyszinen:</h4>
+                        <p class="event-price-text" th:text="${event.price}"></p>
+                    </li>
+                </ul>
             </div>
-            <div class="container wrap">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-                        <div class="well well-sm">
-                            <div class="row">
-                                <div class="col-sm-4 col-md-6 col-lg-7">
-                                    <img src="https://www.hypnosisdownloads.com/sites/www.hypnosisdownloads.com/files/product-images/poker-face.jpg" alt="" class="img-rounded img-responsive" />
-                                </div>
-                                <div class="col-sm-8 col-md-6 col-lg-5">
-                                    <h4>Abraham Lincoln</h4>
-                                    <small><cite title="San Diego, USA">San Diego, USA <i class="glyphicon glyphicon-map-marker"></i></cite></small>
-                                    <p>
-                                        <i class="glyphicon glyphicon-envelope"></i>lorem@random.net
-                                        <br />
-                                        <i class="glyphicon glyphicon-globe"></i><a href="https://www.prepbootstrap.com">www.prepbootstrap.com</a>
-                                        <br />
-                                        <i class="glyphicon glyphicon-gift"></i>January 19, 1993
-                                    </p>
-                                    <div class="btn-group">
-                                        <a href="#" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
-                                        <a href="#" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
-                                        <a href="#" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
-                                        <a href="#" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+            <div class="event-information" id="event-location">
+                <h1>Helyszin:</h1>
+                <ul>
+                    <li>
+                        <h4>Cim</h4>
+                        <p class="event-address-text" th:text="${event.address}"></p>
+                    </li>
+                    <li>
+                        <h4>Tömegközlekedéssel:</h4>
+                        <p class="event-locationByPublicTransport-text" th:text="${event.locationByPublicTransport}"></p>
+                    </li>
+                    <li>
+                        <h4>Autóval</h4>
+                        <p class="event-locationByCar-text" th:text="${event.locationByCar}"></p>
+                    </li>
+                    <li>
+                        <h4>Térkép:</h4>
+                        <input id="map-latitude" type="hidden" th:value="${event.mapLatitude}">
+                        <input id="map-longtitude" type="hidden" th:value="${event.mapLongtitude}">
+                        <p id="map-container" class="event-address-map"></p>
+                    </li>
+                </ul>
             </div>
-        </div>
 
-        <div class="event-information" id="event-tickets">
-            <h1>Jegyek:</h1>
-            <ul>
-                <li>
-                    <h4>Ticketportal: </h4>
-                    <p><a href="http://www.ticketportal.hu/event.aspx?id=48662">LINK</a></p>
-                </li>
-                <li>
-                    <h4>Helyszinen:</h4>
-                    <p>3000 ft</p>
-                </li>
-            </ul>
-        </div>
-
-
-        <div class="event-information" id="event-location">
-            <h1>Helyszin:</h1>
-            <ul>
-                <li>
-                    <h4>Tömegközlekedéssel:</h4>
-                    <p>88 as busz az Örs Vezér Teréről</p>
-                </li>
-                <li>
-                    <h4>Autóval</h4>
-                    <p>23as út aztán balra és vegyél térképet</p>
-                </li>
-                <li>
-                    <h4>Térkép:</h4>
-                    <p>1124 Váci út 232/12 420as kapucsengő</p>
-                </li>
-            </ul>
-        </div>
-
-        <div class="event-information" id="event-comments">
-            <h1>Kommentek:</h1>
-            <ul>
-                <li>
-                    <h4>Tömegközlekedéssel:</h4>
-                    <p>88 as busz az Örs Vezér Teréről</p>
-                </li>
-                <li>
-                    <h4>Autóval</h4>
-                    <p>23as út aztán balra és vegyél térképet</p>
-                </li>
-                <li>
-                    <h4>Térkép:</h4>
-                    <p>1124 Váci út 232/12 420as kapucsengő</p>
-                </li>
-            </ul>
+            <div class="event-information" id="event-comments">
+                <h1>Kommentek:</h1>
+                <ul>
+                    <li>
+                        <h4>Tömegközlekedéssel:</h4>
+                        <p>88 as busz az Örs Vezér Teréről</p>
+                    </li>
+                    <li>
+                        <h4>Autóval</h4>
+                        <p>23as út aztán balra és vegyél térképet</p>
+                    </li>
+                    <li>
+                        <h4>Térkép:</h4>
+                        <p>1124 Váci út 232/12 420as kapucsengő</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </div>
