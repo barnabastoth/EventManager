@@ -1,6 +1,6 @@
 #ujdonsagok {
     margin-bottom: 10%;
-    /*max-height: 400px;*/
+    max-height: 400px;
     overflow: auto;
 }
 
@@ -9,7 +9,7 @@
 }
 
 #main_content {
-    background: url("../images/backgrounds/bg-img-1.jpg") no-repeat center center fixed;
+    background: url("../images/backgrounds/bg-img-3.jpg") no-repeat center center fixed;
     /*background: #eee url(https://subtlepatterns.com/patterns/extra_clean_paper.png);*/
     background-color: white;
     -webkit-background-size: cover;
@@ -225,4 +225,7 @@ small
     background-color: #000;
 }
 
+#sidebar-menu {
+    height: 100%;
+}
 

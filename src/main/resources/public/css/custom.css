@@ -241,7 +241,8 @@ html , body{
     display: none
 }
 .menu_section {
-    margin-bottom: 35px
+    margin-bottom: 35px;
+    display:inline;
 }
 .menu_section h3 {
     padding-left: 15px;
@@ -1097,7 +1098,6 @@ h2 {
     color: #BDBDBD
 }
 .x_content {
-    padding: 0 5px 6px;
     position: relative;
     width: 100%;
     float: left;
@@ -1502,7 +1502,7 @@ ul.msg_list li a .time {
     font-style: italic;
     font-weight: bold;
     position: absolute;
-    right: 35px
+    right: 10px
 }
 ul.msg_list li a .message {
     display: block !important;
@@ -1541,8 +1541,8 @@ ul.msg_list li a .message {
     left: auto;
     width: 220px
 }
-.navbar-nav .open .dropdown-menu.msg_list {
-    width: 300px
+.msg_list {
+    width: 100%;
 }
 .info-number .badge {
     font-size: 10px;
@@ -1675,8 +1675,9 @@ span.right {
     padding: 5px 0 0 0;
     position: fixed;
     width: 230px;
-    background: #2A3F54;
+    background: black;
 	z-index:999;
+    height: 50%;
 }
 .sidebar-footer a {
     padding: 7px 0 8px 15px;
