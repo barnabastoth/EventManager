@@ -62,13 +62,13 @@ function authenticationButtons() {
 
 }
 
-function loadNenuBottomNav(eventId) {
+function loadMenuBottomNav(eventId) {
     if(eventId > 0) {
-        $("#left-arrow").attr("href", "/event/" + (eventId - 1));
+        $("#prev-event-btn").attr("href", "/event/" + (eventId - 1));
     } else {
-        $("#left-arrow").attr("href", "/event/" + (eventId));
+        $("#prev-event-btn").attr("href", "/event/0");
     }
-    $("#right-arrow").attr("href", "/event/" + (eventId + 1));
+    $("#next-event-btn").attr("href", "/event/" + (eventId + 1));
 }
 
 function eventMenu() {
@@ -86,7 +86,7 @@ function eventMenu() {
 
     var eventId = parseInt($(".event-id-text").val());
 
-    loadNenuBottomNav(eventId);
+    loadMenuBottomNav(eventId);
 
     eventInformationBtn.click(function (e) {
         hideAllExcept("#event-information");
@@ -144,7 +144,6 @@ $(function buttonClick() {
 
 
 function main() {
-    loadNenuBottomNav();
     eventMenu();
     authenticationButtons();
     // loadGoogleMap();
