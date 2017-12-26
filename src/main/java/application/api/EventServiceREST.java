@@ -5,6 +5,7 @@ import application.model.Event.Event;
 import application.repository.EventRepository;
 import application.utils.Path;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,4 +29,9 @@ public class EventServiceREST {
         return eventRepository.getLatestEvent();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/secured/all")
+    public String secure() {
+        return "secured hello";
+    }
 }

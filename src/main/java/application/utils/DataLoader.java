@@ -2,14 +2,15 @@ package application.utils;
 
 import application.model.Event.Event;
 import application.model.Event.Speaker;
-import application.model.anyad.Book;
-import application.model.anyad.BookCategory;
-import application.repository.BookCategoryRepository;
+import application.model.User.Role;
+import application.model.User.Account;
 import application.repository.EventRepository;
+import application.repository.RoleRepository;
 import application.repository.SpeakerRepository;
+import application.repository.UserRepository;
+import application.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,16 +20,20 @@ import java.util.*;
 public class DataLoader implements CommandLineRunner {
 
 
+    @Autowired
     private  EventRepository eventRepository;
+    @Autowired
     private SpeakerRepository speakerRepository;
-    private BookCategoryRepository bookCategoryRepository;
+    @Qualifier("roleRepository")
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
-    public DataLoader(EventRepository eventRepository, SpeakerRepository speakerRepository, BookCategoryRepository bookCategoryRepository) {
-        this.eventRepository = eventRepository;
-        this.speakerRepository = speakerRepository;
-        this.bookCategoryRepository = bookCategoryRepository;
-    }
+    private UserServiceImpl userService;
+
+    @Qualifier("userRepository")
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void run(String... args) {
@@ -50,6 +55,19 @@ public class DataLoader implements CommandLineRunner {
         for (Event event : eventRepository.findAll()) {
             System.out.println(event.toString());
         }
+        Role role = new Role("ADMIN");
+        roleRepository.save(role);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        Account user = new Account();
+        user.setActive(1);
+        user.setPassword("anyad");
+        user.setEmail("vigyor99@gmailcom");
+        user.setName("anyad");
+        user.setLastName("anyad");
+        user.setRoles(roles);
+        userRepository.save(user);
+        userService.saveUser(user);
 
     }
 
