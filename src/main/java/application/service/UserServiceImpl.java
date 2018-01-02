@@ -1,8 +1,5 @@
 package application.service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import application.model.User.Account;
 import application.model.User.Role;
 import application.repository.RoleRepository;
@@ -12,30 +9,33 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 @Service("userService")
 public class UserServiceImpl implements UserService{
 
-    @Qualifier("userRepository")
-    @Autowired
-    private UserRepository userRepository;
-    @Qualifier("roleRepository")
-    @Autowired
+	@Qualifier("userRepository")
+	@Autowired
+	private UserRepository userRepository;
+	@Qualifier("roleRepository")
+	@Autowired
     private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Override
+	public Account findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 
-    @Override
-    public Account findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public void saveUser(Account user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setActive(1);
+	@Override
+	public void saveUser(Account account) {
+		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+        account.setActive(1);
         Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        userRepository.save(user);
-    }
+        account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		userRepository.save(account);
+	}
 
 }

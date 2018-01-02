@@ -21,54 +21,68 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <form id="login-form" action="https://phpoll.com/login/process" method="post" role="form" style="display: block;">
-                                            <div class="form-group">
-                                                <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                        <form th:action="@{/login}" method="POST" class="form-signin">
+                                            <h3 class="form-signin-heading" th:text="Welcome"></h3>
+                                            <br/>
+
+                                            <input type="text" id="email" name="email"  th:placeholder="Email"
+                                                   class="form-control" /> <br/>
+                                            <input type="password"  th:placeholder="Password"
+                                                   id="password" name="password" class="form-control" /> <br />
+
+                                            <div align="center" th:if="${param.error}">
+                                                <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
                                             </div>
-                                            <div class="form-group">
-                                                <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                            </div>
-                                            <div class="form-group text-center">
-                                                <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                                                <label for="remember"> Remember Me</label>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-sm-6 col-sm-offset-3">
-                                                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="text-center">
-                                                            <a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" th:text="Login"></button>
                                         </form>
-                                        <form id="register-form" action="https://phpoll.com/register/process" method="post" role="form" style="display: none;">
+
+                                        <form autocomplete="off" action="#" th:action="@{/registration}"
+                                              th:object="${account}" method="post" class="form-horizontal"
+                                              role="form">
+                                            <h2>Registration Form</h2>
                                             <div class="form-group">
-                                                <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-sm-6 col-sm-offset-3">
-                                                        <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-                                                    </div>
+                                                <div class="col-sm-9">
+                                                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                           class="validation-message"></label>
+                                                    <input type="text" th:field="*{name}" placeholder="Name"
+                                                           class="form-control" />
                                                 </div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-9">
+                                                    <label	th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                                              class="validation-message"></label>
+                                                    <input type="text" th:field="*{lastName}"
+                                                           placeholder="Last Name" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-9">
+                                                    <input type="text" th:field="*{email}" placeholder="Email"
+                                                           class="form-control" /> <label
+                                                        th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                                        class="validation-message"></label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-9">
+                                                    <input type="password" th:field="*{password}"
+                                                           placeholder="Password" class="form-control" /> <label
+                                                        th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                                        class="validation-message"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-9">
+                                                    <button type="submit" class="btn btn-primary btn-block">Register User</button>
+                                                </div>
+                                            </div>
+
+                                            <span th:utext="${successMessage}"></span>
+
+
                                         </form>
                                     </div>
                                 </div>

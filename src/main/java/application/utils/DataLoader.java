@@ -2,8 +2,8 @@ package application.utils;
 
 import application.model.Event.Event;
 import application.model.Event.Speaker;
-import application.model.User.Role;
 import application.model.User.Account;
+import application.model.User.Role;
 import application.repository.EventRepository;
 import application.repository.RoleRepository;
 import application.repository.SpeakerRepository;
@@ -59,15 +59,14 @@ public class DataLoader implements CommandLineRunner {
         roleRepository.save(role);
         Set<Role> roles = new HashSet<>();
         roles.add(role);
-        Account user = new Account();
-        user.setActive(1);
-        user.setPassword("anyad");
-        user.setEmail("vigyor99@gmailcom");
-        user.setName("anyad");
-        user.setLastName("anyad");
-        user.setRoles(roles);
-        userRepository.save(user);
-        userService.saveUser(user);
+        Account account = new Account();
+        account.setActive(1);
+        account.setPassword("anyad");
+        account.setEmail("vigyor99@gmail.com");
+        account.setName("anyad");
+        account.setLastName("anyad");
+//        account.setRoles(roles);
+        userService.saveUser(account);
 
     }
 
