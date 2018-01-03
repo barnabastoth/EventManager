@@ -63,6 +63,7 @@ public class DataLoader implements CommandLineRunner {
         account.setActive(1);
         account.setPassword("anyad");
         account.setEmail("vigyor99@gmail.com");
+        account.setUserName("Exworm");
         account.setName("anyad");
         account.setLastName("anyad");
 //        account.setRoles(roles);

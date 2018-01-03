@@ -3,6 +3,7 @@ package application.model.User;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
@@ -16,6 +17,10 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
 	private int id;
+	@Column(name = "username")
+	@Length(min = 3, message = "A becenevednek legalább 3 betüből kell állnia")
+	@NotEmpty
+	private String userName;
 	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
 	@NotEmpty(message = "*Please provide an email")
@@ -105,4 +110,7 @@ public class Account {
 		this.roles = roles;
 	}
 
+	public String getUserName() { return userName; }
+
+	public void setUserName(String userName) { this.userName = userName; }
 }

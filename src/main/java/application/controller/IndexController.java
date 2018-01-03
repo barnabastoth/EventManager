@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@SessionAttributes({"user"})
+//@SessionAttributes({"user"})
 public class IndexController {
 
     @Autowired
@@ -27,16 +27,16 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-    @ModelAttribute("user")
-    public String user() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account account = userService.findUserByEmail(auth.getName());
-        System.out.println(account);
-        if(account == null) {
-            return "Vendég";
-        }
-        return account.getName();
-    }
+//    @ModelAttribute("user")
+//    public String loadUser() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Account account = userService.findUserByEmail(auth.getName());
+//        if(account == null) {
+//            return "Vendég";
+//        }
+//        System.out.println(account.getName());
+//        return account.getName();
+//    }
 
     @GetMapping(Path.Web.INDEX)
     public String serveIndexPage(Model model) {
@@ -47,6 +47,7 @@ public class IndexController {
 
     @GetMapping(Path.Web.EVENT_BY_ID)
     public String getEventById(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("account", new Account());
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
