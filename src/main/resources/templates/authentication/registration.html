@@ -1,0 +1,29 @@
+<div class="modal fade" id="registration" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="container" id="login-container">
+                <div id="login-box">
+                    <div class="logo">
+                        <img src="http://lorempixel.com/output/people-q-c-100-100-1.jpg" class="img img-responsive img-circle center-block"/>
+                        <h1 class="logo-caption"><span class="tweak">R</span>egisztráció</h1>
+                    </div>
+                    <div class="controls">
+                        <form  autocomplete="off" action="#" th:action="@{/registration}"
+                               th:object="${account}" method="post" role="form">
+                            <input type="text" th:field="*{email}" placeholder="Email" class="form-control" />
+                            <input type="text" th:field="*{userName}" placeholder="Felhasználónév" class="form-control" />
+                            <input type="text" th:field="*{name}" placeholder="Keresztnév" class="form-control" />
+                            <input type="text" th:field="*{lastName}" placeholder="Családnév" class="form-control" />
+                            <input type="password" th:field="*{password}" placeholder="Jelszó" class="form-control" />
+                            <button type="Submit" class="btn btn-default btn-block btn-custom">Regisztráció</button>
+                        </form>
+                    </div><!-- /.controls -->
+                </div><!-- /#login-box -->
+            </div><!-- /.container -->
+        </div>
+    </div>
+
+</div>
+</div>
