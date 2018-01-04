@@ -42,9 +42,7 @@
                 <!-- /top navigation -->
 
                 <!-- page content -->
-                <div th:if="${authentication} != null">
-                    <p id="loginRequired" th:text="${authentication}"></p>
-                </div>
+
                 <div th:replace="fragments/events"></div>
                 <!-- /page content -->
 
@@ -58,7 +56,9 @@
         <!--Registration page-->
         <div th:replace="authentication/registration"></div>
 
-
+        <div th:if="${authentication} != null" hidden>
+            <p id="loginRequired" th:text="${authentication}"></p>
+        </div>
 
   </body>
 </html>

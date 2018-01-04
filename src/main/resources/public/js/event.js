@@ -144,7 +144,7 @@ $(function buttonClick() {
 
 
 function main() {
-    if($("#loginRequired" === "login")) {
+    if($("#loginRequired").text() === "login") {
         $("#login").modal('show');
     }
     eventMenu();
