@@ -48,7 +48,6 @@ public class UserSystemController {
 		model.addAttribute("authentication", "login");
 		return Path.Template.INDEX;
 	}
-
 	
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
 	public ModelAndView registration(){
@@ -58,7 +57,6 @@ public class UserSystemController {
 		modelAndView.setViewName("registration");
 		return modelAndView;
 	}
-
 
 	@PostMapping(Path.Web.REGISTRATION)
 	public RedirectView handleRegistration(Model model,
@@ -76,7 +74,6 @@ public class UserSystemController {
 		} else {
 			userService.saveUser(account);
 			model.addAttribute("successMessage", "Account has been registered successfully");
-			System.out.println("SUCSESS");
 		}
 		return new RedirectView("/");
 	}
