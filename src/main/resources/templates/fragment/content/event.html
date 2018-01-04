@@ -47,36 +47,7 @@
 
             <div class="event-information" id="event-events">
                 <h1>Előadók</h1>
-                <div class="container wrap">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-                            <div class="well well-sm">
-                                <div class="row" th:each="speaker : ${event.speakers}">
-                                    <div class="col-sm-4 col-md-6 col-lg-7">
-                                        <img th:src="@{~/images/} + ${speaker.imgPath}" />
-                                    </div>
-                                    <div class="col-sm-8 col-md-6 col-lg-5">
-                                        <h4 th:text="speaker.userName"></h4>
-                                        <small><cite title="San Diego, USA" th:text="${speaker.email}"><i class="glyphicon glyphicon-map-marker"></i></cite></small>
-                                        <p>
-                                            <i class="glyphicon glyphicon-envelope" th:text="${speaker.email}"></i>
-                                            <br />
-                                            <i class="glyphicon glyphicon-globe"></i><a th:href="${speaker.email}" th:text="${speaker.description}"></a>
-                                            <br />
-                                            <i class="glyphicon glyphicon-gift" th:text="${speaker.email}"></i>
-                                        </p>
-                                        <div class="btn-group">
-                                            <a th:href="${speaker.email}" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
-                                            <a th:href="${speaker.email}" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
-                                            <a th:href="${speaker.email}" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
-                                            <a th:href="${speaker.email}" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
             <div class="event-information" id="event-tickets">
