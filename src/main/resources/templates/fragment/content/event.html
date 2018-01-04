@@ -1,17 +1,20 @@
 <div class="right_col" role="main" id="main_content">
     <div class="icon-bar">
-        <a data-toggle="tooltip" data-placement="top" title="Előző esemény" id="prev-event-btn" class="pull-left"><i class="fa fa-arrow-left"></i></a>
-        <a class="pull-left" href="#"><i class="fa fa-search"></i></a>
-        <a class="pull-left" href="#"><i class="fa fa-envelope"></i></a>
-        <a data-toggle="tooltip" data-placement="top" title="Következő esemény" id="next-event-btn" class="pull-right"/><i class="fa fa-arrow-right"></i></a>
-        <a class="pull-right" href="#"><i class="fa fa-globe"></i></a>
+        <a class="pull-left" data-toggle="tooltip" data-placement="top" title="Előző esemény megnyitása" id="prev-event-btn" ><i class="fa fa-arrow-left"></i></a>
+        <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Keresés az események között"><i class="fa fa-search"></i></a>
+        <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Üzenet küldése az esemény létrehozójának"><i class="fa fa-envelope"></i></a>
+        <a class="pull-right" data-toggle="tooltip" data-placement="top" title="Következő esemény" id="next-event-btn" /><i class="fa fa-arrow-right"></i></a>
+        <a class="pull-right" th:href="'/event/' + ${event.id}" data-toggle="tooltip" data-placement="top" title="Esemény megnyitása külön oldalon"><i class="fa fa-globe"></i></a>
+        <a sec:authorize="hasAuthority('ADMIN')" class="pull-right" th:href="'/event/' + ${event.id} + '/edit'" data-toggle="tooltip" data-placement="top" title="Esemény szerkesztése"><i class="fa fa-pencil" ></i></a>
+        <a sec:authorize="hasAuthority('ADMIN')" class="pull-right" th:href="'/event/' + ${event.id} + '/speakers/add'" data-toggle="tooltip" data-placement="top" title="Esemény előadó hozzá adása"><i class="fa fa-users"></i></a>
+        <a sec:authorize="hasAuthority('ADMIN')" class="pull-right" th:href="@{/event/new}" data-toggle="tooltip" data-placement="top" title="Új esemény létrehozása"><i class="fa fa-plus-circle"></i></a>
     </div>
     <div id="events">
         <div id="header">
             <a id="logo" class="event-title-text" th:text="${event.title}"></a>
             <ul id="menu">
                 <li id="event-information-btn"><a><span>Általános</span></a></li>
-                <li id="event-speakers-btn"><a><span>Előadók</span></a></li>
+                <li id="event-events-btn"><a><span>Előadók</span></a></li>
                 <li id="event-tickets-btn"><a><span>Jegyek</span></a></li>
                 <li id="event-location-btn"><a><span>Helyszin</span></a></li>
                 <li id="event-comments-btn"><a><span>Kommentek</span></a></li>
@@ -42,7 +45,7 @@
                 </ul>
             </div>
 
-            <div class="event-information" id="event-speakers">
+            <div class="event-information" id="event-events">
                 <h1>Előadók</h1>
                 <div class="container wrap">
                     <div class="row">
@@ -53,20 +56,20 @@
                                         <img th:src="@{~/images/} + ${speaker.imgPath}" />
                                     </div>
                                     <div class="col-sm-8 col-md-6 col-lg-5">
-                                        <h4 th:text="speaker.name"></h4>
-                                        <small><cite title="San Diego, USA" th:text="${speaker.birthLocation}"><i class="glyphicon glyphicon-map-marker"></i></cite></small>
+                                        <h4 th:text="speaker.userName"></h4>
+                                        <small><cite title="San Diego, USA" th:text="${speaker.email}"><i class="glyphicon glyphicon-map-marker"></i></cite></small>
                                         <p>
                                             <i class="glyphicon glyphicon-envelope" th:text="${speaker.email}"></i>
                                             <br />
-                                            <i class="glyphicon glyphicon-globe"></i><a th:href="${speaker.webPage}" th:text="${speaker.webPage}"></a>
+                                            <i class="glyphicon glyphicon-globe"></i><a th:href="${speaker.email}" th:text="${speaker.description}"></a>
                                             <br />
-                                            <i class="glyphicon glyphicon-gift" th:text="${speaker.bornDate}"></i>
+                                            <i class="glyphicon glyphicon-gift" th:text="${speaker.email}"></i>
                                         </p>
                                         <div class="btn-group">
-                                            <a th:href="${speaker.facebook}" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
-                                            <a th:href="${speaker.facebook}" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
-                                            <a th:href="${speaker.facebook}" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
-                                            <a th:href="${speaker.facebook}" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
+                                            <a th:href="${speaker.email}" class="btn btn-primary"><span class="fa fa-2x fa-facebook"></span></a>
+                                            <a th:href="${speaker.email}" class="btn btn-danger"><span class="fa fa-2x fa-google"></span></a>
+                                            <a th:href="${speaker.email}" class="btn btn-info"><span class="fa fa-2x fa-twitter"></span></a>
+                                            <a th:href="${speaker.email}" class="btn btn-primary"><span class="fa fa-2x fa-linkedin"></span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +112,7 @@
                     <li>
                         <h4>Térkép:</h4>
                         <input id="map-latitude" type="hidden" th:value="${event.mapLatitude}">
-                        <input id="map-longtitude" type="hidden" th:value="${event.mapLongtitude}">
+                        <input id="map-longtitude" type="hidden" th:value="${event.mapLongTitude}">
                         <p id="map-container" class="event-address-map"></p>
                     </li>
                 </ul>

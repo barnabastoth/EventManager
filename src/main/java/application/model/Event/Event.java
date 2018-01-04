@@ -1,8 +1,11 @@
 package application.model.Event;
 
+import application.model.User.Account;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -15,6 +18,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "event_id")
     public long id;
 
     public String title;
@@ -23,46 +27,49 @@ public class Event {
     private String locationByPublicTransport;
     private String locationByCar;
     private String address;
-    private Double mapLatitude;
-    private Double mapLongtitude;
+    private String mapLatitude;
+    private String mapLongTitude;
 
-    public Date date;
+    public String date;
 
     @Lob
     @Type(type = "text")
     private String description;
 
-    private Long price;
-    private Long duration;
+    private String price;
+    private String duration;
     private String imgPath;
     private String ticketLink;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
-    private List<Speaker> speakers = new ArrayList<>();
-
+    @ManyToMany()
+    @JoinTable(
+            name = "event_speakers",
+            joinColumns = { @JoinColumn(name = "event_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    private Set<Account> speakers = new HashSet<>();
 
     public Event() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        this.date = dateFormat.format(date);
     }
 
-    public Event(String title, String name, String locationByPublicTransport, String locationByCar, String address, Double mapLatitude, Double mapLongtitude, Date date, String description, Long price, Long duration, String imgPath, String ticketLink) {
+    public Event(String title, String name, String locationByPublicTransport, String locationByCar, String address, String mapLatitude, String mapLongTitude, String date, String description, String price, String duration, String imgPath, String ticketLink) {
+        this();
         this.title = title;
         this.name = name;
         this.locationByPublicTransport = locationByPublicTransport;
         this.locationByCar = locationByCar;
         this.address = address;
         this.mapLatitude = mapLatitude;
-        this.mapLongtitude = mapLongtitude;
+        this.mapLongTitude = mapLongTitude;
         this.date = date;
         this.description = description;
         this.price = price;
         this.duration = duration;
         this.imgPath = imgPath;
         this.ticketLink = ticketLink;
-    }
-
-    public void addSpeaker(Speaker speaker) {
-        speakers.add(speaker);
-        speaker.setEvent(this);
     }
 
     public long getId() {
@@ -113,27 +120,27 @@ public class Event {
         this.address = address;
     }
 
-    public Double getMapLatitude() {
+    public String getMapLatitude() {
         return mapLatitude;
     }
 
-    public void setMapLatitude(Double mapLatitude) {
+    public void setMapLatitude(String mapLatitude) {
         this.mapLatitude = mapLatitude;
     }
 
-    public Double getMapLongtitude() {
-        return mapLongtitude;
+    public String getMapLongTitude() {
+        return mapLongTitude;
     }
 
-    public void setMapLongtitude(Double mapLongtitude) {
-        this.mapLongtitude = mapLongtitude;
+    public void setMapLongTitude(String mapLongTitude) {
+        this.mapLongTitude = mapLongTitude;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -145,19 +152,19 @@ public class Event {
         this.description = description;
     }
 
-    public Long getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public Long getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
@@ -177,30 +184,7 @@ public class Event {
         this.ticketLink = ticketLink;
     }
 
-    public List<Speaker> getSpeakers() {
-        return speakers;
-    }
+    public Set<Account> getSpeakers() { return speakers; }
 
-    public void setSpeakers(List<Speaker> speakers) {
-        this.speakers = speakers;
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", name='" + name + '\'' +
-                ", locationByPublicTransport='" + locationByPublicTransport + '\'' +
-                ", locationByCar='" + locationByCar + '\'' +
-                ", address='" + address + '\'' +
-                ", date=" + date +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", duration=" + duration +
-                ", imgPath='" + imgPath + '\'' +
-                ", ticketLink='" + ticketLink + '\'' +
-                ",  \n speakers=" + speakers +
-                '}';
-    }
+    public void setSpeakers(Set<Account> speakers) { this.speakers = speakers; }
 }

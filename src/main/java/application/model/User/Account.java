@@ -1,5 +1,6 @@
 package application.model.User;
 
+import application.model.Event.Event;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,6 +25,9 @@ public class Account {
 	@Length(min = 3, message = "A becenevednek legalább 3 betüből kell állnia")
 	@NotEmpty
 	private String userName;
+	@Column
+	@Length(min = 3, message = "A képednek legalább 3 betüből kell állnia")
+	private String imgPath;
 	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
 	@NotEmpty(message = "*Please provide an email")
@@ -47,23 +52,9 @@ public class Account {
 	private String memberSince;
 	@ManyToMany()
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+	private Set<Role> roles = new HashSet<>();
 
 	public Account() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		memberSince = dateFormat.format(date);
-	}
-
-	public Account(String userName, String email, String password, String name, String lastName, String description, int active, Set<Role> roles) {
-		this.userName = userName;
-		this.email = email;
-		this.password = password;
-		this.name = name;
-		this.lastName = lastName;
-		this.description = description;
-		this.active = active;
-		this.roles = roles;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		memberSince = dateFormat.format(date);
@@ -117,13 +108,9 @@ public class Account {
 		this.active = active;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
-	}
+	public Set<Role> getRoles() { return roles; }
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+	public void setRoles(Set<Role> roles) { this.roles = roles; }
 
 	public String getUserName() { return userName; }
 
@@ -136,4 +123,8 @@ public class Account {
 	public String getMemberSince() { return memberSince; }
 
 	public void setMemberSince(String memberSince) { this.memberSince = memberSince; }
+
+	public String getImgPath() { return imgPath; }
+
+	public void setImgPath(String imgPath) { this.imgPath = imgPath; }
 }

@@ -8,13 +8,12 @@ import application.utils.Path;
 import application.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 
@@ -41,27 +40,31 @@ public class UserSystemController {
 		requestUtil.addCommonAttributes(model, account);
 	}
 
+	@PreAuthorize("isAnonymous()")
 	@GetMapping(Path.Web.LOGIN)
-	public String serveLogin(Model model) {
+	public String serveLoginPage(Model model) {
 		model.addAttribute("event", eventRepository.getLatestEvent());
 		model.addAttribute("account", new Account());
 		model.addAttribute("authentication", "login");
+        model.addAttribute("pageContent", Path.Fragment.EVENT);
 		return Path.Template.INDEX;
 	}
-	
-	@RequestMapping(value="/registration", method = RequestMethod.GET)
-	public ModelAndView registration(){
-		ModelAndView modelAndView = new ModelAndView();
-		Account account = new Account();
-		modelAndView.addObject("account", account);
-		modelAndView.setViewName("registration");
-		return modelAndView;
+
+	@PreAuthorize("isAnonymous()")
+	@GetMapping(Path.Web.REGISTRATION)
+	public String serveRegistrationPage(Model model){
+		model.addAttribute("event", eventRepository.getLatestEvent());
+		model.addAttribute("account", new Account());
+		model.addAttribute("authentication", "registration");
+        model.addAttribute("pageContent", Path.Fragment.EVENT);
+		return Path.Template.INDEX;
 	}
 
+	@PreAuthorize("isAnonymous()")
 	@PostMapping(Path.Web.REGISTRATION)
-	public RedirectView handleRegistration(Model model,
-										   @Valid @ModelAttribute Account account,
-										   BindingResult bindingResult) {
+	public String handleRegistration(Model model,
+                                     @Valid @ModelAttribute Account account,
+                                     BindingResult bindingResult) {
 		Account accountExists = userService.findUserByEmail(account.getEmail());
 		model.addAttribute("account", new Account());
 		if (accountExists != null) {
@@ -75,23 +78,23 @@ public class UserSystemController {
 			userService.saveUser(account);
 			model.addAttribute("successMessage", "Account has been registered successfully");
 		}
-		return new RedirectView("/");
+		return "redirect:/login";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(Path.Web.PROFILE)
 	public String serveProfilePage (Model model, @PathVariable("id") int id) {
 		Account account = userRepository.findById(id);
+        model.addAttribute("pageContent", Path.Fragment.PROFILE);
 		model.addAttribute("account", account);
 		requestUtil.addProfileDetails(model, account);
-		return Path.Template.PROFILE;
+		return Path.Template.INDEX;
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(Path.Web.PROFILE)
-	public RedirectView handleProfileEdit(@PathVariable("id") int id, @ModelAttribute Account account) {
-		userRepository.save(account);
-		return new RedirectView("/profile/" + Integer.toString(id));
+	public String handleProfileEdit(@PathVariable("id") int id, @ModelAttribute Account account) {
+		userRepository.saveAndFlush(account);
+		return "redirect:/profile/" + Integer.toString(id);
 	}
-
-
-
 }

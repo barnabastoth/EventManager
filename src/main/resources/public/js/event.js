@@ -146,6 +146,8 @@ $(function buttonClick() {
 function main() {
     if($("#loginRequired").text() === "login") {
         $("#login").modal('show');
+    } else if ($("#loginRequired").text() === "registration") {
+        $("#register").modal('show');
     }
     eventMenu();
     authenticationButtons();

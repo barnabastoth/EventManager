@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository("menuRepository")
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    List<Menu> findByRoute(String route);
+    Menu findByRoute(String route);
 }

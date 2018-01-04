@@ -1,0 +1,29 @@
+<div class="right_col" role="main" id="main_content" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="icon-bar">
+        <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Keresés az események között"><i class="fa fa-search"></i></a>
+    </div>
+    <div id="events">
+        <div id="header">
+            <div class="event-information" id="event-information">
+                <h1>Esemény szerkesztése</h1>
+                <br>
+                <form autocomplete="off" th:action="'/event/' + ${eventId} + '/speakers/add'" method="post" role="form">
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Esemény belépő linkje</span>
+                        <input th:value="${speakers}" name="speakers" type="text" class="form-control" aria-describedby="basic-addon1">
+                    </div>
+
+                    <button type="Submit" class="btn btn-default btn-block btn-custom">Előadók mentése</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>

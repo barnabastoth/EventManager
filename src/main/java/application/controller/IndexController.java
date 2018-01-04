@@ -5,22 +5,22 @@ import application.model.Menu.Menu;
 import application.model.User.Account;
 import application.repository.EventRepository;
 import application.repository.MenuRepository;
-import application.repository.UserRepository;
 import application.service.UserService;
 import application.utils.Path;
 import application.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
-import java.util.List;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Set;
 
 @Controller
 public class IndexController {
@@ -35,8 +35,6 @@ public class IndexController {
     @Autowired
     private RequestUtil requestUtil;
     @Qualifier("userRepository")
-    @Autowired
-    private UserRepository userRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -48,15 +46,17 @@ public class IndexController {
     }
 
     @GetMapping(Path.Web.INDEX)
-    public String serveIndexPage(Model model, Authentication authentication) {
+    public String serveIndexPage(Model model) {
         model.addAttribute("event", eventRepository.getLatestEvent());
         model.addAttribute("account", new Account());
+        model.addAttribute("pageContent", Path.Fragment.EVENT);
         return Path.Template.INDEX;
     }
 
     @GetMapping(Path.Web.EVENT_BY_ID)
-    public String getEventById(Model model, @PathVariable("id") Long id) {
+    public String serveEventByIdPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("account", new Account());
+        model.addAttribute("pageContent", Path.Fragment.EVENT);
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
@@ -66,22 +66,85 @@ public class IndexController {
     }
 
     @GetMapping(Path.Web.MENU)
-    public String serveMenupage(Model model, @PathVariable("route") String route) {
-        List<Menu> menu = menuRepository.findByRoute(route);
+    public String serveMenuPage(Model model, @PathVariable("route") String route) {
+        Menu menu = menuRepository.findByRoute(route);
         model.addAttribute("account", new Account());
-        model.addAttribute("menu", menu.get(0));
+        model.addAttribute("menu", menu);
+        model.addAttribute("pageContent", Path.Fragment.MENU);
 
-        if(menu != null) {
-            return Path.Template.MENU;
+        if(menu == null) {
+            return "redirect:/";
         }
         return Path.Template.INDEX;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(Path.Web.MENU)
-    public RedirectView handleMenuEdit( @PathVariable("route") String route, @ModelAttribute("menu") Menu menu) {
-        menuRepository.save(menu);
-        return new RedirectView("/" + route);
+    public String handleMenuEdit(@PathVariable("route") String route, @ModelAttribute("menu") Menu menu) {
+        menuRepository.saveAndFlush(menu);
+        return "redirect:/" + route;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(Path.Web.NEW_EVENT)
+    public String serveNewEventPage(Model model) {
+        model.addAttribute("event", new Event());
+        model.addAttribute("account", new Account());
+        model.addAttribute("pageContent", Path.Fragment.NEW_EVENT);
+        return Path.Template.INDEX;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping(Path.Web.NEW_EVENT)
+    public String handleNewEventCreation(@ModelAttribute("event") Event event) {
+        eventRepository.saveAndFlush(event);
+        return "redirect:/event/" + event.getId();
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(Path.Web.EDIT_EVENT)
+    public String serveEditEventPage(Model model, @PathVariable("id") Long id) {
+        Event event = eventRepository.findOne(id);
+        model.addAttribute("event", event);
+        model.addAttribute("account", new Account());
+        model.addAttribute("pageContent", Path.Fragment.EDIT_EVENT);
+
+        return Path.Template.INDEX;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(Path.Web.ADD_EVENT_SPEAKERS)
+    public String serveAddEventSpeakersPage(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("account", new Account());
+        model.addAttribute("pageContent", Path.Fragment.ADD_EVENT_SPEAKERS);
+        model.addAttribute("eventId", id);
+        Event event = eventRepository.findOne(id);
+        StringBuilder speakers = new StringBuilder();
+        for (Account account : event.getSpeakers()) {
+            speakers.append(account.getEmail()).append(',');
+        }
+        if(event.getSpeakers().size() > 1) {
+            speakers = new StringBuilder(StringUtils.substring(speakers.toString(), 0, speakers.length() - 1));
+        }
+        model.addAttribute("speakers", speakers.toString());
+        return Path.Template.INDEX;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping(Path.Web.ADD_EVENT_SPEAKERS)
+    public String handleAddEventSpeakersPage(@PathVariable("id") Long id, @RequestParam("speakers") String speakersInput) {
+        Event event = eventRepository.findOne(id);
+        Set<Account> speakers = event.getSpeakers();
+        String[] emails = speakersInput.split(",");
+        for (String email : emails) {
+            speakers.add(userService.findUserByEmail(email));
+        }
+        try {
+            eventRepository.saveAndFlush(event);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return "redirect:/event/" + id;
+    }
 
 }

@@ -25,6 +25,7 @@
         <link rel="stylesheet" th:href="@{~/css/custom.css}"/>
         <link rel="stylesheet" th:href="@{~/css/main.css}"/>
         <link rel="stylesheet" th:href="@{~/css/login.css}"/>
+        <link rel="stylesheet" th:href="@{~/css/userProfile.css}"/>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
 
@@ -34,20 +35,20 @@
         <div class="container body">
             <div class="main_container">
                 <!--left navigation-->
-                <div th:replace="fragments/sidebar-menu"></div>
+                <div th:replace="fragment/sidebar-menu"></div>
                 <!--left navigation-->
 
                 <!-- top navigation -->
-                <div th:replace="fragments/top-navigation"></div>
+                <div th:replace="fragment/top-navigation"></div>
                 <!-- /top navigation -->
 
                 <!-- page content -->
 
-                <div th:replace="fragments/events"></div>
+                <div th:replace="${pageContent}"></div>
                 <!-- /page content -->
 
                 <!-- footer content -->
-                <div th:replace="fragments/footer"></div>
+                <div th:replace="fragment/footer"></div>
                 <!-- /footer content -->
             </div>
         </div>
