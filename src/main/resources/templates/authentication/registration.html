@@ -10,7 +10,7 @@
                         <h1 class="logo-caption"><span class="tweak">R</span>egisztráció</h1>
                     </div>
                     <div class="controls">
-                        <form  autocomplete="off" action="#" th:action="@{/registration}"
+                        <form  autocomplete="off" th:action="@{/registration}"
                                th:object="${account}" method="post" role="form">
                             <input type="text" th:field="*{email}" placeholder="Email" class="form-control" />
                             <input type="text" th:field="*{userName}" placeholder="Felhasználónév" class="form-control" />

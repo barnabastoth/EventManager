@@ -2,12 +2,13 @@ package application.controller;
 
 import application.model.User.Account;
 import application.repository.EventRepository;
+import application.repository.UserRepository;
 import application.service.UserService;
 import application.utils.Path;
+import application.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,18 +16,30 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.naming.Binding;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
-public class LoginController {
+public class UserSystemController {
 	
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private EventRepository eventRepository;
+	@Autowired
+	private RequestUtil requestUtil;
+	@Qualifier("userRepository")
+	@Autowired
+	private UserRepository userRepository;
+
+	@ModelAttribute
+	public void addAttributes(Model model, Authentication authentication) {
+		Account account = null;
+		if(authentication != null) {
+			String userEmail = authentication.getName();
+			account = userService.findUserByEmail(userEmail);
+		}
+		requestUtil.addCommonAttributes(model, account);
+	}
 
 	@GetMapping(Path.Web.LOGIN)
 	public String serveLogin(Model model) {
@@ -63,17 +76,25 @@ public class LoginController {
 		} else {
 			userService.saveUser(account);
 			model.addAttribute("successMessage", "Account has been registered successfully");
+			System.out.println("SUCSESS");
 		}
 		return new RedirectView("/");
 	}
 
-	@GetMapping(Path.Web.LOGOUT)
-	public String handleLogOut(HttpServletRequest request, HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null){
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-		return Path.Template.INDEX;
+	@GetMapping(Path.Web.PROFILE)
+	public String serveProfilePage (Model model, @PathVariable("id") int id) {
+		Account account = userRepository.findById(id);
+		model.addAttribute("account", account);
+		requestUtil.addProfileDetails(model, account);
+		return Path.Template.PROFILE;
 	}
+
+	@PostMapping(Path.Web.PROFILE)
+	public RedirectView handleProfileEdit(@PathVariable("id") int id, @ModelAttribute Account account) {
+		userRepository.save(account);
+		return new RedirectView("/profile/" + Integer.toString(id));
+	}
+
+
 
 }

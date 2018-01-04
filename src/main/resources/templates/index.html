@@ -18,13 +18,16 @@
         <script th:src="@{~/js/event.js}" defer></script>
         <script th:src="@{~/js/jquery.mCustomScrollbar.js}" defer></script>
         <script th:src="@{~/js/custom.js}" defer></script>
+        <script th:src="@{~/js/login.js}" defer></script>
 
         <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{~/css/nprogress.css}"/>
         <link rel="stylesheet" th:href="@{~/css/jquery.mCustomScrollbar.css}"/>
         <link rel="stylesheet" th:href="@{~/css/custom.css}"/>
         <link rel="stylesheet" th:href="@{~/css/main.css}"/>
-        <link rel="stylesheet" th:href="@{~/css/authentication.css}"/>
+        <link rel="stylesheet" th:href="@{~/css/login.css}"/>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
 
     </head>
 
@@ -48,7 +51,10 @@
                 <!-- /footer content -->
             </div>
         </div>
-        <div th:replace="fragments/authentication"></div>
+        <!--Login page-->
+        <div th:replace="authentication/login"></div>
+        <!--Registration page-->
+        <div th:replace="authentication/registration"></div>
 
   </body>
 </html>

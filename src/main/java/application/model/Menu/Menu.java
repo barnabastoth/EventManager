@@ -1,37 +1,41 @@
 package application.model.Menu;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
-@NamedQueries({
-        @NamedQuery(name = "Menu.getMenuByID",
-                query = "SELECT o FROM Menu o WHERE id = :id")
-})
 @Entity
 @Table(name = "menu")
 public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long ID;
-
+    private
+    long Id;
+    @Column(name = "title")
     private String title;
     @Lob
+    @Column(name = "description")
+    @Type(type = "text")
     private String description;
+    @Column(name = "route")
+    private String route;
 
     public Menu() {
     }
 
-    public Menu(String title, String description) {
+    public Menu(String title, String description, String route) {
         this.title = title;
         this.description = description;
+        this.route = route;
     }
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return Id;
     }
 
-    public void setID(long ID) {
-        this.ID = ID;
+    public void setId(long id) {
+        this.Id = id;
     }
 
     public String getTitle() {
@@ -49,4 +53,8 @@ public class Menu {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getRoute() { return route; }
+
+    public void setRoute(String route) { this.route = route; }
 }

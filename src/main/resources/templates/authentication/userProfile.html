@@ -1,10 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="right_col" role="main">
+    <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="/images/user.png" class="img-responsive" alt="">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name" th:text="${profileUserName}">
+                        </div>
+                        <div class="profile-usertitle-job" th:text="${profileRole}">
+                        </div>
+                        <div class="profile-usertitle-job" th:text="'Csatlakozott: ' + ${profileMemberSince}">
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    <div class="profile-userbuttons">
+                        <button type="button" class="btn btn-success btn-sm">Követés</button>
+                        <button type="button" class="btn btn-danger btn-sm">Üzenet</button>
+                    </div>
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    Általános </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    Account beállitások </a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                    Aktivitás </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-flag"></i>
+                                    Help </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="profile-content">
+                    <a id="logo" class="event-title-text">Profil</a>
+                    <br>
+                    <br>
+                    <br>
+                    <form th:if="${profileId == loggedInUser.id}" autocomplete="off" th:action="'/profile/' + ${loggedInUser.id}"
+                           th:object="${account}" method="post" role="form">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Felhasználónév</span>
+                            <input th:field="*{userName}" type="text" class="form-control" th:value="${profileUserName}" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Email</span>
+                            <input th:field="*{email}" type="text" class="form-control" th:value="${profileEmail}" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Keresztnévv</span>
+                            <input th:field="*{name}" type="text" class="form-control" th:value="${profileName}" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Családnév</span>
+                            <input th:field="*{lastName}" type="text" class="form-control" th:value="${profileLastName}" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Magamról</span>
+                            <input th:field="*{description}" type="text" class="form-control" th:value="${profileDescription}" aria-describedby="basic-addon1">
+                        </div>
+                        <input th:field="*{password}" type="text" th:value="asd" class="form-control"  aria-describedby="basic-addon1" hidden>
+                        <button type="Submit" class="btn btn-default btn-block btn-custom">Változtatások mentése</button>
+                    </form>
+                    <form th:if="${profileId != loggedInUser.id}">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Felhasználónév</span>
+                            <input type="text" class="form-control" th:value="${profileUserName}" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Email</span>
+                            <input type="text" class="form-control" th:value="${profileEmail}" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Keresztnévv</span>
+                            <input type="text" class="form-control" th:value="${profileName}" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Családnév</span>
+                            <input type="text" class="form-control" th:value="${profileLastName}" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Magamról</span>
+                            <input type="text" class="form-control" th:value="${profileDescription}" aria-describedby="basic-addon1" readonly>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

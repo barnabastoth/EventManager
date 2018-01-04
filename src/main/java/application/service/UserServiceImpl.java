@@ -33,8 +33,16 @@ public class UserServiceImpl implements UserService{
 	public void saveUser(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         account.setActive(1);
-        Role userRole = roleRepository.findByRole("ADMIN");
+        Role userRole = roleRepository.findByRole("USER");
         account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		userRepository.save(account);
+	}
+
+	public void saveAdmin(Account account) {
+		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+		account.setActive(1);
+		Role userRole = roleRepository.findByRole("ADMIN");
+		account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(account);
 	}
 

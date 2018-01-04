@@ -7,23 +7,8 @@
         <a class="pull-right" href="#"><i class="fa fa-globe"></i></a>
     </div>
     <div id="events">
-        <!--<div class="event-navigation-bar">-->
-            <!--<div id="previous-event-btn">-->
-                <!--<a id="left-arrow" href=""><img class="pull-left" th:src="@{~/images/arrow-left.png}"></a>-->
-                <!--<button class="btn-primary pull-left">Előző esemény</button>-->
-            <!--</div>-->
-
-            <!--<div id="next-event-btn")>-->
-                <!--<a id="right-arrow" href=""><img class="pull-right" th:src="@{~/images/arrow-right.png}"></a>-->
-                <!--<button class="btn-success pull-right">Következő esemény</button>-->
-            <!--</div>-->
-        <!--</div>-->
-
         <div id="header">
             <a id="logo" class="event-title-text" th:text="${event.title}"></a>
-            <!--<div id="event-background">-->
-            <!--<img src="images/backgrounds/bg-img-3.jpg" alt="esemény-háttérkép" />-->
-            <!--</div>-->
             <ul id="menu">
                 <li id="event-information-btn"><a><span>Általános</span></a></li>
                 <li id="event-speakers-btn"><a><span>Előadók</span></a></li>
@@ -36,7 +21,6 @@
 
             <div class="event-information" id="event-information">
                 <h1>Általános Információ</h1>
-                <h1 style="text-align: center" th:text="${session.user}">ASDASDASDAS</h1>
                 <input class="event-id-text" type="hidden" th:value="${event.id}" id="event-id">
                 <ul>
                     <li>

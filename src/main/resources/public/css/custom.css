@@ -1681,29 +1681,40 @@ span.right {
 .sidebar-footer {
     bottom: 0px;
     clear: both;
-    display: block;
+    /*display: block;*/
     padding: 5px 0 0 0;
-    position: fixed;
     width: 230px;
-    background: black;
+    position: fixed;
 	z-index:999;
-    height: 50%;
 }
 .sidebar-footer a {
-    padding: 7px 0 8px 15px;
+    padding: 10px 0 8px 15px;
     text-align: left;
     width: 100%;
-    font-size: 17px;
+    font-size: 15px;
     display: block;
     float: left;
     background: #172D44;
     cursor: pointer;
+    height: 40px;
+    letter-spacing: 1px;
+
+    text-decoration: none;
+    color: #388BCA;
+}
+
+.sidebar-footer span {
+    color: #388BCA;
+    padding-top: 1px;
+    font-size: 17px;
+    text-align: left;
 }
 
 
 .sidebar-footer a:hover {
     background: #2A3F54;
     color: #5CB85C;
+    text-decoration: none;
 }
 .tile_count {
     margin-bottom: 20px;

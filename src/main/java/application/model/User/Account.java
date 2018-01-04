@@ -3,10 +3,12 @@ package application.model.User;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -36,22 +38,35 @@ public class Account {
 	@Column(name = "last_name")
 	@NotEmpty(message = "*Please provide your last name")
 	private String lastName;
+	@Column(name = "description")
+	@Lob
+	private String description;
 	@Column(name = "active")
 	private int active;
+	@Column(name = "memberSince")
+	private String memberSince;
 	@ManyToMany()
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
 	public Account() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		memberSince = dateFormat.format(date);
 	}
 
-	public Account(String email, String password, String name, String lastName, int active, Set<Role> roles) {
+	public Account(String userName, String email, String password, String name, String lastName, String description, int active, Set<Role> roles) {
+		this.userName = userName;
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.lastName = lastName;
+		this.description = description;
 		this.active = active;
 		this.roles = roles;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		memberSince = dateFormat.format(date);
 	}
 
 	public int getId() {
@@ -113,4 +128,12 @@ public class Account {
 	public String getUserName() { return userName; }
 
 	public void setUserName(String userName) { this.userName = userName; }
+
+	public String getDescription() { return description; }
+
+	public void setDescription(String description) { this.description = description; }
+
+	public String getMemberSince() { return memberSince; }
+
+	public void setMemberSince(String memberSince) { this.memberSince = memberSince; }
 }

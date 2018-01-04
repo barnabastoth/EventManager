@@ -2,12 +2,10 @@ package application.utils;
 
 import application.model.Event.Event;
 import application.model.Event.Speaker;
+import application.model.Menu.Menu;
 import application.model.User.Account;
 import application.model.User.Role;
-import application.repository.EventRepository;
-import application.repository.RoleRepository;
-import application.repository.SpeakerRepository;
-import application.repository.UserRepository;
+import application.repository.*;
 import application.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +17,6 @@ import java.util.*;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-
     @Autowired
     private  EventRepository eventRepository;
     @Autowired
@@ -27,13 +24,14 @@ public class DataLoader implements CommandLineRunner {
     @Qualifier("roleRepository")
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserServiceImpl userService;
-
     @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
+    @Qualifier("menuRepository")
+    @Autowired
+    private MenuRepository menuRepository;
 
     @Override
     public void run(String... args) {
@@ -55,10 +53,13 @@ public class DataLoader implements CommandLineRunner {
         for (Event event : eventRepository.findAll()) {
             System.out.println(event.toString());
         }
+
         Role role = new Role("ADMIN");
+        Role role2 = new Role("USER");
         roleRepository.save(role);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
+        roleRepository.save(role2);
+
+
         Account account = new Account();
         account.setActive(1);
         account.setPassword("anyad");
@@ -66,8 +67,28 @@ public class DataLoader implements CommandLineRunner {
         account.setUserName("Exworm");
         account.setName("anyad");
         account.setLastName("anyad");
-//        account.setRoles(roles);
-        userService.saveUser(account);
+        userService.saveAdmin(account);
+
+        Account account2 = new Account();
+        account2.setActive(1);
+        account2.setPassword("anyad");
+        account2.setEmail("vigyor999@gmail.com");
+        account2.setUserName("Exwormke");
+        account2.setName("anyad");
+        account2.setLastName("anyad");
+        userService.saveUser(account2);
+
+        Menu about = new Menu();
+        about.setTitle("Rólunk");
+        about.setDescription("A Rólunk szól négy ugyanazon a napon született embert mutat be, akiknek a történet előrehaladtával egészen különleges módon fonódik össze az élete. Az őszinte és provokatív, többszereplős családi történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...");
+        about.setRoute("about");
+        menuRepository.save(about);
+
+        Menu contact = new Menu();
+        contact.setTitle("Kapcsolat");
+        contact.setDescription("A Kapcsolat kártya valamennyi Telekom ügyfél számára rendelkezésre áll virtuális kártya formájában, mely elérhető a Telekom mobil alkalmazásban. Töltsd le a mobilodra Telekom alkalmazásunkat, amelyben elérheted virtuális Kapcsolat kártyádat is. A Telekom alkalmazásban lévő Kapcsolat kártyádat teljes értékűen ...");
+        contact.setRoute("contact");
+        menuRepository.save(contact);
 
     }
 

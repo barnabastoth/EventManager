@@ -4,9 +4,9 @@
     overflow: auto;
 }
 
-#bottom-auth {
-    height: 85px;
-}
+/*#bottom-auth {*/
+    /*height: 85px;*/
+/*}*/
 
 #main_content {
     background: url("../images/backgrounds/bg-img-3.jpg") no-repeat center center fixed;
@@ -229,3 +229,6 @@ small
     height: 100%;
 }
 
+#left-menu {
+    height: 100%;
+}
