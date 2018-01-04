@@ -144,6 +144,9 @@ $(function buttonClick() {
 
 
 function main() {
+    if($("#loginRequired" === "login")) {
+        $("#login").modal('show');
+    }
     eventMenu();
     authenticationButtons();
     // loadGoogleMap();

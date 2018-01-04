@@ -79,8 +79,6 @@ public class IndexController {
 
     @PostMapping(Path.Web.MENU)
     public RedirectView handleMenuEdit( @PathVariable("route") String route, @ModelAttribute("menu") Menu menu) {
-        System.out.println(menu.getTitle());
-        System.out.println(route);
         menuRepository.save(menu);
         return new RedirectView("/" + route);
     }
