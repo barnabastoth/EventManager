@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -102,6 +104,24 @@ public class EventService {
             model.addAttribute("event", event);
             return Path.Fragment.EVENT_COMMENT;
         }
+        return "redirect:/";
+    }
+
+    @GetMapping(value = "/api/event")
+    public String serveAllEvent(Model model) {
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
+        return Path.Fragment.ALL_EVENTS;
+    }
+
+    @PostMapping(value = "/api/event/{id}/attend")
+    public String handleAttend(Authentication authentication, @PathVariable("id") Long id) {
+        Event event = eventRepository.findOne(id);
+        Account account = userService.findUserByEmail(authentication.getName());
+        event.addAccount(account);
+        account.addEvent(event);
+        eventRepository.saveAndFlush(event);
+        userRepository.saveAndFlush(account);
         return "redirect:/";
     }
 }

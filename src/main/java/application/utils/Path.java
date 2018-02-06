@@ -31,6 +31,7 @@ public class Path {
 
     public static class Fragment {
         public static final String EVENT = "fragment/content/event";
+        public static final String ALL_EVENTS = "fragment/content/all-events";
         public static final String EVENT_MANAGER = "fragment/content/edit_event";
         public static final String EVENT_COMMENT = "fragment/content/event-comment";
         public static final String PROFILE = "fragment/content/user-profile";

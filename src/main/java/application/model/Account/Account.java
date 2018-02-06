@@ -1,6 +1,7 @@
 package application.model.Account;
 
 import application.model.Event.Comment;
+import application.model.Event.Event;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,6 +36,13 @@ public class Account {
 	)
 	private Set<Role> roles = new HashSet<>();
 
+	@ManyToMany
+	@JoinTable(name = "user_events"
+			, joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "event_id")
+	)
+	private Set<Event> events = new HashSet<>();
+
 	@OneToMany(
 			mappedBy = "account",
 			cascade = CascadeType.ALL,
@@ -57,6 +65,16 @@ public class Account {
 		}
 		return false;
 	}
+
+	public void addEvent(Event event) {
+		events.add(event);
+	}
+
+
+
+	public Set<Event> getEvents() { return events; }
+
+	public void setEvents(Set<Event> events) { this.events = events; }
 
 	public int getId() { return id; }
 

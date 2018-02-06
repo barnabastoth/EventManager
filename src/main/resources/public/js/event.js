@@ -55,10 +55,27 @@ function eventMenu() {
     });
 
     $(document.body).on('click', "#eventCommentButton",  function() {
-        sendCommentToServer();
+        var comment = $("#addComment").val();
+        $.ajax({
+            url: "/api/event/" + parseInt($(".event-id-text").val()) + "/comment/new",
+            type: "POST",
+            data: JSON.stringify(comment),
+            dataType: "json",
+            contentType: "application/json"
+        })
     });
 
     $(document.body).on('click', "#eventComments",  function() {
+        $("#main_content").load('/api/event/' + $(".event-id-text").val());
+    });
+
+    $(document.body).on('click', "#attendEvent",  function() {
+        $.ajax({
+            url: "/api/event/" + parseInt($(".event-id-text").val()) + "/attend",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json"
+        });
         $("#main_content").load('/api/event/' + $(".event-id-text").val());
     });
 
@@ -71,16 +88,6 @@ function eventMenu() {
         $(exception).show();
     }
 
-    function sendCommentToServer() {
-        var comment = $("#addComment").val();
-        $.ajax({
-            url: "/api/event/" + parseInt($(".event-id-text").val()) + "/comment/new",
-            type: "POST",
-            data: JSON.stringify(comment),
-            dataType: "json",
-            contentType: "application/json"
-        })
-    }
 }
 
 function main() {

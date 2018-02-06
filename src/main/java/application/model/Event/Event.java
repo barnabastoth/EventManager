@@ -1,5 +1,6 @@
 package application.model.Event;
 
+import application.model.Account.Account;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -15,34 +16,29 @@ import java.util.*;
 @Table(name = "event")
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "event_id")
-    public long id;
-
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id") public long id;
     public String title;
     public String name;
-
     private String locationByPublicTransport;
     private String locationByCar;
     private String address;
     private String mapLatitude;
     private String mapLongTitude;
-
     public String date;
-
-    @Lob
-    @Type(type = "text")
-    private String description;
-
+    @Lob @Type(type = "text") private String description;
     private String price;
     private String duration;
     private String imgPath;
     private String ticketLink;
+
     @ElementCollection
     private Set<String> speakers = new HashSet<>();
+
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments = new HashSet<>();
+
+    @ManyToMany(mappedBy = "events")
+    private Set<Account> accounts = new HashSet<>();
 
     public Event() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -67,11 +63,36 @@ public class Event {
         this.ticketLink = ticketLink;
     }
 
+    public Boolean hasAccount(Account account) {
+        for (Account acc : accounts) {
+            if(acc.getId() == account.getId()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
+
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public Set<Account> getAttendees() { return accounts; }
+
+    public void setAttendees(Set<Account> accounts) { this.accounts = accounts; }
+
     public void addComment(Comment comment) { comments.add(comment); }
 
-    public List<Comment> getComments() { return comments; }
+    public Set<Comment> getComments() { return comments; }
 
-    public void setComments(List<Comment> comments) { this.comments = comments; }
+    public void setComments(Set<Comment> comments) { this.comments = comments; }
 
     public long getId() {
         return id;
