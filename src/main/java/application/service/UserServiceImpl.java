@@ -1,7 +1,7 @@
 package application.service;
 
-import application.model.User.Account;
-import application.model.User.Role;
+import application.model.Account.Account;
+import application.model.Account.Role;
 import application.repository.RoleRepository;
 import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

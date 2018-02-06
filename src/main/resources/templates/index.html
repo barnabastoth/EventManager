@@ -15,9 +15,11 @@
         <script th:src="@{~/js/bootstrap.js}" defer></script>
         <script th:src="@{~/js/fastclick.js}" defer></script>
         <script th:src="@{~/js/nprogress.js}" defer></script>
-        <script th:src="@{~/js/event.js}" defer></script>
         <script th:src="@{~/js/jquery.mCustomScrollbar.js}" defer></script>
         <script th:src="@{~/js/custom.js}" defer></script>
+        <script th:src="@{~/js/event.js}" defer></script>
+        <script th:src="@{~/js/menu.js}" defer></script>
+        <script th:src="@{~/js/user-system.js}" defer></script>
 
         <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{~/css/nprogress.css}"/>
@@ -28,38 +30,37 @@
         <link rel="stylesheet" th:href="@{~/css/userProfile.css}"/>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
-
     </head>
 
     <body class="nav-md">
         <div class="container body">
-            <div class="main_container">
-                <!--left navigation-->
-                <div th:replace="fragment/sidebar-menu"></div>
-                <!--left navigation-->
+                <div class="main_container">
+                    <!--left navigation-->
+                    <div th:replace="fragment/sidebar-menu"></div>
+                    <!--left navigation-->
 
-                <!-- top navigation -->
-                <div th:replace="fragment/top-navigation"></div>
-                <!-- /top navigation -->
+                    <!-- top navigation -->
+                    <div th:replace="fragment/top-navigation"></div>
+                    <!-- /top navigation -->
 
-                <!-- page content -->
+                    <!-- page content -->
+                    <div class="right_col" role="main" id="main_content">
+                        <div th:replace="${pageContent}"></div>
+                    </div>
+                    <!-- /page content -->
 
-                <div th:replace="${pageContent}"></div>
-                <!-- /page content -->
-
-                <!-- footer content -->
-                <div th:replace="fragment/footer"></div>
-                <!-- /footer content -->
-            </div>
+                    <!-- footer content -->
+                    <div th:replace="fragment/footer"></div>
+                    <!-- /footer content -->
+                </div>
         </div>
+
         <!--Login page-->
         <div th:replace="authentication/login"></div>
         <!--Registration page-->
         <div th:replace="authentication/registration"></div>
+        <!--Forgot password page-->
+        <div th:replace="authentication/forgot-password"></div>
 
-        <div th:if="${authentication} != null" hidden>
-            <p id="loginRequired" th:text="${authentication}"></p>
-        </div>
-
-  </body>
+    </body>
 </html>

@@ -1,7 +1,7 @@
 package application.utils;
 
-import application.model.User.Account;
-import application.model.User.Role;
+import application.model.Account.Account;
+import application.model.Account.Role;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -27,6 +27,8 @@ public class RequestUtil {
         model.addAttribute("profileUserName", account.getUserName());
         model.addAttribute("profileEmail", account.getEmail());
         model.addAttribute("profileMemberSince", account.getMemberSince());
+        model.addAttribute("profileComments", account.getComments());
+        model.addAttribute("profileComments", account.getComments());
         for (Role role : account.getRoles()) {
             model.addAttribute("profileRole", role.getRole());
         }

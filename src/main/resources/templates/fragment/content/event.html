@@ -1,117 +1,99 @@
-<div class="right_col" role="main" id="main_content">
-    <div class="icon-bar">
-        <a class="pull-left" data-toggle="tooltip" data-placement="top" title="Előző esemény megnyitása" id="prev-event-btn" ><i class="fa fa-arrow-left"></i></a>
-        <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Keresés az események között"><i class="fa fa-search"></i></a>
-        <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Üzenet küldése az esemény létrehozójának"><i class="fa fa-envelope"></i></a>
-        <a class="pull-right" data-toggle="tooltip" data-placement="top" title="Következő esemény" id="next-event-btn" /><i class="fa fa-arrow-right"></i></a>
-        <a class="pull-right" th:href="'/event/' + ${event.id}" data-toggle="tooltip" data-placement="top" title="Esemény megnyitása külön oldalon"><i class="fa fa-globe"></i></a>
-        <a sec:authorize="hasAuthority('ADMIN')" class="pull-right" th:href="'/event/' + ${event.id} + '/edit'" data-toggle="tooltip" data-placement="top" title="Esemény szerkesztése"><i class="fa fa-pencil" ></i></a>
-        <a sec:authorize="hasAuthority('ADMIN')" class="pull-right" th:href="'/event/' + ${event.id} + '/speakers/add'" data-toggle="tooltip" data-placement="top" title="Esemény előadó hozzá adása"><i class="fa fa-users"></i></a>
-        <a sec:authorize="hasAuthority('ADMIN')" class="pull-right" th:href="@{/event/new}" data-toggle="tooltip" data-placement="top" title="Új esemény létrehozása"><i class="fa fa-plus-circle"></i></a>
-    </div>
-    <div id="events">
-        <div id="header">
-            <a id="logo" class="event-title-text" th:text="${event.title}"></a>
-            <ul id="menu">
-                <li id="event-information-btn"><a><span>Általános</span></a></li>
-                <li id="event-events-btn"><a><span>Előadók</span></a></li>
-                <li id="event-tickets-btn"><a><span>Jegyek</span></a></li>
-                <li id="event-location-btn"><a><span>Helyszin</span></a></li>
-                <li id="event-comments-btn"><a><span>Kommentek</span></a></li>
+<div class="icon-bar">
+    <a class="pull-left" data-toggle="tooltip" data-placement="top" title="Előző esemény megnyitása" id="prev-event-btn" ><i class="fa fa-arrow-left"></i></a>
+    <a class="pull-left" data-toggle="tooltip" data-placement="top" title="Keresés az események között"><i class="fa fa-search"></i></a>
+    <a class="pull-left"  data-toggle="tooltip" data-placement="top" title="Üzenet küldése az esemény létrehozójának"><i class="fa fa-envelope"></i></a>
+    <a class="pull-right" data-toggle="tooltip" data-placement="top" title="Következő esemény" id="next-event-btn" /><i class="fa fa-arrow-right"></i></a>
+    <a id="openEventButton" class="pull-right" data-toggle="tooltip" data-placement="top" title="Esemény megnyitása külön oldalon"><i class="fa fa-globe"></i></a>
+    <a id="editEventButton" sec:authorize="hasAuthority('ADMIN')" class="pull-right" data-toggle="tooltip" data-placement="top" title="Esemény szerkesztése"><i class="fa fa-pencil" ></i></a>
+    <a id="newEventButton" sec:authorize="hasAuthority('ADMIN')" class="pull-right" data-toggle="tooltip" data-placement="top" title="Új esemény létrehozása"><i class="fa fa-plus-circle"></i></a>
+</div>
+<div id="events">
+    <div id="header">
+        <a id="logo" class="event-title-text" th:text="${event.title}"></a>
+        <ul id="menu">
+            <li id="info"><a><span>Általános</span></a></li>
+            <li id="speaker"><a><span>Előadók</span></a></li>
+            <li id="tickets"><a><span>Jegyek</span></a></li>
+            <li id="location"><a><span>Helyszin</span></a></li>
+            <li id="comments"><a><span>Kommentek</span></a></li>
+        </ul>
+        <br>
+
+
+        <div class="event-information" id="event-information">
+            <h1 id="submitComment">Általános Információ</h1>
+            <input class="event-id-text" hidden th:value="${event.id}" id="event-id">
+            <ul>
+                <li>
+                    <h4>Esemény neve: </h4>
+                    <p class="event-name-text" th:text="${event.name}"></p>
+                </li>
+                <li>
+                    <h4>Esemény helyszine:</h4>
+                    <p class="event-address-text" th:text="${event.address}"></p>
+                </li>
+                <li>
+                    <h4>Esemény időpontja:</h4>
+                    <p class="event-date-text" th:text="${event.date}">2017.12.19 18:00 CET</p>
+                </li>
+                <li>
+                    <h4>Esemény leirása</h4>
+                    <p class="event-description-text" th:text="${event.description}"></p>
+                </li>
             </ul>
-            <br>
+        </div>
+
+        <div class="event-information" id="event-events">
+            <h1><Előadók></Előadók></h1>
+            <p th:text="${event.speakers}"></p>
+        </div>
+
+        <div class="event-information" id="event-tickets">
+            <h1>Jegyek:</h1>
+            <ul>
+                <li>
+                    <h4>Ticketportal: </h4>
+                    <p><a href="http://www.ticketportal.hu/event.aspx?id=48662">LINK</a></p>
+                </li>
+                <li>
+                    <h4>Helyszinen:</h4>
+                    <p class="event-price-text" th:text="${event.price}"></p>
+                </li>
+            </ul>
+        </div>
 
 
-            <div class="event-information" id="event-information">
-                <h1>Általános Információ</h1>
-                <input class="event-id-text" type="hidden" th:value="${event.id}" id="event-id">
-                <ul>
-                    <li>
-                        <h4>Esemény neve: </h4>
-                        <p class="event-name-text" th:text="${event.name}"></p>
-                    </li>
-                    <li>
-                        <h4>Esemény helyszine:</h4>
-                        <p class="event-address-text" th:text="${event.address}"></p>
-                    </li>
-                    <li>
-                        <h4>Esemény időpontja:</h4>
-                        <p class="event-date-text" th:text="${event.date}">2017.12.19 18:00 CET</p>
-                    </li>
-                    <li>
-                        <h4>Esemény leirása</h4>
-                        <p class="event-description-text" th:text="${event.description}"></p>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="event-information" id="event-events">
-                <h1>Előadók</h1>
-
-            </div>
-
-            <div class="event-information" id="event-tickets">
-                <h1>Jegyek:</h1>
-                <ul>
-                    <li>
-                        <h4>Ticketportal: </h4>
-                        <p><a href="http://www.ticketportal.hu/event.aspx?id=48662">LINK</a></p>
-                    </li>
-                    <li>
-                        <h4>Helyszinen:</h4>
-                        <p class="event-price-text" th:text="${event.price}"></p>
-                    </li>
-                </ul>
-            </div>
-
-
-            <div class="event-information" id="event-location">
-                <h1>Helyszin:</h1>
-                <ul>
-                    <li>
-                        <h4>Cim</h4>
-                        <p class="event-address-text" th:text="${event.address}"></p>
-                    </li>
-                    <li>
-                        <h4>Tömegközlekedéssel:</h4>
-                        <p class="event-locationByPublicTransport-text" th:text="${event.locationByPublicTransport}"></p>
-                    </li>
-                    <li>
-                        <h4>Autóval</h4>
-                        <p class="event-locationByCar-text" th:text="${event.locationByCar}"></p>
-                    </li>
-                    <li>
-                        <h4>Térkép:</h4>
-                        <input id="map-latitude" type="hidden" th:value="${event.mapLatitude}">
-                        <input id="map-longtitude" type="hidden" th:value="${event.mapLongTitude}">
-                        <p id="map-container" class="event-address-map"></p>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="event-information" id="event-comments">
-                <h1>Kommentek:</h1>
-                <ul>
-                    <li>
-                        <h4>Tömegközlekedéssel:</h4>
-                        <p>88 as busz az Örs Vezér Teréről</p>
-                    </li>
-                    <li>
-                        <h4>Autóval</h4>
-                        <p>23as út aztán balra és vegyél térképet</p>
-                    </li>
-                    <li>
-                        <h4>Térkép:</h4>
-                        <p>1124 Váci út 232/12 420as kapucsengő</p>
-                    </li>
-                </ul>
-            </div>
+        <div class="event-information" id="event-location" th:if="${event.mapLongTitude != '' or event.mapLatitude != '' or event.address != '' or event.locationByPublicTransport != '' or event.locationByCar != ''}">
+            <h1>Helyszin:</h1>
+            <ul>
+                <li th:if="${event.address != ''}">
+                    <h4>Cim</h4>
+                    <p class="event-address-text" th:text="${event.address}"></p>
+                </li>
+                <li th:if="${event.locationByPublicTransport != ''}">
+                    <h4>Tömegközlekedéssel:</h4>
+                    <p class="event-locationByPublicTransport-text" th:text="${event.locationByPublicTransport}"></p>
+                </li>
+                <li th:if="${event.locationByCar != ''}">
+                    <h4>Autóval</h4>
+                    <p class="event-locationByCar-text" th:text="${event.locationByCar}"></p>
+                </li>
+                <li th:if="${event.mapLongTitude != '' and event.mapLatitude != ''}">
+                    <h4>Térkép:</h4>
+                    <input id="map-latitude" type="hidden" th:if="${event.mapLatitude != ''}" th:value="${event.mapLatitude}">
+                    <input id="map-longtitude" type="hidden" th:if="${event.mapLongTitude} != ''" th:value="${event.mapLongTitude}">
+                    <p id="map-container" class="event-address-map"></p>
+                </li>
+            </ul>
+        </div>
+        <div class="event-information" id="event-comments">
+            <div th:replace="fragment/content/event-comment"><</div>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

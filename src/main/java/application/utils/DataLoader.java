@@ -1,19 +1,18 @@
 package application.utils;
 
 import application.model.Event.Event;
-import application.model.Event.Speaker;
 import application.model.Menu.Menu;
-import application.model.User.Account;
-import application.model.User.Role;
+import application.model.Account.Account;
+import application.model.Account.Role;
 import application.repository.*;
 import application.service.UserServiceImpl;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -47,7 +46,9 @@ public class DataLoader implements CommandLineRunner {
         account.setUserName("Exworm");
         account.setName("anyad");
         account.setLastName("anyad");
-        account.setImgPath("asd");
+        account.setImgPath("/images/user.png");
+        account.setProfession("Junior Java Developer");
+        account.setDescription("EZ EGY HOSSZU LEIRÁS ARRÓL HOGY MIT SZOKTAM ILLETVE MIT SZERETEK CSINÁLNi");
         userService.saveAdmin(account);
 
         Account account2 = new Account();
@@ -60,21 +61,21 @@ public class DataLoader implements CommandLineRunner {
         account2.setImgPath("asd");
         userService.saveUser(account2);
 
-        Set<Account> speakers = new HashSet<>();
-        speakers.add(account);
-        speakers.add(account2);
+        Set<String> speakers = new HashSet<>();
+        speakers.add("vigyor99@gmail.com");
+        speakers.add("vigyor999@gmail.com");
 
         Event event1 = new Event("Magyarország jövőjéről Budapesten", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
                 "Any recool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event1.setSpeakers(speakers);
         eventRepository.save(event1);
 
-        Event event2 = new Event("Magyarország jövőjéről DEBRECEN", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
+        Event event2 = new Event("Magyarország jövőjéről DEBRECEN", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a s with the results.\n" +
                 "Any retool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event2.setSpeakers(speakers);
         eventRepository.save(event2);
 
-        Event event3 = new Event("Magyarország jövőjéről szoszsozszolnok", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
+        Event event3 = new Event("Magyarország jövőjéről szoszsozszolnok", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
                 "Any recog Mootool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event3.setSpeakers(speakers);
 

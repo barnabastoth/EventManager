@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.model.Event.Comment;
 import application.model.Event.Event;
 import application.model.Menu.Menu;
 import application.model.Account.Account;
@@ -8,6 +9,7 @@ import application.repository.MenuRepository;
 import application.service.UserService;
 import application.utils.Path;
 import application.utils.RequestUtil;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-public class IndexController {
+public class EventController {
 
     @Qualifier("menuRepository")
     @Autowired
@@ -41,64 +43,46 @@ public class IndexController {
         }
     }
 
-    @GetMapping(Path.Web.INDEX)
-    public String serveIndexPage(Model model) {
+    @GetMapping("/")
+    public String serveIndexPage(Model model, Comment comment) {
         model.addAttribute("event", eventRepository.getLatestEvent());
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT);
-        return Path.Template.INDEX;
+        model.addAttribute("comment", comment);
+        return "index";
     }
 
-    @GetMapping(Path.Web.LATEST_EVENT)
-    public String latestEvent(Model model) {
-        model.addAttribute("event", eventRepository.getLatestEvent());
-        return Path.Fragment.EVENT;
-    }
-
-    @GetMapping(Path.Web.EVENT_BY_ID)
+    @GetMapping("/event/{id}")
     public String serveEventByIdPage(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("account", new Account());
+        model.addAttribute("pageContent", Path.Fragment.EVENT);
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
-            return Path.Fragment.EVENT;
+            return "index";
         }
         return "redirect:/";
     }
 
-    @GetMapping(Path.Web.MENU)
-    public String serveMenuPage(Model model, @PathVariable("route") String route) {
-        Menu menu = menuRepository.findByRoute(route);
-        model.addAttribute("menu", menu);
-        return Path.Fragment.MENU;
-    }
-
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping(Path.Web.MENU)
-    public String handleMenuEdit(@PathVariable("route") String route, @ModelAttribute("menu") Menu menu) {
-        menuRepository.saveAndFlush(menu);
-        return "redirect:/" + route;
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping(Path.Web.NEW_EVENT)
+    @GetMapping("/event/new")
     public String serveNewEventPage(Model model) {
         model.addAttribute("event", new Event());
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT_MANAGER);
         model.addAttribute("hideId", "true");
-        return Path.Template.INDEX;
+        return "index";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping(Path.Web.NEW_EVENT)
+    @PostMapping("/event/new")
     public String handleNewEventCreation(@Valid @ModelAttribute("event") Event event) {
-        System.out.println(event.getTitle());
         eventRepository.saveAndFlush(event);
         return "redirect:/event/" + event.getId();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping(Path.Web.EDIT_EVENT)
+    @GetMapping("/event/{id}/edit")
     public String serveEditEventPage(Model model, @PathVariable("id") Long id) {
         Event event = eventRepository.findOne(id);
         model.addAttribute("event", event);
@@ -106,6 +90,7 @@ public class IndexController {
         model.addAttribute("pageContent", Path.Fragment.EVENT_MANAGER);
         model.addAttribute("hideId", "false");
 
-        return Path.Template.INDEX;
+        return "index";
     }
+
 }

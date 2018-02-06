@@ -1,7 +1,7 @@
 package application.service;
 
 
-import application.model.User.Account;
+import application.model.Account.Account;
 
 public interface UserService {
 	Account findUserByEmail(String email);

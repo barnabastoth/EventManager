@@ -1,6 +1,5 @@
 package application.model.Event;
 
-import application.model.User.Account;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -40,14 +39,10 @@ public class Event {
     private String duration;
     private String imgPath;
     private String ticketLink;
-
-    @ManyToMany()
-    @JoinTable(
-            name = "event_speakers",
-            joinColumns = { @JoinColumn(name = "event_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
-    private Set<Account> speakers = new HashSet<>();
+    @ElementCollection
+    private Set<String> speakers = new HashSet<>();
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public Event() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -71,6 +66,12 @@ public class Event {
         this.imgPath = imgPath;
         this.ticketLink = ticketLink;
     }
+
+    public void addComment(Comment comment) { comments.add(comment); }
+
+    public List<Comment> getComments() { return comments; }
+
+    public void setComments(List<Comment> comments) { this.comments = comments; }
 
     public long getId() {
         return id;
@@ -184,7 +185,7 @@ public class Event {
         this.ticketLink = ticketLink;
     }
 
-    public Set<Account> getSpeakers() { return speakers; }
+    public Set<String> getSpeakers() { return speakers; }
 
-    public void setSpeakers(Set<Account> speakers) { this.speakers = speakers; }
+    public void setSpeakers(Set<String> speakers) { this.speakers = speakers; }
 }

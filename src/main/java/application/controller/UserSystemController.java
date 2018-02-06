@@ -1,6 +1,6 @@
 package application.controller;
 
-import application.model.User.Account;
+import application.model.Account.Account;
 import application.repository.EventRepository;
 import application.repository.UserRepository;
 import application.service.UserService;
@@ -20,15 +20,10 @@ import javax.validation.Valid;
 @Controller
 public class UserSystemController {
 	
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private EventRepository eventRepository;
-	@Autowired
-	private RequestUtil requestUtil;
-	@Qualifier("userRepository")
-	@Autowired
-	private UserRepository userRepository;
+	@Autowired private UserService userService;
+	@Autowired private EventRepository eventRepository;
+	@Autowired private RequestUtil requestUtil;
+	@Qualifier("userRepository") @Autowired private UserRepository userRepository;
 
 	@ModelAttribute
 	public void addAttributes(Model model, Authentication authentication) {
@@ -41,27 +36,27 @@ public class UserSystemController {
 	}
 
 	@PreAuthorize("isAnonymous()")
-	@GetMapping(Path.Web.LOGIN)
+	@GetMapping("/login")
 	public String serveLoginPage(Model model) {
 		model.addAttribute("event", eventRepository.getLatestEvent());
 		model.addAttribute("account", new Account());
 		model.addAttribute("authentication", "login");
         model.addAttribute("pageContent", Path.Fragment.EVENT);
-		return Path.Template.INDEX;
+		return "index";
 	}
 
 	@PreAuthorize("isAnonymous()")
-	@GetMapping(Path.Web.REGISTRATION)
+	@GetMapping("/registration")
 	public String serveRegistrationPage(Model model){
 		model.addAttribute("event", eventRepository.getLatestEvent());
 		model.addAttribute("account", new Account());
 		model.addAttribute("authentication", "registration");
         model.addAttribute("pageContent", Path.Fragment.EVENT);
-		return Path.Template.INDEX;
+		return "index";
 	}
 
 	@PreAuthorize("isAnonymous()")
-	@PostMapping(Path.Web.REGISTRATION)
+	@PostMapping("/registration")
 	public String handleRegistration(Model model,
                                      @Valid @ModelAttribute Account account,
                                      BindingResult bindingResult) {
@@ -82,19 +77,32 @@ public class UserSystemController {
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@GetMapping(Path.Web.PROFILE)
+	@GetMapping("/profile/{id}")
 	public String serveProfilePage (Model model, @PathVariable("id") int id) {
-		Account account = userRepository.findById(id);
+			Account account = userRepository.findById(id);
         model.addAttribute("pageContent", Path.Fragment.PROFILE);
 		model.addAttribute("account", account);
 		requestUtil.addProfileDetails(model, account);
-		return Path.Template.INDEX;
+		return "index";
 	}
 
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping(Path.Web.PROFILE)
-	public String handleProfileEdit(@PathVariable("id") int id, @ModelAttribute Account account) {
-		userRepository.saveAndFlush(account);
+	@PostMapping("/profile/{id}/edit")
+	public String handleProfileEdit(@PathVariable("id") int id, @ModelAttribute Account account, Authentication authentication) {
+		Account loggedInUser = userService.findUserByEmail(authentication.getName());
+		if(loggedInUser.getId() == id || loggedInUser.hasRole("ADMIN")) {
+			Account user = userRepository.findById(id);
+			user.setUserName(account.getUserName());
+			user.setEmail(account.getEmail());
+			user.setName(account.getName());
+			user.setLastName(account.getLastName());
+			user.setWebsite(account.getWebsite());
+			user.setProfession(account.getProfession());
+			user.setImgPath(account.getImgPath());
+			user.setDescription(account.getDescription());
+			userRepository.saveAndFlush(user);
+		}
 		return "redirect:/profile/" + Integer.toString(id);
 	}
+
 }

@@ -1,106 +1,187 @@
-<div class="col-md-3">
-    <div class="profile-sidebar">
-        <!-- SIDEBAR USERPIC -->
-        <div class="profile-userpic">
-            <img src="/images/user.png" class="img-responsive" alt="">
-        </div>
-        <!-- END SIDEBAR USERPIC -->
-        <!-- SIDEBAR USER TITLE -->
-        <div class="profile-usertitle">
-            <div class="profile-usertitle-name" th:text="${profileUserName}">
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel pull-center">
+            <div class="x_title">
+                <h2 th:text="${account.userName}"><small th:text="Felhasználói profilja"></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
             </div>
-            <div class="profile-usertitle-job" th:text="${profileRole}">
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img id="profileImg" class="img-responsive avatar-view" th:src="${account.imgPath}" style="max-width: 50%" alt="Avatar" title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3 th:text="${account.lastName} + '  ' + ${account.name}"></h3>
+
+                    <ul class="list-unstyled user_data">
+                        <li><i class="fa fa-map-marker user-profile-icon"></i> <span th:text="${account.email}"></span>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-briefcase user-profile-icon"></i> <span th:text="${account.profession}"></span>
+                        </li>
+
+                        <li class="m-top-xs">
+                            <i class="fa fa-external-link user-profile-icon"></i>
+                            <a th:href="${account.website}" target="_blank" th:text="${account.website}"></a>
+                        </li>
+                        <input id="profileId" type="text" th:value="${account.id}" hidden>
+                    </ul>
+
+                    <a th:if="${loggedInUser.id == account.id}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
+                    <br />
+                    <!-- start skills -->
+                    <h4>Pár szó  magamról</h4>
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <p th:text="${account.description}"></p>
+                        </li>
+                    </ul>
+                    <!-- end of skills -->
+
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Hozzászólások</a>
+                            </li>
+                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Projects Worked on</a>
+                            </li>
+                            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+                            </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                                <!-- start recent activity -->
+                                <ul class="messages">
+                                    <th:block th:each="comment : ${account.comments}">
+                                        <li>
+                                            <img th:src="${account.imgPath}" class="avatar" alt="Avatar">
+                                            <div class="message_date">
+                                                <h3 class="date text-info">24</h3>
+                                                <p class="month">May</p>
+                                            </div>
+                                            <div class="message_wrapper">
+                                                <h4 class="heading"><a th:href="@{'/event/' + ${comment.event.id}}" th:text="${comment.event.title}"></a></h4>
+                                                <blockquote class="message" th:text="${comment.message}"></blockquote>
+                                                <br />
+                                                <p class="url">
+                                                    <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                                    <i class="fa fa-paperclip"></i> <span th:text="${comment.date}"></span>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </th:block>
+                                </ul>
+                                <!-- end recent activity -->
+
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                                <!-- start user projects -->
+                                <table class="data table table-striped no-margin">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Project Name</th>
+                                        <th>Client Company</th>
+                                        <th class="hidden-phone">Hours Spent</th>
+                                        <th>Contribution</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>New Company Takeover Review</td>
+                                        <td>Deveint Inc</td>
+                                        <td class="hidden-phone">18</td>
+                                        <td class="vertical-align-mid">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" data-transitiongoal="35"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>New Partner Contracts Consultanci</td>
+                                        <td>Deveint Inc</td>
+                                        <td class="hidden-phone">13</td>
+                                        <td class="vertical-align-mid">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" data-transitiongoal="15"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Partners and Inverstors report</td>
+                                        <td>Deveint Inc</td>
+                                        <td class="hidden-phone">30</td>
+                                        <td class="vertical-align-mid">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" data-transitiongoal="45"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>New Company Takeover Review</td>
+                                        <td>Deveint Inc</td>
+                                        <td class="hidden-phone">28</td>
+                                        <td class="vertical-align-mid">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success" data-transitiongoal="75"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end user projects -->
+
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
+                                    photo booth letterpress, commodo enim craft beer mlkshk </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="profile-usertitle-job" th:text="'Csatlakozott: ' + ${profileMemberSince}">
-            </div>
         </div>
-        <!-- END SIDEBAR USER TITLE -->
-        <!-- SIDEBAR BUTTONS -->
-        <div class="profile-userbuttons">
-            <button type="button" class="btn btn-success btn-sm">Követés</button>
-            <button type="button" class="btn btn-danger btn-sm">Üzenet</button>
-        </div>
-        <!-- END SIDEBAR BUTTONS -->
-        <!-- SIDEBAR MENU -->
-        <div class="profile-usermenu">
-            <ul class="nav">
-                <li class="active">
-                    <a href="#">
-                        <i class="glyphicon glyphicon-home"></i>
-                        Általános </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-user"></i>
-                        Account beállitások </a>
-                </li>
-                <li>
-                    <a href="#" target="_blank">
-                        <i class="glyphicon glyphicon-ok"></i>
-                        Aktivitás </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-flag"></i>
-                        Help </a>
-                </li>
-            </ul>
-        </div>
-        <!-- END MENU -->
     </div>
 </div>
-<div class="col-md-9">
-    <div class="profile-content">
-        <a id="logo" class="event-title-text">Profil</a>
-        <br>
-        <br>
-        <br>
-        <form th:if="${profileId == loggedInUser.id}" autocomplete="off" th:action="'/profile/' + ${loggedInUser.id}"
-               th:object="${account}" method="post" role="form">
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Felhasználónév</span>
-                <input th:field="*{userName}" type="text" class="form-control" th:value="${profileUserName}" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Email</span>
-                <input th:field="*{email}" type="text" class="form-control" th:value="${profileEmail}" aria-describedby="basic-addon1" readonly>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Keresztnévv</span>
-                <input th:field="*{name}" type="text" class="form-control" th:value="${profileName}" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Családnév</span>
-                <input th:field="*{lastName}" type="text" class="form-control" th:value="${profileLastName}" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Magamról</span>
-                <textarea rows="4" th:field="*{description}" type="text" class="form-control" th:value="${profileDescription}" aria-describedby="basic-addon1"></textarea>
-            </div>
-            <input th:field="*{password}" type="text" th:value="asd" class="form-control"  aria-describedby="basic-addon1" hidden>
-            <button type="Submit" class="btn btn-default btn-block btn-custom">Változtatások mentése</button>
-        </form>
-        <form th:if="${profileId != loggedInUser.id}">
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Felhasználónév</span>
-                <input type="text" class="form-control" th:value="${profileUserName}" aria-describedby="basic-addon1" readonly>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Email</span>
-                <input type="text" class="form-control" th:value="${profileEmail}" aria-describedby="basic-addon1" readonly>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Keresztnévv</span>
-                <input type="text" class="form-control" th:value="${profileName}" aria-describedby="basic-addon1" readonly>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Családnév</span>
-                <input type="text" class="form-control" th:value="${profileLastName}" aria-describedby="basic-addon1" readonly>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Magamról</span>
-                <input type="text" class="form-control" th:value="${profileDescription}" aria-describedby="basic-addon1" readonly>
-            </div>
-        </form>
-    </div>
-</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

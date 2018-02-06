@@ -1,4 +1,4 @@
-package application.model.User;
+package application.model.Account;
 
 import javax.persistence.*;
 

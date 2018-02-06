@@ -1,86 +1,121 @@
-<div class="right_col" role="main" id="main_content" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="icon-bar">
-        <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Keresés az események között"><i class="fa fa-search"></i></a>
-    </div>
-    <div id="events">
-        <div id="header">
-            <div class="event-information" id="event-information">
-                <h1>Esemény szerkesztése</h1>
-                <br>
-                <form  autocomplete="off" th:action="@{/event/new}"
-                       th:object="${event}" method="post" role="form">
-                    <input hidden th:field="*{id}" type="text" class="form-control" aria-describedby="basic-addon1">
+<div class="icon-bar">
+    <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Vissza az előző oldalra" onclick="history.go(-1)"><i class="fa fa-chevron-left"></i></a>
+    <a class="pull-left" href="#" data-toggle="tooltip" data-placement="top" title="Keresés az események között"><i class="fa fa-search"></i></a>
+</div>
+<div id="events">
+    <div id="header">
+        <div class="event-information" id="event-information">
+            <h1>Esemény szerkesztése</h1>
 
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény címe (röviden, ez lesz nagy)</span>
-                        <input th:field="*{title}" type="text" class="form-control" aria-describedby="basic-addon1">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Mezők beállitásai</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-design-tab" data-toggle="pill" href="#pills-design" role="tab" aria-controls="pills-design" aria-selected="false">Kinézet beálltásai</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab" aria-controls="pills-settings" aria-selected="false">Esemény beállitásai</a>
+                </li>
+            </ul>
+
+
+            <br>
+            <div class="tab-content" id="pills-tabContent">
+            <form  autocomplete="off" th:action="@{/event/new}"
+                   th:object="${event}" method="post" role="form">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+
+                        <input th:if="${hideId} == 'false'" hidden th:field="*{id}" type="text" class="form-control" aria-describedby="basic-addon1">
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény címe (röviden, ez lesz nagy)</span>
+                            <input th:field="*{title}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény neve (ez lesz az általános leirásban)</span>
+                            <input th:field="*{name}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény címe</span>
+                            <input th:field="*{address}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény időpontja</span>
+                            <input th:field="*{date}" type="text" id="datepicker" size="30" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Megközelités tömegközlekedéssel</span>
+                            <textarea rows="5" th:field="*{locationByPublicTransport}" type="text" class="form-control" aria-describedby="basic-addon1"></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Megközelités autóval</span>
+                            <textarea rows="5" th:field="*{locationByCar}" type="text" class="form-control" aria-describedby="basic-addon1"></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Latitude (gugli maps)</span>
+                            <input th:field="*{mapLatitude}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Longtitude (gugli maps)</span>
+                            <input th:field="*{mapLongTitude}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény leirása (részletes)</span>
+                            <textarea rows="5" th:field="*{description}" type="text" class="form-control" aria-describedby="basic-addon1"></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény belépő ára</span>
+                            <input th:field="*{price}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény hossza, időtartalom</span>
+                            <input th:field="*{duration}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény képének neve</span>
+                            <input th:field="*{imgPath}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Előadók email cimei</span>
+                            <input th:field="*{speakers}" type="text" class="form-control" aria-describedby="basic-addon1">
+                            <p>Vesszővel szóköz nélkül elválasztva, például: vigyor99@gmail.com,barnabastoth94@gmail.com</p>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Esemény belépő linkje</span>
+                            <input th:field="*{ticketLink}" type="text" class="form-control" aria-describedby="basic-addon1">
+                        </div>
                     </div>
+                </div>
 
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény neve (ez lesz az általános leirásban)</span>
-                        <input th:field="*{name}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
+                <div class="tab-pane fade" id="pills-design" role="tabpanel" aria-labelledby="pills-design-tab"></div>
+                <div class="tab-pane fade" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab"></div>
 
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény címe</span>
-                        <input th:field="*{address}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
+                <button type="Submit" class="btn btn-default btn-block btn-custom">Változtatások mentése</button>
+            </form>
 
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Megközelités tömegközlekedéssel</span>
-                        <textarea rows="5" th:field="*{locationByPublicTransport}" type="text" class="form-control" aria-describedby="basic-addon1"></textarea>
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Megközelités autóval</span>
-                        <textarea rows="5" th:field="*{locationByCar}" type="text" class="form-control" aria-describedby="basic-addon1"></textarea>
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Latitude (gugli maps)</span>
-                        <input th:field="*{mapLatitude}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Longtitude (gugli maps)</span>
-                        <input th:field="*{mapLongTitude}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény leirása (részletes)</span>
-                        <textarea rows="5" th:field="*{description}" type="text" class="form-control" aria-describedby="basic-addon1"></textarea>
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény belépő ára</span>
-                        <input th:field="*{price}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény hossza, időtartalom</span>
-                        <input th:field="*{duration}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény képének neve</span>
-                        <input th:field="*{imgPath}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Esemény belépő linkje</span>
-                        <input th:field="*{ticketLink}" type="text" class="form-control" aria-describedby="basic-addon1">
-                    </div>
-
-                    <button type="Submit" class="btn btn-default btn-block btn-custom">Változtatások mentése</button>
-                </form>
-
-            </div>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </div>
