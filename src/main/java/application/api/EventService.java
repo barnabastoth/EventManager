@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +51,7 @@ public class EventService {
     @GetMapping("/api/event/latest")
     public String latestEvent(Model model) {
         model.addAttribute("event", eventRepository.getLatestEvent());
+        model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         return Path.Fragment.EVENT;
     }
 
@@ -56,6 +60,7 @@ public class EventService {
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
+            model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
             System.out.println("ASD" + event.getComments().toString());
             return Path.Fragment.EVENT;
         }
@@ -86,9 +91,8 @@ public class EventService {
         Comment comment = new Comment();
         Event event = eventRepository.findOne(id);
         Account account = userService.findUserByEmail(authentication.getName());
-
         comment.setMessage(commentMessage);
-        comment.setDate(new Date());
+        comment.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         comment.setAccount(account);
         comment.setEvent(event);
         event.addComment(comment);

@@ -4,7 +4,7 @@ package application.model.Event;
 import application.model.Account.Account;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Comment")
@@ -18,7 +18,7 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private Account account;
     private String message;
-    private Date date;
+    private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
@@ -47,11 +47,11 @@ public class Comment {
         this.message = message;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

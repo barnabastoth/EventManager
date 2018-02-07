@@ -1,8 +1,8 @@
 function main() {
-    if($("#loginRequired").text() === "login") {
+    if($("#loginRequired").val() === "login") {
         $("#login").modal('show');
         history.replaceState(null, null, 'login');
-    } else if ($("#loginRequired").text() === "registration") {
+    } else if ($("#loginRequired").val() === "registration") {
         $("#register").modal('show');
         history.replaceState(null, null, 'registration');
     }
@@ -11,6 +11,7 @@ function main() {
         $("#main_content").load("/api/profile/" + $("#loggedInUserId").val());
         history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val());
     });
+
 
     $(document.body).on("click", '#editProfileButton', function() {
         $(".x_panel").load("/api/profile/" + $("#profileId").val() + "/edit");

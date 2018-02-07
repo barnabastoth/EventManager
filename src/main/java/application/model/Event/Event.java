@@ -4,8 +4,8 @@ import application.model.Account.Account;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -24,7 +24,7 @@ public class Event {
     private String address;
     private String mapLatitude;
     private String mapLongTitude;
-    public String date;
+    public LocalDateTime date;
     @Lob @Type(type = "text") private String description;
     private String price;
     private String duration;
@@ -41,9 +41,6 @@ public class Event {
     private Set<Account> accounts = new HashSet<>();
 
     public Event() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        this.date = dateFormat.format(date);
     }
 
     public Event(String title, String name, String locationByPublicTransport, String locationByCar, String address, String mapLatitude, String mapLongTitude, String date, String description, String price, String duration, String imgPath, String ticketLink) {
@@ -55,7 +52,6 @@ public class Event {
         this.address = address;
         this.mapLatitude = mapLatitude;
         this.mapLongTitude = mapLongTitude;
-        this.date = date;
         this.description = description;
         this.price = price;
         this.duration = duration;
@@ -158,11 +154,11 @@ public class Event {
         this.mapLongTitude = mapLongTitude;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

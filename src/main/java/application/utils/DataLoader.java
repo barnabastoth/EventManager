@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,6 +51,7 @@ public class DataLoader implements CommandLineRunner {
         account.setImgPath("/images/user.png");
         account.setProfession("Junior Java Developer");
         account.setDescription("EZ EGY HOSSZU LEIRÁS ARRÓL HOGY MIT SZOKTAM ILLETVE MIT SZERETEK CSINÁLNi");
+        account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         userService.saveAdmin(account);
 
         Account account2 = new Account();
@@ -58,7 +61,8 @@ public class DataLoader implements CommandLineRunner {
         account2.setUserName("Exwormke");
         account2.setName("anyad");
         account2.setLastName("anyad");
-        account2.setImgPath("asd");
+        account2.setImgPath("/images/user.png");
+        account2.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         userService.saveUser(account2);
 
         Set<String> speakers = new HashSet<>();
@@ -68,16 +72,19 @@ public class DataLoader implements CommandLineRunner {
         Event event1 = new Event("Magyarország jövőjéről Budapesten", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
                 "Any recool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event1.setSpeakers(speakers);
+        event1.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         eventRepository.save(event1);
 
         Event event2 = new Event("Magyarország jövőjéről DEBRECEN", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a s with the results.\n" +
                 "Any retool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event2.setSpeakers(speakers);
+        event2.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         eventRepository.save(event2);
 
         Event event3 = new Event("Magyarország jövőjéről szoszsozszolnok", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
                 "Any recog Mootool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event3.setSpeakers(speakers);
+        event3.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 
         eventRepository.save(event3);
 

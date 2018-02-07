@@ -11,6 +11,10 @@ function main() {
         $("#main_content").load("/api/contact");
         history.replaceState(null, null, 'contact');
     });
+    $(document.body).on("click", "#eventButton", function() {
+        $("#main_content").load("/api/event/");
+        history.replaceState(null, null, 'event');
+    });
 
 }
 

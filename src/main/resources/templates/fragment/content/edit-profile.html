@@ -4,7 +4,7 @@
         <br>
         <br>
         <br>
-        <form autocomplete="off" th:action="'/profile/' + ${loggedInUser.id} + '/edit'"
+        <form autocomplete="off" th:action="'/profile/' + ${account.id} + '/edit'"
                th:object="${account}" method="post" role="form">
             <!--<div class="input-group" hidden>-->
                 <!--<input th:field="*{id}" type="text" class="form-control" th:value="${account.id}" aria-describedby="basic-addon1" hidden>-->

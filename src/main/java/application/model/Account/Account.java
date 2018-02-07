@@ -8,8 +8,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -27,7 +27,7 @@ public class Account {
 	@Column(name = "website") private String website;
 	@Column(name = "description", columnDefinition="text") private String description;
 	@Column(name = "active") private int active;
-	@Column(name = "memberSince") private String memberSince;
+	@Column(name = "memberSince") private LocalDateTime memberSince;
 
 	@ManyToMany()
 	@JoinTable(name = "user_role"
@@ -52,9 +52,6 @@ public class Account {
 
 
 	public Account() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		memberSince = dateFormat.format(date);
 	}
 
 	public boolean hasRole(String role) {
@@ -122,9 +119,9 @@ public class Account {
 
 	public void setDescription(String description) { this.description = description; }
 
-	public String getMemberSince() { return memberSince; }
+	public LocalDateTime getMemberSince() { return memberSince; }
 
-	public void setMemberSince(String memberSince) { this.memberSince = memberSince; }
+	public void setMemberSince(LocalDateTime memberSince) { this.memberSince = memberSince; }
 
 	public String getImgPath() { return imgPath; }
 

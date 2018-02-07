@@ -3,32 +3,36 @@ function loadMenuTopNav() {
     $(document.body).on("click", "#prev-event-btn", function () {
         var eventId = parseInt($(".event-id-text").val());
         if(eventId > 0) {
-            $("#main_content").load('/api/event/' + parseInt($(".event-id-text").val() -1));
-            history.replaceState(null, null, '/event/' + parseInt($(".event-id-text").val()));
+            $("#main_content").load('/api/event/' + parseInt($(".event-id-text").val() -1), function () {
+                history.replaceState(null, null, '/event/' + parseInt($(".event-id-text").val()));
+            });
         } else {
-            $("#main_content").load("/api/event/0");
-            history.replaceState(null, null, '/event/' + parseInt($(".event-id-text").val()));
+            $("#main_content").load("/api/event/0", function () {
+                history.replaceState(null, null, '/event/' + parseInt($(".event-id-text").val()));
+            });
         }
     });
 
     $(document.body).on("click", "#next-event-btn", function () {
         var eventId = parseInt($(".event-id-text").val());
-        $("#main_content").load('/api/event/' + parseInt($(".event-id-text").val() + 1));
-        history.replaceState(null, null, '/event/' + parseInt($(".event-id-text").val()));
+        $("#main_content").load('/api/event/' + parseInt($(".event-id-text").val() + 1), function () {
+            history.replaceState(null, null, '/event/' + parseInt($(".event-id-text").val()));
+        });
     });
 
     $(document.body).on('click', "#newEventButton", function() {
-        $("#main_content").load("/api/event/new");
-        history.replaceState(null, null, '/event/New');
+        $("#main_content").load("/api/event/new", function () {
+            history.replaceState(null, null, '/event/New');
+        });
     });
     $(document.body).on('click', "#editEventButton", function() {
         var eventId = $(".event-id-text").val();
-        $("#main_content").load("/api/event/" + eventId + "/edit");
-        history.replaceState(null, null, '/event/' + eventId + '/edit');
+        $("#main_content").load("/api/event/" + eventId + "/edit", function () {
+            history.replaceState(null, null, '/event/' + $(".event-id-text").val() + '/edit');
+        });
     });
     $(document.body).on('click', "#openEventButton", function() {
-        var eventId = $(".event-id-text").val();
-        history.replaceState(null, null, '/event/' + eventId);
+        history.replaceState(null, null, '/event/' + $(".event-id-text").val());
     });
 }
 
@@ -87,6 +91,13 @@ function eventMenu() {
         $("#event-comments").hide();
         $(exception).show();
     }
+
+    $(document.body).on("click", ".speakerProfile", function (e) {
+        e.preventDefault();
+        $("#main_content").load('/api/profile/' + $(".speakerProfile").parent().attr('action'), function () {
+            history.replaceState(null, null, "/profile/" + $(".speakerProfile").parent().attr('action'));
+        });
+    });
 
 }
 

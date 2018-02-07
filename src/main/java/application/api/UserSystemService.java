@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Date;
+
 @Controller
 public class UserSystemService {
 
@@ -36,7 +38,6 @@ public class UserSystemService {
         requestUtil.addCommonAttributes(model, account);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/api/profile/{id}")
     public String serveProfilePage(Model model, @PathVariable("id") int id) {
         Account account = userRepository.findById(id);

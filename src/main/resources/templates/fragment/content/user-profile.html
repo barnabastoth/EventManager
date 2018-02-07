@@ -46,6 +46,7 @@
                     </ul>
 
                     <a th:if="${loggedInUser.id == account.id}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
+                    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
                     <br />
                     <!-- start skills -->
                     <h4>Pár szó  magamról</h4>
@@ -71,13 +72,14 @@
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
                                 <!-- start recent activity -->
+                                <p th:if="${account.comments.size() == 0}" th:text="${account.userName} + ' ' + 'nem szólt hozzá semmihez még.'"></p>
                                 <ul class="messages">
                                     <th:block th:each="comment : ${account.comments}">
                                         <li>
                                             <img th:src="${account.imgPath}" class="avatar" alt="Avatar">
                                             <div class="message_date">
-                                                <h3 class="date text-info">24</h3>
-                                                <p class="month">May</p>
+                                                <p class="date text-info" th:text="${comment.date.getMonth().name()}">24</p>
+                                                <p class="month" th:text="${comment.date.getDayOfMonth()}">May</p>
                                             </div>
                                             <div class="message_wrapper">
                                                 <h4 class="heading"><a th:href="@{'/event/' + ${comment.event.id}}" th:text="${comment.event.title}"></a></h4>
@@ -95,68 +97,60 @@
 
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Események</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <p >Azok az események amelyekre feliratkoztál.</p>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="x_panel">
-                                            <div class="x_title">
-                                                <h2>Események</h2>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="x_content">
-
-                                                <p>Azok az események amelyekre feliratkoztál, időrendi sorrendben.</p>
-
-                                                <!-- start project list -->
-                                                <table class="table table-striped projects">
-                                                    <thead>
-                                                    <tr>
-                                                        <th style="width: 1%">#</th>
-                                                        <th>Esemény</th>
-                                                        <th>Előadók</th>
-                                                        <th>Helyszin</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <th:block th:each="event : ${account.events}">
-                                                        <tr>
-                                                            <td>#</td>
-                                                            <td>
-                                                                <a th:href="@{'/event/' + ${event.id}}"  th:text="${event.title}">Pesamakini Backend UI</a>
-                                                                <br />
-                                                                <small th:text="${event.date}">Created 01.01.2015</small>
-                                                            </td>
-                                                            <td>
-                                                                <ul class="list-inline">
-                                                                    <li>
-                                                                        <img src="/images/user.png" class="avatar" alt="Avatar">
-                                                                    </li>
-                                                                    <li>
-                                                                        <img src="/images/user.png" class="avatar" alt="Avatar">
-                                                                    </li>
-                                                                    <li>
-                                                                        <img src="/images/user.png" class="avatar" alt="Avatar">
-                                                                    </li>
-                                                                    <li>
-                                                                        <img src="/images/user.png" class="avatar" alt="Avatar">
-                                                                    </li>
-                                                                </ul>
-                                                            </td>
-                                                            <td>
-                                                                <a th:text="${event.address}"></a>
-                                                            </td>
-                                                        </tr>
-                                                    </th:block>
-                                                    </tbody>
-                                                </table>
-                                                <!-- end project list -->
-
-                                            </div>
-                                        </div>
+                                        <!-- start project list -->
+                                        <table class="table table-striped projects">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 1%">#</th>
+                                                <th>Esemény</th>
+                                                <th>Előadók</th>
+                                                <th>Helyszin</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <th:block th:each="event : ${account.events}">
+                                                <tr>
+                                                    <td>#</td>
+                                                    <td>
+                                                        <a th:href="@{'/event/' + ${event.id}}"  th:text="${event.title}">Pesamakini Backend UI</a>
+                                                        <br />
+                                                        <small th:text="${event.date}"></small>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="list-inline">
+                                                            <li>
+                                                                <img src="/images/user.png" class="avatar" alt="Avatar">
+                                                            </li>
+                                                            <li>
+                                                                <img src="/images/user.png" class="avatar" alt="Avatar">
+                                                            </li>
+                                                            <li>
+                                                                <img src="/images/user.png" class="avatar" alt="Avatar">
+                                                            </li>
+                                                            <li>
+                                                                <img src="/images/user.png" class="avatar" alt="Avatar">
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <a th:text="${event.address}"></a>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                        </table>
+                                        <!-- end project list -->
                                     </div>
                                 </div>
                                 <!-- end user projects -->
-
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
                                 <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui

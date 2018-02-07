@@ -17,9 +17,9 @@
         <script th:src="@{~/js/nprogress.js}" defer></script>
         <script th:src="@{~/js/jquery.mCustomScrollbar.js}" defer></script>
         <script th:src="@{~/js/custom.js}" defer></script>
+        <script th:src="@{~/js/user-system.js}" defer></script>
         <script th:src="@{~/js/event.js}" defer></script>
         <script th:src="@{~/js/menu.js}" defer></script>
-        <script th:src="@{~/js/user-system.js}" defer></script>
 
         <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{~/css/nprogress.css}"/>
@@ -28,6 +28,7 @@
         <link rel="stylesheet" th:href="@{~/css/main.css}"/>
         <link rel="stylesheet" th:href="@{~/css/login.css}"/>
         <link rel="stylesheet" th:href="@{~/css/userProfile.css}"/>
+        <link rel="stylesheet" th:href="@{~/css/user-card.css}"/>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
     </head>
@@ -61,6 +62,6 @@
         <div th:replace="authentication/registration"></div>
         <!--Forgot password page-->
         <div th:replace="authentication/forgot-password"></div>
-
+        <input id="loginRequired" type="text" th:value="${authentication}" hidden>
     </body>
 </html>

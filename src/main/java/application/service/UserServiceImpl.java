@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -32,7 +36,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void saveUser(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+		account.setImgPath("/images/user.png");
         account.setActive(1);
+        account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         Role userRole = roleRepository.findByRole("USER");
         account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(account);
@@ -41,9 +47,19 @@ public class UserServiceImpl implements UserService{
 	public void saveAdmin(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		account.setActive(1);
+		account.setImgPath("/images/user.png");
+		account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 		Role userRole = roleRepository.findByRole("ADMIN");
 		account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(account);
+	}
+
+	public Set<Account> getSpeakersByEmail(Set<String> emails) {
+		Set<Account> speakers = new HashSet<>();
+		for (String email : emails) {
+			speakers.add(userRepository.findByEmail(email));
+		}
+		return speakers;
 	}
 
 }

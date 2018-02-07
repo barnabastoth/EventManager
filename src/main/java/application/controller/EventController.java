@@ -6,6 +6,7 @@ import application.model.Menu.Menu;
 import application.model.Account.Account;
 import application.repository.EventRepository;
 import application.repository.MenuRepository;
+import application.repository.UserRepository;
 import application.service.UserService;
 import application.utils.Path;
 import application.utils.RequestUtil;
@@ -19,6 +20,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class EventController {
@@ -33,6 +38,8 @@ public class EventController {
     @Autowired
     private RequestUtil requestUtil;
     @Qualifier("userRepository")
+    @Autowired
+    private UserRepository userRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -44,11 +51,11 @@ public class EventController {
     }
 
     @GetMapping("/")
-    public String serveIndexPage(Model model, Comment comment) {
+    public String serveIndexPage(Model model) {
         model.addAttribute("event", eventRepository.getLatestEvent());
+        model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT);
-        model.addAttribute("comment", comment);
         return "index";
     }
 
@@ -56,6 +63,7 @@ public class EventController {
     public String serveEventByIdPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT);
+        model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
@@ -89,7 +97,14 @@ public class EventController {
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT_MANAGER);
         model.addAttribute("hideId", "false");
+        return "index";
+    }
 
+    @GetMapping("/event")
+    public String serveAllEvent(Model model) {
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
+        model.addAttribute("pageContent", Path.Fragment.ALL_EVENTS);
         return "index";
     }
 

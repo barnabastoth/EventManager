@@ -18,7 +18,7 @@
             <li id="comments"><a><span>Kommentek</span></a></li>
         </ul>
         <br>
-        <button id="attendEvent" type="button" class="btn btn-success btn-xs" th:text="${event.accounts.size()} + ' ' + résztvevő"></button>
+        <button id="attendEvent" type="button" class="btn btn-success btn-xs"   ></button>
 
         <div class="event-information" id="event-information">
             <h1 id="submitComment">Általános Információ</h1>
@@ -30,7 +30,7 @@
                 </li>
                 <li>
                     <h4>Esemény helyszine:</h4>
-                    <p class="event-address-text" th:text="${event.address}"></p>
+                    <p class="event-addrelss-text" th:text="${event.address}"></p>
                 </li>
                 <li>
                     <h4>Esemény időpontja:</h4>
@@ -44,9 +44,40 @@
         </div>
 
         <div class="event-information" id="event-events">
-            <h1><Előadók></Előadók></h1>
-            <p th:text="${event.speakers}"></p>
+
+            <h1>Előadók></h1>
+
+                <div class="container">
+                    <div class="row">
+                        <th:block th:each="speaker : ${eventSpeakers}">
+                            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                                <div class="card">
+                                    <img class="card-img-top" th:src="${speaker.imgPath}">
+                                    <div class="card-block">
+                                        <figure class="profile">
+                                            <img th:src="${speaker.imgPath}" class="profile-avatar" alt="">
+                                        </figure>
+                                        <h4 class="card-title mt-3" th:text="${speaker.lastName} + '  ' + ${speaker.name}"></h4>
+                                        <div class="meta">
+                                            <a th:text="${speaker.userName}"></a>
+                                        </div>
+                                        <div class="card-text">
+                                            <span th:text="${speaker.profession}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <form th:action="${speaker.id}">
+                                            <button class="btn btn-secondary float-right btn-sm speakerProfile">Profil megnyitása</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
         </div>
+        <br>
 
         <div class="event-information" id="event-tickets">
             <h1>Jegyek:</h1>

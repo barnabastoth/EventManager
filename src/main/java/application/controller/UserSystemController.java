@@ -76,7 +76,6 @@ public class UserSystemController {
 		return "redirect:/login";
 	}
 
-	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/profile/{id}")
 	public String serveProfilePage (Model model, @PathVariable("id") int id) {
 			Account account = userRepository.findById(id);
@@ -84,6 +83,19 @@ public class UserSystemController {
 		model.addAttribute("account", account);
 		requestUtil.addProfileDetails(model, account);
 		return "index";
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/profile/{id}/edit")
+	public String serveProfileEditPage(Model model, Authentication authentication, @PathVariable("id") int id) {
+		Account user = userService.findUserByEmail(authentication.getName());
+		if(user.getId() == id || user.hasRole("ADMIN")) {
+			Account account = userRepository.findById(id);
+			model.addAttribute("account", account);
+			model.addAttribute("pageContent", Path.Fragment.EDIT_PROFILE);
+			return "index";
+		}
+		return "redirect:/";
 	}
 
 	@PreAuthorize("isAuthenticated()")
