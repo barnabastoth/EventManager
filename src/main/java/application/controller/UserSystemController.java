@@ -104,7 +104,6 @@ public class UserSystemController {
 		Account loggedInUser = userService.findUserByEmail(authentication.getName());
 		if(loggedInUser.getId() == id || loggedInUser.hasRole("ADMIN")) {
 			Account user = userRepository.findById(id);
-			user.setUserName(account.getUserName());
 			user.setEmail(account.getEmail());
 			user.setName(account.getName());
 			user.setLastName(account.getLastName());
@@ -115,6 +114,13 @@ public class UserSystemController {
 			userRepository.saveAndFlush(user);
 		}
 		return "redirect:/profile/" + Integer.toString(id);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
+	@GetMapping("/profile")
+	public String serveAllProfile(Model model) {
+		model.addAttribute("allUsers", userRepository.findAll());
+		return Path.Fragment.ALL_USERS;
 	}
 
 }

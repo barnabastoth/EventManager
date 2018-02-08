@@ -23,13 +23,9 @@ import java.util.Locale;
 @Controller
 public class MenuService {
 
-    @Autowired
-    UserService userService;
-    @Autowired
-    RequestUtil requestUtil;
-    @Qualifier("menuRepository")
-    @Autowired
-    MenuRepository menuRepository;
+    @Autowired UserService userService;
+    @Autowired RequestUtil requestUtil;
+    @Autowired MenuRepository menuRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("menuRepository")
+@Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     Menu findByRoute(String route);
 }

@@ -67,7 +67,7 @@ public class EventService {
         return "redirect:/api/event/latest";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @GetMapping("/api/event/new")
     public String serveNewEvent(Model model) {
         model.addAttribute("event", new Event());
@@ -75,7 +75,7 @@ public class EventService {
         return Path.Fragment.EVENT_MANAGER;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @GetMapping("/api/event/{id}/edit")
     public String serveEditEvent(Model model, @PathVariable("id") Long id) {
         Event event = eventRepository.findOne(id);
@@ -95,7 +95,7 @@ public class EventService {
         comment.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         comment.setAccount(account);
         comment.setEvent(event);
-        event.addComment(comment);
+        event.getComments().add(comment);
 
         commentRepository.saveAndFlush(comment);
         return "redirect:/";
@@ -122,10 +122,21 @@ public class EventService {
     public String handleAttend(Authentication authentication, @PathVariable("id") Long id) {
         Event event = eventRepository.findOne(id);
         Account account = userService.findUserByEmail(authentication.getName());
-        event.addAccount(account);
+        event.getAccounts().add(account);
         account.addEvent(event);
         eventRepository.saveAndFlush(event);
         userRepository.saveAndFlush(account);
         return "redirect:/";
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
+    @GetMapping("/api/event/{id}/deactivate")
+    public String handleEventDeactivation(@PathVariable("id") Long id, Model model) {
+        Event event = eventRepository.findOne(id);
+        event.setActive(0);
+        eventRepository.saveAndFlush(event);
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
+        return Path.Fragment.ALL_EVENTS;
     }
 }

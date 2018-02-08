@@ -9,8 +9,8 @@
 
             <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
                 <li class="" >
-                    <a href="javascript:;" class="account-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img th:src="${account.imgPath}" alt="" th:text="${' ' + loggedInUser.userName}">
+                    <a href="javascript:" class="account-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img th:src="${loggedInUser.imgPath}" alt="" th:text="${' ' + loggedInUser.name}">
                         <span class=" fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         <li><a class="profileButton"> Profilom</a></li>

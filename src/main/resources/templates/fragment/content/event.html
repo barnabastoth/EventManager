@@ -18,11 +18,11 @@
             <li id="comments"><a><span>Kommentek</span></a></li>
         </ul>
         <br>
-        <button id="attendEvent" type="button" class="btn btn-success btn-xs"   ></button>
+        <button id="attendEvent" type="button" class="btn btn-success btn-xs">Ott leszek!</button>
 
         <div class="event-information" id="event-information">
             <h1 id="submitComment">Általános Információ</h1>
-            <input class="event-id-text" hidden th:value="${event.id}" id="event-id">
+            <input th:if="${event != null}" class="event-id-text" hidden th:value="${event.id}" id="event-id">
             <ul>
                 <li>
                     <h4>Esemény neve: </h4>
@@ -43,37 +43,45 @@
             </ul>
         </div>
 
-        <div class="event-information" id="event-events">
+        <div class="event-information" id="event-speakers">
 
-            <h1>Előadók></h1>
+            <h1>Előadók</h1>
+            <p th:if="${eventSpeakers == null}">Még egy előadó se lett hozzá adva az eseményhez. </p>
 
-                <div class="container">
+                <div class="container" th:if="${eventSpeakers != null}">
                     <div class="row">
-                        <th:block th:each="speaker : ${eventSpeakers}">
-                            <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
-                                <div class="card">
-                                    <img class="card-img-top" th:src="${speaker.imgPath}">
-                                    <div class="card-block">
-                                        <figure class="profile">
-                                            <img th:src="${speaker.imgPath}" class="profile-avatar" alt="">
-                                        </figure>
-                                        <h4 class="card-title mt-3" th:text="${speaker.lastName} + '  ' + ${speaker.name}"></h4>
-                                        <div class="meta">
-                                            <a th:text="${speaker.userName}"></a>
+                            <section class="container">
+                                <div class="row active-with-click">
+                                    <th:block th:each="speaker : ${eventSpeakers}">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <article class="material-card Blue-Grey">
+                                                <h2>
+                                                    <span th:text="${speaker.lastName} + '  ' + ${speaker.name}"></span>
+                                                    <strong>
+                                                        <span th:text="${speaker.profession}"></span>
+                                                        <a th:href="${speaker.website}" th:text="${speaker.website}"></a>
+                                                    </strong>
+                                                </h2>
+                                                <div class="mc-content">
+                                                    <div class="img-container">
+                                                        <img class="img-responsive" th:src="${speaker.imgPath}">
+                                                    </div>
+                                                    <div class="mc-description" th:text="${speaker.description}"></div>
+                                                </div>
+                                                <a class="mc-btn-action">
+                                                    <i class="fa fa-bars"></i>
+                                                </a>
+                                                <div class="mc-footer">
+                                                    <a class="fa fa-fw fa-facebook"></a>
+                                                    <a class="fa fa-fw fa-twitter"></a>
+                                                    <a class="fa fa-fw fa-linkedin"></a>
+                                                    <a class="fa fa-fw fa-google-plus"></a>
+                                                </div>
+                                            </article>
                                         </div>
-                                        <div class="card-text">
-                                            <span th:text="${speaker.profession}"></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <form th:action="${speaker.id}">
-                                            <button class="btn btn-secondary float-right btn-sm speakerProfile">Profil megnyitása</button>
-                                        </form>
-
-                                    </div>
+                                    </th:block>
                                 </div>
-                            </div>
-                        </th:block>
+                            </section>
                     </div>
                 </div>
         </div>
@@ -84,7 +92,7 @@
             <ul>
                 <li>
                     <h4>Ticketportal: </h4>
-                    <p><a href="http://www.ticketportal.hu/event.aspx?id=48662">LINK</a></p>
+                    <p><a th:href="${event.ticketLink}">LINK</a></p>
                 </li>
                 <li>
                     <h4>Helyszinen:</h4>
@@ -94,25 +102,25 @@
         </div>
 
 
-        <div class="event-information" id="event-location" th:if="${event.mapLongTitude != '' or event.mapLatitude != '' or event.address != '' or event.locationByPublicTransport != '' or event.locationByCar != ''}">
+        <div class="event-information" id="event-location">
             <h1>Helyszin:</h1>
             <ul>
-                <li th:if="${event.address != ''}">
+                <li>
                     <h4>Cim</h4>
-                    <p class="event-address-text" th:text="${event.address}"></p>
+                    <p class="event-address-text"></p>
                 </li>
-                <li th:if="${event.locationByPublicTransport != ''}">
+                <li>
                     <h4>Tömegközlekedéssel:</h4>
-                    <p class="event-locationByPublicTransport-text" th:text="${event.locationByPublicTransport}"></p>
+                    <p class="event-locationByPublicTransport-text"></p>
                 </li>
-                <li th:if="${event.locationByCar != ''}">
+                <li>
                     <h4>Autóval</h4>
-                    <p class="event-locationByCar-text" th:text="${event.locationByCar}"></p>
+                    <p class="event-locationByCar-text"></p>
                 </li>
-                <li th:if="${event.mapLongTitude != '' and event.mapLatitude != ''}">
+                <li>
                     <h4>Térkép:</h4>
-                    <input id="map-latitude" type="hidden" th:if="${event.mapLatitude != ''}" th:value="${event.mapLatitude}">
-                    <input id="map-longtitude" type="hidden" th:if="${event.mapLongTitude} != ''" th:value="${event.mapLongTitude}">
+                    <input id="map-latitude" type="hidden" th:value="${event.mapLatitude}">
+                    <input id="map-longtitude" type="hidden" th:value="${event.mapLongTitude}">
                     <p id="map-container" class="event-address-map"></p>
                 </li>
             </ul>

@@ -30,6 +30,7 @@ public class Event {
     private String duration;
     private String imgPath;
     private String ticketLink;
+    private Integer active;
 
     @ElementCollection
     private Set<String> speakers = new HashSet<>();
@@ -68,141 +69,97 @@ public class Event {
         return true;
     }
 
-    public void addAccount(Account account) {
-        accounts.add(account);
-    }
-
+    public Integer getActive() { return active; }
+    public void setActive(Integer active) { this.active = active; }
     public Set<Account> getAccounts() {
         return accounts;
     }
-
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
-
     public Set<Account> getAttendees() { return accounts; }
-
     public void setAttendees(Set<Account> accounts) { this.accounts = accounts; }
-
-    public void addComment(Comment comment) { comments.add(comment); }
-
     public Set<Comment> getComments() { return comments; }
-
     public void setComments(Set<Comment> comments) { this.comments = comments; }
-
     public long getId() {
         return id;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getLocationByPublicTransport() {
         return locationByPublicTransport;
     }
-
-    public void setLocationByPublicTransport(String locationByPublicTransport) {
-        this.locationByPublicTransport = locationByPublicTransport;
-    }
-
+    public void setLocationByPublicTransport(String locationByPublicTransport) { this.locationByPublicTransport = locationByPublicTransport; }
     public String getLocationByCar() {
         return locationByCar;
     }
-
     public void setLocationByCar(String locationByCar) {
         this.locationByCar = locationByCar;
     }
-
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
-
     public String getMapLatitude() {
         return mapLatitude;
     }
-
     public void setMapLatitude(String mapLatitude) {
         this.mapLatitude = mapLatitude;
     }
-
     public String getMapLongTitude() {
         return mapLongTitude;
     }
-
     public void setMapLongTitude(String mapLongTitude) {
         this.mapLongTitude = mapLongTitude;
     }
-
     public LocalDateTime getDate() {
         return date;
     }
-
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public String getPrice() {
         return price;
     }
-
     public void setPrice(String price) {
         this.price = price;
     }
-
     public String getDuration() {
         return duration;
     }
-
     public void setDuration(String duration) {
         this.duration = duration;
     }
-
     public String getImgPath() {
         return imgPath;
     }
-
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
-
     public String getTicketLink() {
         return ticketLink;
     }
-
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }
-
     public Set<String> getSpeakers() { return speakers; }
-
     public void setSpeakers(Set<String> speakers) { this.speakers = speakers; }
 }

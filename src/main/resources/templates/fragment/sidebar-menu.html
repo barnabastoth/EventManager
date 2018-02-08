@@ -1,4 +1,4 @@
-<div id="left-menu" class="col-md-3 left_col menu_fixed">
+<div id="left-menu" class="col-md-3 left_col menu_fixed" style="position: fixed">
     <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
                 <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Event-Manager</span></a>
@@ -12,7 +12,7 @@
                 </div>
                 <div class="profile_info">
                     <span>Üdvözöllek,</span>
-                    <h2 sec:authorize="isAuthenticated()" th:text="${' ' + loggedInUser.userName}"></h2>
+                    <h2 sec:authorize="isAuthenticated()" th:text="${' ' + loggedInUser.name}"></h2>
                     <h2 sec:authorize="isAnonymous()" th:text="' ' + Vendég"></h2>
                     <input sec:authorize="isAuthenticated()" id="loggedInUserId" type="text" th:value="${loggedInUser.id}" hidden>
                 </div>
@@ -46,9 +46,15 @@
                             </ul>
                         </li>
 
-                        <li><a id="eventButton"><i class="fa fa-info-circle"></i> Események</a></li>
+                        <li><a id="eventButton"><i class="fa fa-calendar"></i> Események</a></li>
                         <li><a id="aboutButton"><i class="fa fa-info-circle"></i> Rólunk</a></li>
                         <li><a id="contactButton"><i class="fa fa-address-card-o"></i> Kapcsolat</a></li>
+                    </ul>
+                    <br>
+                    <br>
+                    <h3 sec:authorize="hasAuthority('ADMIN')">Admin részleg</h3>
+                    <ul sec:authorize="hasAuthority('ADMIN')" class="nav side-menu">
+                        <li><a id="allUsersButton"><i class="fa fa-users"></i> Felhasználók</a></li>
                     </ul>
         </div>
 
@@ -66,7 +72,7 @@
 
 
             <a class="profileButton" sec:authorize="isAuthenticated()" >
-                <span class="glyphicon glyphicon-cog" aria-hidden="true">  Profilom</span>
+                <span class="glyphicon glyphicon-user" aria-hidden="true">  Profilom</span>
             </a>
             <a sec:authorize="isAuthenticated()" th:href="@{~/logout}" title="Kilépés">
                 <span class="glyphicon glyphicon-off" aria-hidden="true">  Kijelentkezés</span>

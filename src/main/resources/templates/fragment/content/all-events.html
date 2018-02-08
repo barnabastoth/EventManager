@@ -4,7 +4,6 @@
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
-        <p>Összes esemény.</p>
 
         <!-- start project list -->
         <table class="table table-striped projects">
@@ -12,39 +11,44 @@
             <tr>
                 <th style="width: 1%">#</th>
                 <th>Esemény</th>
-                <th>Előadók</th>
+                <th>Dátum</th>
+                <th>Résztvevők (db)</th>
+                <th>Kommentek (db)</th>
                 <th>Helyszin</th>
+                <th sec:authorize="hasAuthority('ADMIN')">Státusz</th>
+                <th sec:authorize="hasAuthority('ADMIN')">Műveletek</th>
             </tr>
             </thead>
             <tbody>
             <th:block th:each="event : ${events}">
-                <tr>
-                    <td>#</td>
-                    <td>
-                        <a th:href="@{'/event/' + ${event.id}}"  th:text="${event.title}">Pesamakini Backend UI</a>
-                        <br />
-                        <small th:text="${event.date}"></small>
-                    </td>
-                    <td>
-                        <ul class="list-inline">
-                            <li>
-                                <img src="/images/user.png" class="avatar" alt="Avatar">
-                            </li>
-                            <li>
-                                <img src="/images/user.png" class="avatar" alt="Avatar">
-                            </li>
-                            <li>
-                                <img src="/images/user.png" class="avatar" alt="Avatar">
-                            </li>
-                            <li>
-                                <img src="/images/user.png" class="avatar" alt="Avatar">
-                            </li>
-                        </ul>
-                    </td>
-                    <td>
-                        <a th:text="${event.address}"></a>
-                    </td>
-                </tr>
+                <a th:href="@{'/event/' + ${event.id}}">
+                    <tr>
+                        <td>#</td>
+                        <td th:text="${event.id}" hidden></td>
+                        <td th:text="${event.title}"></td>
+                        <td th:text="${event.date}"></td>
+                        <td th:text="${event.accounts.size()}"></td>
+                        <td th:text="${event.comments.size()}"></td>
+                        <td th:text="${event.address}"></td>
+                        <td sec:authorize="hasAuthority('ADMIN')" th:if="${event.active == 1}">Aktiv <i class="fa fa-check-o"></i></td>
+                        <td sec:authorize="hasAuthority('ADMIN')" th:if="${event.active == 0}">Bannolt <i class="fa fa-times-o"></i></td>
+                        <td sec:authorize="hasAuthority('ADMIN')">
+                            <form th:action="${event.id}">
+                                <a id="viewEventButton" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Megtekintés </a>
+                            </form>
+                            <form th:action="${event.id}">
+                                <a id="editEventButton" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Szerkesztés </a>
+                            </form>
+                            <form th:action="${event.id}">
+                                <a th:if="${event.active == 0}" id="activateEventButton" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Aktiválás </a>
+                            </form>
+                            <form th:action="${event.id}">
+                                <a th:if="${event.active == 1}" id="deactivateEventButton" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Deaktiválás </a>
+                            </form>
+
+                        </td>
+                    </tr>
+                </a>
             </th:block>
             </tbody>
         </table>

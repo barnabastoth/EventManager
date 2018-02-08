@@ -26,39 +26,27 @@ public class Comment {
     public long getId() {
         return id;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public Account getAccount() {
         return account;
     }
-
     public void setAccount(Account account) {
         this.account = account;
     }
-
     public String getMessage() {
         return message;
     }
-
     public void setMessage(String message) {
         this.message = message;
     }
-
     public LocalDateTime getDate() {
         return date;
     }
-
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-
     public Event getEvent() {
         return event;
     }
-
     public void setEvent(Event event) {
         this.event = event;
     }

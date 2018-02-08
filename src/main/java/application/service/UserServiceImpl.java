@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
         account.setActive(1);
         account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         Role userRole = roleRepository.findByRole("USER");
-        account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        account.setRoles(new HashSet<>(Arrays.asList(userRole)));
 		userRepository.save(account);
 	}
 
@@ -49,8 +49,19 @@ public class UserServiceImpl implements UserService{
 		account.setActive(1);
 		account.setImgPath("/images/user.png");
 		account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-		Role userRole = roleRepository.findByRole("ADMIN");
-		account.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		Role userRole2 = roleRepository.findByRole("ADMIN");
+		account.setRoles(new HashSet<>(Arrays.asList(userRole2)));
+		userRepository.save(account);
+	}
+
+	public void saveOwner(Account account) {
+		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+		account.setActive(1);
+		account.setImgPath("/images/user.png");
+		account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+		Role userRole2 = roleRepository.findByRole("ADMIN");
+		Role userRole3 = roleRepository.findByRole("OWNER");
+		account.setRoles(new HashSet<>(Arrays.asList(userRole2, userRole3)));
 		userRepository.save(account);
 	}
 

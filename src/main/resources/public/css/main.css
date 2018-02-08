@@ -232,3 +232,7 @@ small
 #left-menu {
     height: 100%;
 }
+
+.menu li {
+    cursor: pointer;
+}

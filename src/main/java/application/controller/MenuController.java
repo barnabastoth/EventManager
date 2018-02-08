@@ -21,16 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class MenuController {
 
-    @Qualifier("menuRepository")
-    @Autowired
-    private MenuRepository menuRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private EventRepository eventRepository;
-    @Autowired
-    private RequestUtil requestUtil;
-    @Qualifier("userRepository")
+    @Autowired private MenuRepository menuRepository;
+    @Autowired private UserService userService;
+    @Autowired private RequestUtil requestUtil;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -54,7 +47,7 @@ public class MenuController {
         return "index";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @PostMapping("/{route}")
     public String handleMenuEdit(@PathVariable("route") String route, @ModelAttribute("menu") Menu menu) {
         menuRepository.saveAndFlush(menu);

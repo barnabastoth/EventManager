@@ -19,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,18 +30,11 @@ import java.util.Set;
 @Controller
 public class EventController {
 
-    @Qualifier("menuRepository")
-    @Autowired
-    private MenuRepository menuRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private EventRepository eventRepository;
-    @Autowired
-    private RequestUtil requestUtil;
-    @Qualifier("userRepository")
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private MenuRepository menuRepository;
+    @Autowired private UserService userService;
+    @Autowired private EventRepository eventRepository;
+    @Autowired private RequestUtil requestUtil;
+    @Autowired private UserRepository userRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
@@ -51,7 +46,12 @@ public class EventController {
     }
 
     @GetMapping("/")
-    public String serveIndexPage(Model model) {
+    public String serveIndexPage(Model model, Authentication authentication, HttpServletRequest httpServletRequest) throws ServletException {
+        if(authentication != null) {
+            if(userService.findUserByEmail(authentication.getName()).getActive() == 0) {
+                httpServletRequest.logout();
+            }
+        }
         model.addAttribute("event", eventRepository.getLatestEvent());
         model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         model.addAttribute("account", new Account());
@@ -72,7 +72,7 @@ public class EventController {
         return "redirect:/";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @GetMapping("/event/new")
     public String serveNewEventPage(Model model) {
         model.addAttribute("event", new Event());
@@ -82,14 +82,15 @@ public class EventController {
         return "index";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @PostMapping("/event/new")
     public String handleNewEventCreation(@Valid @ModelAttribute("event") Event event) {
+        event.setActive(1);
         eventRepository.saveAndFlush(event);
         return "redirect:/event/" + event.getId();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @GetMapping("/event/{id}/edit")
     public String serveEditEventPage(Model model, @PathVariable("id") Long id) {
         Event event = eventRepository.findOne(id);
@@ -104,6 +105,7 @@ public class EventController {
     public String serveAllEvent(Model model) {
         List<Event> events = eventRepository.findAll();
         model.addAttribute("events", events);
+        model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.ALL_EVENTS);
         return "index";
     }

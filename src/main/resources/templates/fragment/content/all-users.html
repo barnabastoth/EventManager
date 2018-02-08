@@ -1,0 +1,69 @@
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Felhasználók</h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <p>Összes felhasználó.</p>
+
+        <!-- start project list -->
+        <table class="table table-striped projects">
+            <thead>
+            <tr>
+                <th style="width: 1%">#</th>
+                <th>Név</th>
+                <th>Email</th>
+                <th>Foglalkozás</th>
+                <th>Státusz</th>
+                <th>Jogok</th>
+                <th>Csatlakozott</th>
+                <th>Műveletek</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="user : ${allUsers}">
+                <a th:href="@{'/profile/' + ${user.id}}">
+                    <tr>
+                        <td>#</td>
+                        <td th:text="${user.id}" hidden></td>
+                        <td th:text="${user.lastName} + '  ' + ${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.profession}"></td>
+                        <td th:if="${user.active == 1}">Aktiv <i class="fa fa-check-o"></i></td>
+                        <td th:if="${user.active == 0}">Bannolt <i class="fa fa-times-o"></i></td>
+                        <td>
+                            <th:block th:each="role : ${user.roles}">
+                                <span th:text="${role.role}"></span>
+                            </th:block>
+
+                        </td>
+                        <td th:text="${user.memberSince}"></td>
+                        <td>
+                            <form th:action="${user.id}">
+                                <a id="viewUserButton" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Megtekintés </a>
+                            </form>
+                            <form th:action="${user.id}">
+                                <a id="editUserButton" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Szerkesztés </a>
+                            </form>
+                            <form th:action="${user.id}">
+                                <a th:if="${user.active == 0}" id="activateUserButton" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Aktiválás </a>
+                            </form>
+                            <form th:action="${user.id}">
+                                <a th:if="${user.active == 1}" id="deactivateUserButton" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Deaktiválás </a>
+                            </form>
+                            <form th:action="${user.id}">
+                                <a sec:authorize="hasAuthority('OWNER')" id="addAdminButton" class="btn btn-success btn-xs"><i class="fa fa-check"></i> ADMIN adás </a>
+                            </form>
+                            <form th:action="${user.id}">
+                                <a sec:authorize="hasAuthority('OWNER')" id="removeAdminButton" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> ADMIN elvétel </a>
+                            </form>
+
+                        </td>
+                    </tr>
+                </a>
+            </th:block>
+            </tbody>
+        </table>
+        <!-- end project list -->
+    </div>
+</div>

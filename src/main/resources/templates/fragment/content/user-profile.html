@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel pull-center">
             <div class="x_title">
-                <h2 th:text="${account.userName}"><small th:text="Felhasználói profilja"></small></h2>
+                <h2 th:text="Profil"><small th:text="Felhasználói profilja"></small></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -46,7 +46,7 @@
                     </ul>
 
                     <a th:if="${loggedInUser.id == account.id}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
-                    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
+                    <a sec:authorize="hasAuthority('ADMIN')" th:if="${loggedInUser.id != account.id}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
                     <br />
                     <!-- start skills -->
                     <h4>Pár szó  magamról</h4>
@@ -72,7 +72,7 @@
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
                                 <!-- start recent activity -->
-                                <p th:if="${account.comments.size() == 0}" th:text="${account.userName} + ' ' + 'nem szólt hozzá semmihez még.'"></p>
+                                <p th:if="${account.comments.size() == 0}" th:text="${account.name} + ' ' + 'nem szólt hozzá semmihez még.'"></p>
                                 <ul class="messages">
                                     <th:block th:each="comment : ${account.comments}">
                                         <li>

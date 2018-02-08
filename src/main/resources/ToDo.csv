@@ -1,3 +1,18 @@
-login/register route nem mukodik
 event speakers megcsinálni accountokat tárolva
+több belépési pont, nem csak index az oldalnak.
+messagek
+feliratkozás eventre
+email küldés
+"ott leszek" gomb eventre
+komment edit/törlés
+anyagok feltöltése és kezelése
+profil képek feltöltése
+notifications
+elfelejtett jelszó
+általános hiba kezelés (404 error etc)
+statisztika (látogószámláló stb)
+event deaktiválás megcsinálása
+Rólunk, Kapcsolat oldal új design
+Event redesignelése
+Rendes landing page
 

@@ -15,8 +15,6 @@ public class RequestUtil {
             for (Role role : account.getRoles()) {
                 model.addAttribute("loggedInUserRole", role.getRole());
             }
-        } else {
-            model.addAttribute("userName", "Vendég");
         }
     }
 
@@ -24,13 +22,9 @@ public class RequestUtil {
         model.addAttribute("profileId", account.getId());
         model.addAttribute("profileName", account.getName());
         model.addAttribute("profileLastName", account.getLastName());
-        model.addAttribute("profileUserName", account.getUserName());
         model.addAttribute("profileEmail", account.getEmail());
         model.addAttribute("profileMemberSince", account.getMemberSince());
         model.addAttribute("profileComments", account.getComments());
         model.addAttribute("profileComments", account.getComments());
-        for (Role role : account.getRoles()) {
-            model.addAttribute("profileRole", role.getRole());
-        }
     }
 }

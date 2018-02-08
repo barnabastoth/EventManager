@@ -17,7 +17,7 @@
                                     </a>
                                     <div class="media-body">
                                         <div class="well well-lg">
-                                            <h4 class="media-heading text-uppercase reviews" th:text="${comment.account.userName}"></h4>
+                                            <h4 class="media-heading text-uppercase reviews" th:text="${comment.account.name}"></h4>
                                             <ul class="media-date text-uppercase reviews list-inline">
                                                 <li class="aaaa" th:text="${comment.account.email}"></li>
                                                 <br>
@@ -44,7 +44,7 @@
                         </div>
                         <div>
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button class="btn btn-success btn-circle text-uppercase" id="eventCommentButton">Komment küldése</button>
+                                <button class="btn btn-success btn-circle text-uppercase" id="sendEventComment">Komment küldése</button>
                             </div>
                         </div>
                     </div>

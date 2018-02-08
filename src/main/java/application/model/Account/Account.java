@@ -17,9 +17,8 @@ import java.util.*;
 public class Account {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private int id;
-	@Column(name = "username") @Length(min = 3, message = "A becenevednek legalább 3 betüből kell állnia") @NotEmpty private String userName;
 	@Column(name = "imgPath") @Length(min = 3, message = "A képednek legalább 3 betüből kell állnia") private String imgPath;
-	@Column(name = "email") @Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") private String email;
+	@Column(name = "email", unique = true) @Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") private String email;
 	@Column(name = "password") @Length(min = 5, message = "*Your password must have at least 5 characters") @NotEmpty(message = "*Please provide your password") @Transient private String password;
 	@Column(name = "name") @NotEmpty(message = "*Please provide your name") private String name;
 	@Column(name = "last_name") @NotEmpty(message = "*Please provide your last name") private String lastName;
@@ -28,6 +27,7 @@ public class Account {
 	@Column(name = "description", columnDefinition="text") private String description;
 	@Column(name = "active") private int active;
 	@Column(name = "memberSince") private LocalDateTime memberSince;
+	@Column(name = "image") private byte[] image;
 
 	@ManyToMany()
 	@JoinTable(name = "user_role"
@@ -62,68 +62,36 @@ public class Account {
 		}
 		return false;
 	}
-
 	public void addEvent(Event event) {
 		events.add(event);
 	}
-
-
-
+	public byte[] getImage() { return image; }
+	public void setImage(byte[] image) { this.image = image; }
 	public Set<Event> getEvents() { return events; }
-
 	public void setEvents(Set<Event> events) { this.events = events; }
-
 	public int getId() { return id; }
-
 	public String getWebsite() { return website; }
-
 	public void setWebsite(String website) { this.website = website; }
-
 	public String getProfession() { return profession; }
-
 	public void setProfession(String profession) { this.profession = profession; }
-
 	public List<Comment> getComments() { return comments; }
-
 	public void setComments(List<Comment> comments) { this.comments = comments; }
-
 	public String getPassword() { return password; }
-
 	public void setPassword(String password) { this.password = password; }
-
 	public String getName() { return name; }
-
 	public void setName(String name) { this.name = name; }
-
 	public String getLastName() { return lastName; }
-
 	public void setLastName(String lastName) { this.lastName = lastName; }
-
 	public String getEmail() { return email; }
-
 	public void setEmail(String email) { this.email = email; }
-
 	public int getActive() { return active; }
-
 	public void setActive(int active) { this.active = active; }
-
 	public Set<Role> getRoles() { return roles; }
-
 	public void setRoles(Set<Role> roles) { this.roles = roles; }
-
-	public String getUserName() { return userName; }
-
-	public void setUserName(String userName) { this.userName = userName; }
-
 	public String getDescription() { return description; }
-
 	public void setDescription(String description) { this.description = description; }
-
 	public LocalDateTime getMemberSince() { return memberSince; }
-
 	public void setMemberSince(LocalDateTime memberSince) { this.memberSince = memberSince; }
-
 	public String getImgPath() { return imgPath; }
-
 	public void setImgPath(String imgPath) { this.imgPath = imgPath; }
 }
