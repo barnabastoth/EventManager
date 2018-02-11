@@ -16,7 +16,7 @@ import java.util.*;
 @Table(name = "account")
 public class Account {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private int id;
+	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private Long id;
 	@Column(name = "imgPath") @Length(min = 3, message = "A képednek legalább 3 betüből kell állnia") private String imgPath;
 	@Column(name = "email", unique = true) @Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") private String email;
 	@Column(name = "password") @Length(min = 5, message = "*Your password must have at least 5 characters") @NotEmpty(message = "*Please provide your password") @Transient private String password;
@@ -69,7 +69,7 @@ public class Account {
 	public void setImage(byte[] image) { this.image = image; }
 	public Set<Event> getEvents() { return events; }
 	public void setEvents(Set<Event> events) { this.events = events; }
-	public int getId() { return id; }
+	public Long getId() { return id; }
 	public String getWebsite() { return website; }
 	public void setWebsite(String website) { this.website = website; }
 	public String getProfession() { return profession; }

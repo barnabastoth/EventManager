@@ -236,3 +236,26 @@ small
 .menu li {
     cursor: pointer;
 }
+
+
+
+#fileselector {
+    margin: 10px;
+}
+#upload-file-selector {
+    display:none;
+}
+.margin-correction {
+    margin-right: 10px;
+}
+
+.alertMessage {
+    position: absolute;
+    top: 58px;
+    width: 100%;
+    left: 0px;
+    text-align: center;
+    z-index: 1001;
+    /*left: 25%;*/
+    /*right: 25%;*/
+}

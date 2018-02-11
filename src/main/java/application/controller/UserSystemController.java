@@ -6,16 +6,27 @@ import application.repository.UserRepository;
 import application.service.UserService;
 import application.utils.Path;
 import application.utils.RequestUtil;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
 
 @Controller
 public class UserSystemController {
@@ -24,6 +35,7 @@ public class UserSystemController {
 	@Autowired private EventRepository eventRepository;
 	@Autowired private RequestUtil requestUtil;
 	@Qualifier("userRepository") @Autowired private UserRepository userRepository;
+	@Autowired ServletContext servletContext;
 
 	@ModelAttribute
 	public void addAttributes(Model model, Authentication authentication) {
@@ -77,7 +89,7 @@ public class UserSystemController {
 	}
 
 	@GetMapping("/profile/{id}")
-	public String serveProfilePage (Model model, @PathVariable("id") int id) {
+	public String serveProfilePage (Model model, @PathVariable("id") Long id) {
 			Account account = userRepository.findById(id);
         model.addAttribute("pageContent", Path.Fragment.PROFILE);
 		model.addAttribute("account", account);
@@ -87,7 +99,7 @@ public class UserSystemController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/profile/{id}/edit")
-	public String serveProfileEditPage(Model model, Authentication authentication, @PathVariable("id") int id) {
+	public String serveProfileEditPage(Model model, Authentication authentication, @PathVariable("id") Long id) {
 		Account user = userService.findUserByEmail(authentication.getName());
 		if(user.getId() == id || user.hasRole("ADMIN")) {
 			Account account = userRepository.findById(id);
@@ -100,9 +112,9 @@ public class UserSystemController {
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/profile/{id}/edit")
-	public String handleProfileEdit(@PathVariable("id") int id, @ModelAttribute Account account, Authentication authentication) {
+	public String handleProfileEdit(@PathVariable("id") Long id, @ModelAttribute Account account, Authentication authentication) {
 		Account loggedInUser = userService.findUserByEmail(authentication.getName());
-		if(loggedInUser.getId() == id || loggedInUser.hasRole("ADMIN")) {
+		if(loggedInUser.getId().equals(id) || loggedInUser.hasRole("ADMIN")) {
 			Account user = userRepository.findById(id);
 			user.setEmail(account.getEmail());
 			user.setName(account.getName());
@@ -113,7 +125,7 @@ public class UserSystemController {
 			user.setDescription(account.getDescription());
 			userRepository.saveAndFlush(user);
 		}
-		return "redirect:/profile/" + Integer.toString(id);
+		return "redirect:/profile/" + id;
 	}
 
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
@@ -121,6 +133,46 @@ public class UserSystemController {
 	public String serveAllProfile(Model model) {
 		model.addAttribute("allUsers", userRepository.findAll());
 		return Path.Fragment.ALL_USERS;
+	}
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/profile/{id}/uploadImg")
+	public String singleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id, Model model) throws IOException {
+		Account account = userRepository.findById(id);
+		if (file.isEmpty()) {
+			model.addAttribute("errorAlert", "A kép feltöltése sikertelen volt.");
+			return "redirect:/profile/" + id;
+		}
+		try {
+			byte[] bytes = file.getBytes();
+			account.setImage(bytes);
+			userRepository.saveAndFlush(account);
+			model.addAttribute("successAlert", "A kép feltöltése sikeres volt.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/profile/" + id;
+	}
+
+	@GetMapping(value = "/profile/{id}/profilepic", produces = MediaType.IMAGE_JPEG_VALUE)
+	public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)
+			throws IOException{
+		Account account = userRepository.findById(id);
+		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+		if(account.getImage() != null) {
+			response.getOutputStream().write(account.getImage());
+		} else {
+			ClassLoader classLoader = getClass().getClassLoader();
+			File defaultProfilePic = new File(classLoader.getResource("public/images/user.png").getFile());
+			BufferedImage originalImage = ImageIO.read(defaultProfilePic);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(originalImage, "png", baos);
+			baos.flush();
+			byte[] imageInByte = baos.toByteArray();
+			baos.close();
+			byte[] xoredImage = new byte[imageInByte.length];
+			response.getOutputStream().write(imageInByte);
+		}
 	}
 
 }

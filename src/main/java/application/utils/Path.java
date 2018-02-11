@@ -37,6 +37,7 @@ public class Path {
         public static final String EVENT_COMMENT = "fragment/content/event-comment";
         public static final String PROFILE = "fragment/content/user-profile";
         public static final String EDIT_PROFILE = "fragment/content/edit-profile";
+        public static final String UPLOAD_PROFILE_IMG = "fragment/content/upload-profile-img";
         public static final String MENU = "fragment/content/menu";
     }
 

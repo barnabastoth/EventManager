@@ -15,6 +15,7 @@ function main() {
         });
     });
     $(document.body).on("click", "#eventButton", function() {
+        alert(window.location.href.toString().split(window.location.host)[1]);
         $("#main_content").load("/api/event/", function () {
             history.replaceState(null, null, 'event');
         });
@@ -22,7 +23,12 @@ function main() {
 
     $(document.body).on("click", "#allUsersButton", function() {
         $("#main_content").load("/api/profile", function () {
-            history.replaceState(null, null, 'profile/');
+            history.pushState(null, null, 'profile/');
+        });
+    });
+    $(document.body).on('click', ".profileButton", function() {
+        $("#main_content").load("/api/profile/" + $("#loggedInUserId").val(), function () {
+            history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val());
         });
     });
 

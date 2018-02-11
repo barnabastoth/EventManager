@@ -7,7 +7,7 @@ email küldés
 komment edit/törlés
 anyagok feltöltése és kezelése
 profil képek feltöltése
-notifications
+notifications  mindenhol
 elfelejtett jelszó
 általános hiba kezelés (404 error etc)
 statisztika (látogószámláló stb)
@@ -15,4 +15,7 @@ event deaktiválás megcsinálása
 Rólunk, Kapcsolat oldal új design
 Event redesignelése
 Rendes landing page
+auth gombok oldalt kicsiben
+urlhez adás duplán ne müködjön
+regisztrálás emaillel
 

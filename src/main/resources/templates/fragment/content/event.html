@@ -64,7 +64,7 @@
                                                 </h2>
                                                 <div class="mc-content">
                                                     <div class="img-container">
-                                                        <img class="img-responsive" th:src="${speaker.imgPath}">
+                                                        <img class="img-responsive" th:src="'/profile/' + ${speaker.id} + '/profilepic'" style="width: 100%">
                                                     </div>
                                                     <div class="mc-description" th:text="${speaker.description}"></div>
                                                 </div>

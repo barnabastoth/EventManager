@@ -41,7 +41,7 @@ public class UserSystemService {
     }
 
     @GetMapping("/api/profile/{id}")
-    public String serveProfilePage(Model model, @PathVariable("id") int id) {
+    public String serveProfilePage(Model model, @PathVariable("id") Long id) {
         Account account = userRepository.findById(id);
         model.addAttribute("account", account);
         return Path.Fragment.PROFILE;
@@ -49,9 +49,9 @@ public class UserSystemService {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/api/profile/{id}/edit")
-    public String serveProfileEditPage(Model model, Authentication authentication, @PathVariable("id") int id) {
+    public String serveProfileEditPage(Model model, Authentication authentication, @PathVariable("id") Long id) {
         Account user = userService.findUserByEmail(authentication.getName());
-        if(user.getId() == id || user.hasRole("ADMIN")) {
+        if(user.getId().equals(id) || user.hasRole("ADMIN")) {
             Account account = userRepository.findById(id);
             model.addAttribute("account", account);
             return Path.Fragment.EDIT_PROFILE;
@@ -68,7 +68,7 @@ public class UserSystemService {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @GetMapping("/api/profile/{id}/activate")
-    public String serveUserActivation(@PathVariable("id") int id, Model model) {
+    public String serveUserActivation(@PathVariable("id") Long id, Model model) {
         Account account = userRepository.findById(id);
         account.setActive(1);
         userRepository.saveAndFlush(account);
@@ -77,7 +77,7 @@ public class UserSystemService {
     }
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @GetMapping("/api/profile/{id}/deactivate")
-    public String serveUserDeactivation(@PathVariable("id") int id, Model model) {
+    public String serveUserDeactivation(@PathVariable("id") Long id, Model model) {
         Account account = userRepository.findById(id);
         account.setActive(0);
         userRepository.saveAndFlush(account);
@@ -87,7 +87,7 @@ public class UserSystemService {
 
     @PreAuthorize("hasAuthority('OWNER')")
     @GetMapping("/api/profile/{id}/admin/add")
-    public String serveGiveAdmin(@PathVariable("id") int id, Model model) {
+    public String serveGiveAdmin(@PathVariable("id") Long id, Model model) {
         Account account = userRepository.findById(id);
         account.getRoles().add(roleRepository.findByRole("ADMIN"));
         userRepository.saveAndFlush(account);
@@ -97,7 +97,7 @@ public class UserSystemService {
 
     @PreAuthorize("hasAuthority('OWNER')")
     @GetMapping("/api/profile/{id}/admin/remove")
-    public String serveTakeAdmin(@PathVariable("id") int id, Model model) {
+    public String serveTakeAdmin(@PathVariable("id") Long id, Model model) {
         Account account = userRepository.findById(id);
         account.getRoles().remove(roleRepository.findByRole("ADMIN"));
         userRepository.saveAndFlush(account);
@@ -105,14 +105,11 @@ public class UserSystemService {
         return Path.Fragment.ALL_USERS;
     }
 
-    @PreAuthorize("hasAuthority('OWNER')")
-    @GetMapping("/rights/owner")
-    public String onlyForOwners() {
-        return "index";
-    }
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'ADMIN')")
-    @GetMapping("/rights/admin")
-    public String onlyForAdmins() {
-        return "index";
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/api/profile/{id}/uploadImg")
+    public String serveProfilePicUpload(@PathVariable("id") Long id, Model model) {
+        Account account = userRepository.findById(id);
+        model.addAttribute("account", account);
+        return Path.Fragment.UPLOAD_PROFILE_IMG;
     }
 }

@@ -25,28 +25,37 @@
                     <div class="profile_img">
                         <div id="crop-avatar">
                             <!-- Current avatar -->
-                            <img id="profileImg" class="img-responsive avatar-view" th:src="${account.imgPath}" style="max-width: 50%" alt="Avatar" title="Change the avatar">
+                            <img id="profileImg" class="img-responsive avatar-view" th:src="'/profile/' + ${account.id} + '/profilepic'" style="width: 100%" alt="Avatar" title="Change the avatar">
+                            <br>
+                            <form sec:authorize="isAuthenticated()" th:if="${loggedInUser.id == account.id} or ${loggedInUser.hasRole('ADMIN')}"
+                                  id="uploadProfileImgForm" method="post" th:action="'/profile/' + ${account.id} + '/uploadImg'" enctype="multipart/form-data">
+                                <div class="input-file-container">
+                                    <input id="uploadProfileImg" type="file" name="file"  size="50" accept=".png, .jpg, .jpeg, .gif"  style="display: none"/>
+                                    <label tabindex="0" for="uploadProfileImg" class="input-file-trigger"><i class="fa fa-upload m-right-xs"></i>Profilkép választás...</label>
+                                </div>
+                                <p class="file-return"></p>
+                            </form>
                         </div>
                     </div>
                     <h3 th:text="${account.lastName} + '  ' + ${account.name}"></h3>
 
                     <ul class="list-unstyled user_data">
-                        <li><i class="fa fa-map-marker user-profile-icon"></i> <span th:text="${account.email}"></span>
+                        <li><i class="fa fa-envelope-o user-profile-icon"></i> <span th:text="${account.email}"></span>
                         </li>
 
                         <li>
-                            <i class="fa fa-briefcase user-profile-icon"></i> <span th:text="${account.profession}"></span>
+                            <i class="fa fa-graduation-cap user-profile-icon"></i> <span th:text="${account.profession}"></span>
                         </li>
 
                         <li class="m-top-xs">
-                            <i class="fa fa-external-link user-profile-icon"></i>
+                            <i class="fa .fa-rss user-profile-icon"></i>
                             <a th:href="${account.website}" target="_blank" th:text="${account.website}"></a>
                         </li>
                         <input id="profileId" type="text" th:value="${account.id}" hidden>
                     </ul>
 
-                    <a th:if="${loggedInUser.id == account.id}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
-                    <a sec:authorize="hasAuthority('ADMIN')" th:if="${loggedInUser.id != account.id}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>Profil szerkesztése</a>
+                    <a sec:authorize="isAuthenticated()" th:if="${loggedInUser.id == account.id} or ${loggedInUser.hasRole('ADMIN')}" class="btn btn-success" id="editProfileButton"><i class="fa fa-edit m-right-xs"></i>   Profil szerkesztése</a>
+
                     <br />
                     <!-- start skills -->
                     <h4>Pár szó  magamról</h4>
@@ -76,7 +85,7 @@
                                 <ul class="messages">
                                     <th:block th:each="comment : ${account.comments}">
                                         <li>
-                                            <img th:src="${account.imgPath}" class="avatar" alt="Avatar">
+                                            <img th:src="'/profile/' + ${comment.account.id} + '/profilepic'" class="avatar" alt="Avatar">
                                             <div class="message_date">
                                                 <p class="date text-info" th:text="${comment.date.getMonth().name()}">24</p>
                                                 <p class="month" th:text="${comment.date.getDayOfMonth()}">May</p>

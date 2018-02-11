@@ -50,7 +50,7 @@ public class DataLoader implements CommandLineRunner {
         account.setEmail("vigyor99@gmail.com");
         account.setName("Barnabás");
         account.setLastName("Tóth");
-        account.setImgPath("/images/user.png");
+        account.setImgPath("/profile/image/" + account.getId());
         account.setProfession("Junior Java Developer");
         account.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         account.setMemberSince(LocalDateTime.now());

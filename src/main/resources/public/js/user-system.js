@@ -1,4 +1,4 @@
-function main() {
+function userAuthModalHandling() {
     if($("#loginRequired").val() === "login") {
         $("#login").modal('show');
         history.replaceState(null, null, 'login');
@@ -6,37 +6,30 @@ function main() {
         $("#register").modal('show');
         history.replaceState(null, null, 'registration');
     }
+}
 
-    $(document.body).on('click', ".profileButton", function() {
-        $("#main_content").load("/api/profile/" + $("#loggedInUserId").val(), function () {
-            history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val());
-        });
-    });
-
+function userProfilePage() {
     $(document.body).on("click", '#editProfileButton', function() {
         $(".x_panel").load("/api/profile/" + $("#profileId").val() + "/edit", function () {
             history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val() + "/edit");
         });
     });
-
-    $(document.body).on( "click", '#login-form-link', function() {
-        $("#login-form").delay(100).fadeIn(100);
-        $("#register-form").fadeOut(100);
-        $('#register-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-        history.replaceState(null, null, 'login');
+    $(document.body).on("click", '#uploadProfileImgButton', function() {
+        $(".x_panel").load("/api/profile/" + $("#profileId").val() + "/uploadImg", function () {
+            history.replaceState(null, null, "/profile/" + $("#profileId").val() + "/uploadImg");
+        });
     });
-    $(document.body).on( "click", '#register-form-link', function() {
-        $("#register-form").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-        history.replaceState(null, null, 'registration');
+    $(document.body).on("change", '#uploadProfileImg', function() {
+        $("#uploadProfileImgForm").submit();
+        $("#main_content").load("/api/profile/" + $("#loggedInUserId").val(), function () {
+            history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val());
+        });
     });
 
 
+}
+
+function allUsersPage() {
     $(document.body).on("click", '#viewUserButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id, function () {
@@ -67,8 +60,29 @@ function main() {
             history.replaceState(null, null, 'profile/');
         });
     });
+}
 
+function main() {
+    userAuthModalHandling();
+    userProfilePage();
+    allUsersPage();
 
+    // $(document.body).on( "click", '#login-form-link', function() {
+    //     $("#login-form").delay(100).fadeIn(100);
+    //     $("#register-form").fadeOut(100);
+    //     $('#register-form-link').removeClass('active');
+    //     $(this).addClass('active');
+    //     e.preventDefault();
+    //     history.replaceState(null, null, 'login');
+    // });
+    // $(document.body).on( "click", '#register-form-link', function() {
+    //     $("#register-form").delay(100).fadeIn(100);
+    //     $("#login-form").fadeOut(100);
+    //     $('#login-form-link').removeClass('active');
+    //     $(this).addClass('active');
+    //     e.preventDefault();
+    //     history.replaceState(null, null, 'registration');
+    // });
 }
 
 
