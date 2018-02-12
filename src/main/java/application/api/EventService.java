@@ -51,7 +51,6 @@ public class EventService {
     @GetMapping("/api/event/latest")
     public String latestEvent(Model model) {
         model.addAttribute("event", eventRepository.getLatestEvent());
-        model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         return Path.Fragment.EVENT;
     }
 
@@ -60,8 +59,6 @@ public class EventService {
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
-            model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
-            System.out.println("ASD" + event.getComments().toString());
             return Path.Fragment.EVENT;
         }
         return "redirect:/api/event/latest";

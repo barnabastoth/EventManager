@@ -22,10 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Controller
 public class EventController {
@@ -53,7 +52,6 @@ public class EventController {
             }
         }
         model.addAttribute("event", eventRepository.getLatestEvent());
-        model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT);
         return "index";
@@ -63,7 +61,6 @@ public class EventController {
     public String serveEventByIdPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("account", new Account());
         model.addAttribute("pageContent", Path.Fragment.EVENT);
-        model.addAttribute("eventSpeakers", userService.getSpeakersByEmail(eventRepository.getLatestEvent().getSpeakers()));
         Event event = eventRepository.findOne(id);
         if(event != null) {
             model.addAttribute("event", event);
@@ -84,8 +81,21 @@ public class EventController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @PostMapping("/event/new")
-    public String handleNewEventCreation(@Valid @ModelAttribute("event") Event event) {
+    public String handleNewEventCreation(@Valid @ModelAttribute("event") Event event,
+                                         @RequestParam("datetime") String date,
+                                         @RequestParam("speakers") String emails) {
         event.setActive(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm", Locale.ENGLISH);
+        if(date.length() == 16) {
+            event.setDate(LocalDateTime.parse(date, formatter));
+        }
+        if(emails.length() != 0) {
+            Set<Account> speakers = new HashSet<>();
+            for (String email : Arrays.asList(emails.split(","))) {
+                speakers.add(userRepository.findByEmail(email));
+            }
+            event.setSpeakers(speakers);
+        }
         eventRepository.saveAndFlush(event);
         return "redirect:/event/" + event.getId();
     }

@@ -28,12 +28,11 @@ public class Event {
     @Lob @Type(type = "text") private String description;
     private String price;
     private String duration;
-    private String imgPath;
     private String ticketLink;
     private Integer active;
 
     @ElementCollection
-    private Set<String> speakers = new HashSet<>();
+    private Set<Account> speakers = new HashSet<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
@@ -44,7 +43,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(String title, String name, String locationByPublicTransport, String locationByCar, String address, String mapLatitude, String mapLongTitude, String date, String description, String price, String duration, String imgPath, String ticketLink) {
+    public Event(String title, String name, String locationByPublicTransport, String locationByCar, String address, String mapLatitude, String mapLongTitude, String date, String description, String price, String duration, String ticketLink) {
         this();
         this.title = title;
         this.name = name;
@@ -56,7 +55,6 @@ public class Event {
         this.description = description;
         this.price = price;
         this.duration = duration;
-        this.imgPath = imgPath;
         this.ticketLink = ticketLink;
     }
 
@@ -148,18 +146,12 @@ public class Event {
     public void setDuration(String duration) {
         this.duration = duration;
     }
-    public String getImgPath() {
-        return imgPath;
-    }
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
     public String getTicketLink() {
         return ticketLink;
     }
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }
-    public Set<String> getSpeakers() { return speakers; }
-    public void setSpeakers(Set<String> speakers) { this.speakers = speakers; }
+    public Set<Account> getSpeakers() { return speakers; }
+    public void setSpeakers(Set<Account> speakers) { this.speakers = speakers; }
 }

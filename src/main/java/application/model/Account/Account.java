@@ -17,7 +17,6 @@ import java.util.*;
 public class Account {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private Long id;
-	@Column(name = "imgPath") @Length(min = 3, message = "A képednek legalább 3 betüből kell állnia") private String imgPath;
 	@Column(name = "email", unique = true) @Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") private String email;
 	@Column(name = "password") @Length(min = 5, message = "*Your password must have at least 5 characters") @NotEmpty(message = "*Please provide your password") @Transient private String password;
 	@Column(name = "name") @NotEmpty(message = "*Please provide your name") private String name;
@@ -92,6 +91,4 @@ public class Account {
 	public void setDescription(String description) { this.description = description; }
 	public LocalDateTime getMemberSince() { return memberSince; }
 	public void setMemberSince(LocalDateTime memberSince) { this.memberSince = memberSince; }
-	public String getImgPath() { return imgPath; }
-	public void setImgPath(String imgPath) { this.imgPath = imgPath; }
 }

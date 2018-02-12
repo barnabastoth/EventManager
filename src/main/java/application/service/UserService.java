@@ -8,5 +8,6 @@ import java.util.Set;
 public interface UserService {
 	Account findUserByEmail(String email);
 	void saveUser(Account account);
+	void saveOwner(Account account);
 	Set<Account> getSpeakersByEmail(Set<String> emails);
 }

@@ -46,14 +46,14 @@
         <div class="event-information" id="event-speakers">
 
             <h1>Előadók</h1>
-            <p th:if="${eventSpeakers == null}">Még egy előadó se lett hozzá adva az eseményhez. </p>
+            <p th:if="${event.speakers.size() == 0}">Még egy előadó se lett hozzá adva az eseményhez. </p>
 
-                <div class="container" th:if="${eventSpeakers != null}">
+                <div class="container">
                     <div class="row">
                             <section class="container">
                                 <div class="row active-with-click">
-                                    <th:block th:each="speaker : ${eventSpeakers}">
-                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <th:block th:each="speaker : ${event.speakers}">
+                                        <div th:if="${speaker != null}" class="col-md-4 col-sm-6 col-xs-12">
                                             <article class="material-card Blue-Grey">
                                                 <h2>
                                                     <span th:text="${speaker.lastName} + '  ' + ${speaker.name}"></span>
@@ -73,9 +73,6 @@
                                                 </a>
                                                 <div class="mc-footer">
                                                     <a class="fa fa-fw fa-facebook"></a>
-                                                    <a class="fa fa-fw fa-twitter"></a>
-                                                    <a class="fa fa-fw fa-linkedin"></a>
-                                                    <a class="fa fa-fw fa-google-plus"></a>
                                                 </div>
                                             </article>
                                         </div>

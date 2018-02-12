@@ -241,7 +241,7 @@ html , body{
     display: none
 }
 .menu_section {
-    margin-bottom: 35px;
+    margin-bottom: 120px;
     display:inline;
 }
 .menu_section h3 {
@@ -256,7 +256,7 @@ html , body{
     text-shadow: 1px 1px #000
 }
 .menu_section>ul {
-    margin-top: 10px
+    margin-top: 10px;
 }
 .profile_pic {
     width: 35%;

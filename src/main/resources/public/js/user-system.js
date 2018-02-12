@@ -1,28 +1,28 @@
 function userAuthModalHandling() {
     if($("#loginRequired").val() === "login") {
         $("#login").modal('show');
-        history.replaceState(null, null, 'login');
+        pushState('login');
     } else if ($("#loginRequired").val() === "registration") {
         $("#register").modal('show');
-        history.replaceState(null, null, 'registration');
+        pushState('registration');
     }
 }
 
 function userProfilePage() {
     $(document.body).on("click", '#editProfileButton', function() {
         $(".x_panel").load("/api/profile/" + $("#profileId").val() + "/edit", function () {
-            history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val() + "/edit");
+            pushState("/profile/" + $("#loggedInUserId").val() + "/edit");
         });
     });
     $(document.body).on("click", '#uploadProfileImgButton', function() {
         $(".x_panel").load("/api/profile/" + $("#profileId").val() + "/uploadImg", function () {
-            history.replaceState(null, null, "/profile/" + $("#profileId").val() + "/uploadImg");
+            pushState("/profile/" + $("#profileId").val() + "/uploadImg");
         });
     });
     $(document.body).on("change", '#uploadProfileImg', function() {
         $("#uploadProfileImgForm").submit();
         $("#main_content").load("/api/profile/" + $("#loggedInUserId").val(), function () {
-            history.replaceState(null, null, "/profile/" + $("#loggedInUserId").val());
+            pushState("/profile/" + $("#loggedInUserId").val());
         });
     });
 
@@ -33,31 +33,31 @@ function allUsersPage() {
     $(document.body).on("click", '#viewUserButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id, function () {
-            history.replaceState(null, null, "/profile/" + id);
+            pushState("/profile" + id);
         });
     });
     $(document.body).on("click", '#editUserButton', function() {
         var id = $(this).parent().attr('action');
         $(".x_panel").load("/api/profile/" + id + "/edit", function () {
-            history.replaceState(null, null, "/profile/" + id + "/edit");
+            pushState("profile/" + id + "/edit");
         });
     });
     $(document.body).on("click", '#activateUserButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id + "/activate", function () {
-            history.replaceState(null, null, 'profile/');
+            pushState("/profile");
         });
     });
     $(document.body).on("click", '#addAdminButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id + "/admin/add", function () {
-            history.replaceState(null, null, 'profile/');
+            pushState("/profile");
         });
     });
     $(document.body).on("click", '#removeAdminButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id + "/admin/remove", function () {
-            history.replaceState(null, null, 'profile/');
+            pushState("/profile");
         });
     });
 }

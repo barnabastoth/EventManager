@@ -121,7 +121,6 @@ public class UserSystemController {
 			user.setLastName(account.getLastName());
 			user.setWebsite(account.getWebsite());
 			user.setProfession(account.getProfession());
-			user.setImgPath(account.getImgPath());
 			user.setDescription(account.getDescription());
 			userRepository.saveAndFlush(user);
 		}

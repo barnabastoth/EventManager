@@ -5,7 +5,7 @@ import application.model.Menu.Menu;
 import application.model.Account.Account;
 import application.model.Account.Role;
 import application.repository.*;
-import application.service.UserServiceImpl;
+import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -20,19 +20,11 @@ import java.util.Set;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    @Autowired
-    private  EventRepository eventRepository;
-    @Qualifier("roleRepository")
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private UserServiceImpl userService;
-    @Qualifier("userRepository")
-    @Autowired
-    private UserRepository userRepository;
-    @Qualifier("menuRepository")
-    @Autowired
-    private MenuRepository menuRepository;
+    @Autowired private  EventRepository eventRepository;
+    @Qualifier("roleRepository") @Autowired private RoleRepository roleRepository;
+    @Qualifier("userRepository") @Autowired private UserRepository userRepository;
+    @Qualifier("menuRepository") @Autowired private MenuRepository menuRepository;
+    @Autowired private UserService userService;
 
     @Override
     public void run(String... args) {
@@ -50,7 +42,6 @@ public class DataLoader implements CommandLineRunner {
         account.setEmail("vigyor99@gmail.com");
         account.setName("Barnabás");
         account.setLastName("Tóth");
-        account.setImgPath("/profile/image/" + account.getId());
         account.setProfession("Junior Java Developer");
         account.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         account.setMemberSince(LocalDateTime.now());
@@ -62,16 +53,15 @@ public class DataLoader implements CommandLineRunner {
         account2.setEmail("vigyor999@gmail.com");
         account2.setName("anyad");
         account2.setLastName("anyad");
-        account2.setImgPath("/images/user.png");
         account2.setMemberSince(LocalDateTime.now());
         userService.saveUser(account2);
 
-        Set<String> speakers = new HashSet<>();
-        speakers.add("vigyor99@gmail.com");
-        speakers.add("vigyor999@gmail.com");
+        Set<Account> speakers = new HashSet<>();
+        speakers.add(userService.findUserByEmail("vigyor99@gmail.com"));
+        speakers.add(userService.findUserByEmail("vigyor999@gmail.com"));
 
         Event event1 = new Event("Magyarország jövőjéről Budapesten", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
-                "Any recool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+                "Any recool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event1.setSpeakers(speakers);
         event1.setActive(1);
         event1.setAddress("DEBRECEN valami utca1");
@@ -80,8 +70,7 @@ public class DataLoader implements CommandLineRunner {
         eventRepository.save(event1);
 
         Event event2 = new Event("Magyarország jövőjéről DEBRECEN", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a s with the results.\n" +
-                "Any retool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
-        event2.setSpeakers(speakers);
+                "Any retool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event2.setAddress("DEBRECEN valami utca1");
         event2.setActive(1);
         event2.setDate(LocalDateTime.now());
@@ -89,8 +78,7 @@ public class DataLoader implements CommandLineRunner {
         eventRepository.save(event2);
 
         Event event3 = new Event("Magyarország jövőjéről szoszsozszolnok", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
-                "Any recog Mootool but I'm searching for one using jQuery!", "400L", "40L", "bg-img-4", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
-        event3.setSpeakers(speakers);
+                "Any recog Mootool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event3.setDate(LocalDateTime.now());
         event3.setAddress("DEBRECEN valami utca1");
         event3.setActive(1);

@@ -1,12 +1,10 @@
-event speakers megcsinálni accountokat tárolva
 több belépési pont, nem csak index az oldalnak.
 messagek
 feliratkozás eventre
 email küldés
-"ott leszek" gomb eventre
+ott leszek gomb eventre
 komment edit/törlés
 anyagok feltöltése és kezelése
-profil képek feltöltése
 notifications  mindenhol
 elfelejtett jelszó
 általános hiba kezelés (404 error etc)

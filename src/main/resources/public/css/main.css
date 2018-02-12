@@ -230,7 +230,8 @@ small
 }
 
 #left-menu {
-    height: 100%;
+    margin-bottom: 120px;
+    padding-bottom: 120px;
 }
 
 .menu li {

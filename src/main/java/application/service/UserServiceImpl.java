@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void saveUser(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
-		account.setImgPath("/images/user.png");
         account.setActive(1);
         account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         Role userRole = roleRepository.findByRole("USER");
@@ -44,20 +43,10 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(account);
 	}
 
-	public void saveAdmin(Account account) {
-		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
-		account.setActive(1);
-		account.setImgPath("/images/user.png");
-		account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-		Role userRole2 = roleRepository.findByRole("ADMIN");
-		account.setRoles(new HashSet<>(Arrays.asList(userRole2)));
-		userRepository.save(account);
-	}
-
+	@Override
 	public void saveOwner(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		account.setActive(1);
-		account.setImgPath("/images/user.png");
 		account.setMemberSince(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 		Role userRole2 = roleRepository.findByRole("ADMIN");
 		Role userRole3 = roleRepository.findByRole("OWNER");
