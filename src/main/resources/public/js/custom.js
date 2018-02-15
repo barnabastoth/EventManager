@@ -2474,10 +2474,10 @@ if (typeof NProgress != 'undefined') {
 				  },
 				  editable: true,
 				  events: [{
-					title: 'All Day Event',
+					title: 'All Day event',
 					start: new Date(y, m, 1)
 				  }, {
-					title: 'Long Event',
+					title: 'Long event',
 					start: new Date(y, m, d - 5),
 					end: new Date(y, m, d - 2)
 				  }, {

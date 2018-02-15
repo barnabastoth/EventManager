@@ -1,4 +1,4 @@
-package application.model.Menu;
+package application.model.menu;
 
 import org.hibernate.annotations.Type;
 

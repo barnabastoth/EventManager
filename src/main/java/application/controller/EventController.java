@@ -1,18 +1,14 @@
 package application.controller;
 
-import application.model.Event.Comment;
-import application.model.Event.Event;
-import application.model.Menu.Menu;
-import application.model.Account.Account;
+import application.model.event.Event;
+import application.model.account.Account;
 import application.repository.EventRepository;
 import application.repository.MenuRepository;
-import application.repository.UserRepository;
-import application.service.UserService;
+import application.repository.AccountRepository;
+import application.service.AccountService;
 import application.utils.Path;
 import application.utils.RequestUtil;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -30,16 +26,16 @@ import java.util.*;
 public class EventController {
 
     @Autowired private MenuRepository menuRepository;
-    @Autowired private UserService userService;
+    @Autowired private AccountService accountService;
     @Autowired private EventRepository eventRepository;
     @Autowired private RequestUtil requestUtil;
-    @Autowired private UserRepository userRepository;
+    @Autowired private AccountRepository accountRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
         if(authentication != null) {
             String userEmail = authentication.getName();
-            Account account = userService.findUserByEmail(userEmail);
+            Account account = accountService.findUserByEmail(userEmail);
             requestUtil.addCommonAttributes(model, account);
         }
     }
@@ -47,7 +43,7 @@ public class EventController {
     @GetMapping("/")
     public String serveIndexPage(Model model, Authentication authentication, HttpServletRequest httpServletRequest) throws ServletException {
         if(authentication != null) {
-            if(userService.findUserByEmail(authentication.getName()).getActive() == 0) {
+            if(accountService.findUserByEmail(authentication.getName()).getActive() == 0) {
                 httpServletRequest.logout();
             }
         }
@@ -92,7 +88,7 @@ public class EventController {
         if(emails.length() != 0) {
             Set<Account> speakers = new HashSet<>();
             for (String email : Arrays.asList(emails.split(","))) {
-                speakers.add(userRepository.findByEmail(email));
+                speakers.add(accountRepository.findByEmail(email));
             }
             event.setSpeakers(speakers);
         }

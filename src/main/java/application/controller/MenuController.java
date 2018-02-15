@@ -1,14 +1,12 @@
 package application.controller;
 
-import application.model.Account.Account;
-import application.model.Menu.Menu;
-import application.repository.EventRepository;
+import application.model.account.Account;
+import application.model.menu.Menu;
 import application.repository.MenuRepository;
-import application.service.UserService;
+import application.service.AccountService;
 import application.utils.Path;
 import application.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -22,14 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MenuController {
 
     @Autowired private MenuRepository menuRepository;
-    @Autowired private UserService userService;
+    @Autowired private AccountService accountService;
     @Autowired private RequestUtil requestUtil;
 
     @ModelAttribute
     public void addAttributes(Model model, Authentication authentication) {
         if(authentication != null) {
             String userEmail = authentication.getName();
-            Account account = userService.findUserByEmail(userEmail);
+            Account account = accountService.findUserByEmail(userEmail);
             requestUtil.addCommonAttributes(model, account);
         }
     }

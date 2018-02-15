@@ -1,11 +1,11 @@
 package application.utils;
 
-import application.model.Event.Event;
-import application.model.Menu.Menu;
-import application.model.Account.Account;
-import application.model.Account.Role;
+import application.model.event.Event;
+import application.model.menu.Menu;
+import application.model.account.Account;
+import application.model.account.Role;
 import application.repository.*;
-import application.service.UserService;
+import application.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -21,13 +21,12 @@ import java.util.Set;
 public class DataLoader implements CommandLineRunner {
 
     @Autowired private  EventRepository eventRepository;
-    @Qualifier("roleRepository") @Autowired private RoleRepository roleRepository;
-    @Qualifier("userRepository") @Autowired private UserRepository userRepository;
-    @Qualifier("menuRepository") @Autowired private MenuRepository menuRepository;
-    @Autowired private UserService userService;
+    @Autowired private RoleRepository roleRepository;
+    @Autowired private MenuRepository menuRepository;
+    @Autowired private AccountService accountService;
 
     @Override
-    public void run(String... args) {
+    public void run(String[] args) {
 
         Role role = new Role("ADMIN");
         Role role2 = new Role("USER");
@@ -45,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
         account.setProfession("Junior Java Developer");
         account.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         account.setMemberSince(LocalDateTime.now());
-        userService.saveOwner(account);
+        accountService.saveOwner(account);
 
         Account account2 = new Account();
         account2.setActive(1);
@@ -54,11 +53,11 @@ public class DataLoader implements CommandLineRunner {
         account2.setName("anyad");
         account2.setLastName("anyad");
         account2.setMemberSince(LocalDateTime.now());
-        userService.saveUser(account2);
+        accountService.saveUser(account2);
 
         Set<Account> speakers = new HashSet<>();
-        speakers.add(userService.findUserByEmail("vigyor99@gmail.com"));
-        speakers.add(userService.findUserByEmail("vigyor999@gmail.com"));
+        speakers.add(accountService.findUserByEmail("vigyor99@gmail.com"));
+        speakers.add(accountService.findUserByEmail("vigyor999@gmail.com"));
 
         Event event1 = new Event("Magyarország jövőjéről Budapesten", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
                 "Any recool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");

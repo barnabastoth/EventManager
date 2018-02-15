@@ -1,39 +1,34 @@
 package application.api;
 
 
-import application.model.Account.Account;
-import application.model.Event.Comment;
-import application.model.Event.Event;
+import application.model.account.Account;
+import application.model.event.Comment;
+import application.model.event.Event;
 import application.repository.CommentRepository;
 import application.repository.EventRepository;
-import application.repository.UserRepository;
-import application.service.UserService;
+import application.repository.AccountRepository;
+import application.service.AccountService;
 import application.utils.Path;
 import application.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class EventService {
 
-    @Qualifier("userRepository") @Autowired UserRepository userRepository;
-    @Autowired UserService userService;
+    @Qualifier("accountRepository") @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    AccountService accountService;
     @Autowired RequestUtil requestUtil;
     @Autowired private EventRepository eventRepository;
     @Autowired CommentRepository commentRepository;
@@ -43,7 +38,7 @@ public class EventService {
         Account account = null;
         if(authentication != null) {
             String userEmail = authentication.getName();
-            account = userService.findUserByEmail(userEmail);
+            account = accountService.findUserByEmail(userEmail);
         }
         requestUtil.addCommonAttributes(model, account);
     }
@@ -87,7 +82,7 @@ public class EventService {
     public String handleNewEventComment(@PathVariable("id") Long id, Authentication authentication, @RequestBody String commentMessage) {
         Comment comment = new Comment();
         Event event = eventRepository.findOne(id);
-        Account account = userService.findUserByEmail(authentication.getName());
+        Account account = accountService.findUserByEmail(authentication.getName());
         comment.setMessage(commentMessage);
         comment.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         comment.setAccount(account);
@@ -118,11 +113,11 @@ public class EventService {
     @PostMapping(value = "/api/event/{id}/attend")
     public String handleAttend(Authentication authentication, @PathVariable("id") Long id) {
         Event event = eventRepository.findOne(id);
-        Account account = userService.findUserByEmail(authentication.getName());
+        Account account = accountService.findUserByEmail(authentication.getName());
         event.getAccounts().add(account);
         account.addEvent(event);
         eventRepository.saveAndFlush(event);
-        userRepository.saveAndFlush(account);
+        accountRepository.saveAndFlush(account);
         return "redirect:/";
     }
 

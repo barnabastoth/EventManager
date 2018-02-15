@@ -1,4 +1,4 @@
-package application.model.Account;
+package application.model.account;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -7,7 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="role_id") private int id;
+	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="role_id") private Long id;
 	@Column(name="role") private String role;
 	@ManyToMany(mappedBy = "roles") private Set<Account> accounts = new HashSet<>();
 
@@ -23,7 +23,7 @@ public class Role {
 	public Role(String role) {
 		this.role = role;
 	}
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 	public String getRole() {

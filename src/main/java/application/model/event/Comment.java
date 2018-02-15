@@ -1,7 +1,7 @@
-package application.model.Event;
+package application.model.event;
 
 
-import application.model.Account.Account;
+import application.model.account.Account;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

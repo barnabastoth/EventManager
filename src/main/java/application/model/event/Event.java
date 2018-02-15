@@ -1,10 +1,9 @@
-package application.model.Event;
+package application.model.event;
 
-import application.model.Account.Account;
+import application.model.account.Account;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 

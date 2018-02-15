@@ -1,12 +1,11 @@
 package application.controller;
 
-import application.model.Account.Account;
+import application.model.account.Account;
 import application.repository.EventRepository;
-import application.repository.UserRepository;
-import application.service.UserService;
+import application.repository.AccountRepository;
+import application.service.AccountService;
 import application.utils.Path;
 import application.utils.RequestUtil;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -20,21 +19,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
 
 @Controller
 public class UserSystemController {
 	
-	@Autowired private UserService userService;
+	@Autowired private AccountService accountService;
 	@Autowired private EventRepository eventRepository;
 	@Autowired private RequestUtil requestUtil;
-	@Qualifier("userRepository") @Autowired private UserRepository userRepository;
+	@Qualifier("accountRepository") @Autowired private AccountRepository accountRepository;
 	@Autowired ServletContext servletContext;
 
 	@ModelAttribute
@@ -42,7 +38,7 @@ public class UserSystemController {
 		Account account = null;
 		if(authentication != null) {
 			String userEmail = authentication.getName();
-			account = userService.findUserByEmail(userEmail);
+			account = accountService.findUserByEmail(userEmail);
 		}
 		requestUtil.addCommonAttributes(model, account);
 	}
@@ -72,7 +68,7 @@ public class UserSystemController {
 	public String handleRegistration(Model model,
                                      @Valid @ModelAttribute Account account,
                                      BindingResult bindingResult) {
-		Account accountExists = userService.findUserByEmail(account.getEmail());
+		Account accountExists = accountService.findUserByEmail(account.getEmail());
 		model.addAttribute("account", new Account());
 		if (accountExists != null) {
 			bindingResult
@@ -82,15 +78,15 @@ public class UserSystemController {
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getAllErrors());
 		} else {
-			userService.saveUser(account);
-			model.addAttribute("successMessage", "Account has been registered successfully");
+			accountService.saveUser(account);
+			model.addAttribute("successMessage", "account has been registered successfully");
 		}
 		return "redirect:/login";
 	}
 
 	@GetMapping("/profile/{id}")
 	public String serveProfilePage (Model model, @PathVariable("id") Long id) {
-			Account account = userRepository.findById(id);
+			Account account = accountRepository.findById(id);
         model.addAttribute("pageContent", Path.Fragment.PROFILE);
 		model.addAttribute("account", account);
 		requestUtil.addProfileDetails(model, account);
@@ -100,9 +96,9 @@ public class UserSystemController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/profile/{id}/edit")
 	public String serveProfileEditPage(Model model, Authentication authentication, @PathVariable("id") Long id) {
-		Account user = userService.findUserByEmail(authentication.getName());
+		Account user = accountService.findUserByEmail(authentication.getName());
 		if(user.getId() == id || user.hasRole("ADMIN")) {
-			Account account = userRepository.findById(id);
+			Account account = accountRepository.findById(id);
 			model.addAttribute("account", account);
 			model.addAttribute("pageContent", Path.Fragment.EDIT_PROFILE);
 			return "index";
@@ -113,16 +109,16 @@ public class UserSystemController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/profile/{id}/edit")
 	public String handleProfileEdit(@PathVariable("id") Long id, @ModelAttribute Account account, Authentication authentication) {
-		Account loggedInUser = userService.findUserByEmail(authentication.getName());
+		Account loggedInUser = accountService.findUserByEmail(authentication.getName());
 		if(loggedInUser.getId().equals(id) || loggedInUser.hasRole("ADMIN")) {
-			Account user = userRepository.findById(id);
+			Account user = accountRepository.findById(id);
 			user.setEmail(account.getEmail());
 			user.setName(account.getName());
 			user.setLastName(account.getLastName());
 			user.setWebsite(account.getWebsite());
 			user.setProfession(account.getProfession());
 			user.setDescription(account.getDescription());
-			userRepository.saveAndFlush(user);
+			accountRepository.saveAndFlush(user);
 		}
 		return "redirect:/profile/" + id;
 	}
@@ -130,13 +126,13 @@ public class UserSystemController {
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
 	@GetMapping("/profile")
 	public String serveAllProfile(Model model) {
-		model.addAttribute("allUsers", userRepository.findAll());
+		model.addAttribute("allUsers", accountRepository.findAll());
 		return Path.Fragment.ALL_USERS;
 	}
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/profile/{id}/uploadImg")
 	public String singleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id, Model model) throws IOException {
-		Account account = userRepository.findById(id);
+		Account account = accountRepository.findById(id);
 		if (file.isEmpty()) {
 			model.addAttribute("errorAlert", "A kép feltöltése sikertelen volt.");
 			return "redirect:/profile/" + id;
@@ -144,7 +140,7 @@ public class UserSystemController {
 		try {
 			byte[] bytes = file.getBytes();
 			account.setImage(bytes);
-			userRepository.saveAndFlush(account);
+			accountRepository.saveAndFlush(account);
 			model.addAttribute("successAlert", "A kép feltöltése sikeres volt.");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -156,7 +152,7 @@ public class UserSystemController {
 	@GetMapping(value = "/profile/{id}/profilepic", produces = MediaType.IMAGE_JPEG_VALUE)
 	public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)
 			throws IOException{
-		Account account = userRepository.findById(id);
+		Account account = accountRepository.findById(id);
 		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 		if(account.getImage() != null) {
 			response.getOutputStream().write(account.getImage());

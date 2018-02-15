@@ -1,29 +1,22 @@
 package application.api;
 
-import application.model.Account.Account;
-import application.model.Event.Event;
-import application.model.Menu.Menu;
-import application.repository.EventRepository;
+import application.model.account.Account;
+import application.model.menu.Menu;
 import application.repository.MenuRepository;
-import application.service.UserService;
+import application.service.AccountService;
 import application.utils.Path;
 import application.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
-
 @Controller
 public class MenuService {
 
-    @Autowired UserService userService;
+    @Autowired
+    AccountService accountService;
     @Autowired RequestUtil requestUtil;
     @Autowired MenuRepository menuRepository;
 
@@ -32,7 +25,7 @@ public class MenuService {
         Account account = null;
         if(authentication != null) {
             String userEmail = authentication.getName();
-            account = userService.findUserByEmail(userEmail);
+            account = accountService.findUserByEmail(userEmail);
         }
         requestUtil.addCommonAttributes(model, account);
     }

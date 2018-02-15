@@ -1,4 +1,4 @@
-package application.model.Subscription;
+package application.model.subscription;
 
 import javax.persistence.*;
 import java.util.HashSet;

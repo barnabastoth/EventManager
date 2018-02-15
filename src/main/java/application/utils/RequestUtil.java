@@ -1,7 +1,7 @@
 package application.utils;
 
-import application.model.Account.Account;
-import application.model.Account.Role;
+import application.model.account.Account;
+import application.model.account.Role;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 

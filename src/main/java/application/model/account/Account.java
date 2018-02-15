@@ -1,14 +1,13 @@
-package application.model.Account;
+package application.model.account;
 
-import application.model.Event.Comment;
-import application.model.Event.Event;
+import application.model.event.Comment;
+import application.model.event.Event;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -16,7 +15,7 @@ import java.util.*;
 @Table(name = "account")
 public class Account {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private Long id;
+	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "account_id") private Long id;
 	@Column(name = "email", unique = true) @Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") private String email;
 	@Column(name = "password") @Length(min = 5, message = "*Your password must have at least 5 characters") @NotEmpty(message = "*Please provide your password") @Transient private String password;
 	@Column(name = "name") @NotEmpty(message = "*Please provide your name") private String name;
@@ -29,15 +28,15 @@ public class Account {
 	@Column(name = "image") private byte[] image;
 
 	@ManyToMany()
-	@JoinTable(name = "user_role"
-			, joinColumns = @JoinColumn(name = "user_id"),
+	@JoinTable(name = "account_role"
+			, joinColumns = @JoinColumn(name = "account_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
 	private Set<Role> roles = new HashSet<>();
 
 	@ManyToMany
-	@JoinTable(name = "user_events"
-			, joinColumns = @JoinColumn(name = "user_id"),
+	@JoinTable(name = "account_events"
+			, joinColumns = @JoinColumn(name = "account_id"),
 			inverseJoinColumns = @JoinColumn(name = "event_id")
 	)
 	private Set<Event> events = new HashSet<>();
