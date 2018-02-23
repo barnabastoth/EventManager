@@ -30,7 +30,7 @@ public class Event {
     private String ticketLink;
     private Integer active;
 
-    @ElementCollection
+    @ManyToMany(mappedBy = "events")
     private Set<Account> speakers = new HashSet<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)

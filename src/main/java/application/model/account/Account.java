@@ -41,6 +41,13 @@ public class Account {
 	)
 	private Set<Event> events = new HashSet<>();
 
+	@ManyToMany
+	@JoinTable(name = "account_speakers"
+			, joinColumns = @JoinColumn(name = "account_id"),
+			inverseJoinColumns = @JoinColumn(name = "event_id")
+	)
+	private Set<Event> speakerAt = new HashSet<>();
+
 	@OneToMany(
 			mappedBy = "account",
 			cascade = CascadeType.ALL,
@@ -60,6 +67,9 @@ public class Account {
 		}
 		return false;
 	}
+
+	public Set<Event> getSpeakerAt() { return speakerAt; }
+	public void setSpeakerAt(Set<Event> speakerAt) { this.speakerAt = speakerAt; }
 	public void addEvent(Event event) {
 		events.add(event);
 	}

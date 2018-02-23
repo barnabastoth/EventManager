@@ -52,7 +52,7 @@ public class EventService {
     @GetMapping("/api/event/{id}")
     public String serveEventByIdPage(Model model, @PathVariable("id") Long id) {
         Event event = eventRepository.findOne(id);
-        if(event != null) {
+        if(event != null && event.getActive() != 0) {
             model.addAttribute("event", event);
             return Path.Fragment.EVENT;
         }
@@ -126,6 +126,17 @@ public class EventService {
     public String handleEventDeactivation(@PathVariable("id") Long id, Model model) {
         Event event = eventRepository.findOne(id);
         event.setActive(0);
+        eventRepository.saveAndFlush(event);
+        List<Event> events = eventRepository.findAll();
+        model.addAttribute("events", events);
+        return Path.Fragment.ALL_EVENTS;
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
+    @GetMapping("/api/event/{id}/activate")
+    public String handleEventActivation(@PathVariable("id") Long id, Model model) {
+        Event event = eventRepository.findOne(id);
+        event.setActive(1);
         eventRepository.saveAndFlush(event);
         List<Event> events = eventRepository.findAll();
         model.addAttribute("events", events);

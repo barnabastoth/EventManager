@@ -14,15 +14,16 @@ function userProfilePage() {
             pushState("/profile/" + $("#loggedInUserId").val() + "/edit");
         });
     });
-    $(document.body).on("click", '#uploadProfileImgButton', function() {
-        $(".x_panel").load("/api/profile/" + $("#profileId").val() + "/uploadImg", function () {
-            pushState("/profile/" + $("#profileId").val() + "/uploadImg");
-        });
-    });
     $(document.body).on("change", '#uploadProfileImg', function() {
         $("#uploadProfileImgForm").submit();
         $("#main_content").load("/api/profile/" + $("#loggedInUserId").val(), function () {
             pushState("/profile/" + $("#loggedInUserId").val());
+            $.notify({
+                icon: 'glyphicon glyphicon-ok',
+                title: 'Siker!',
+                message: 'Az új profilképed feltöltésre került.',
+                type: 'success'
+            });
         });
     });
 
@@ -33,31 +34,62 @@ function allUsersPage() {
     $(document.body).on("click", '#viewUserButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id, function () {
-            pushState("/profile" + id);
+            pushState("/profile/" + id);
         });
     });
     $(document.body).on("click", '#editUserButton', function() {
         var id = $(this).parent().attr('action');
         $(".x_panel").load("/api/profile/" + id + "/edit", function () {
+            pushState("/profile/" + id + "/edit");
+        });
+    });
+    $(document.body).on("click", '#deactivateUserButton', function() {
+        var id = $(this).parent().attr('action');
+        $("#main_content").load("/api/profile/" + id + "/deactivate", function () {
             pushState("profile/" + id + "/edit");
+            $.notify({
+                icon: 'glyphicon glyphicon-ok',
+                title: 'Siker!',
+                message: 'A felhasználó mostantól bannolva van.',
+                type: 'success'
+            });
         });
     });
     $(document.body).on("click", '#activateUserButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id + "/activate", function () {
             pushState("/profile");
+            $.notify({
+                icon: 'glyphicon glyphicon-ok',
+                title: 'Siker!',
+                message: 'A felhasználó most már nincs bannolva.',
+                type: 'success'
+            });
         });
     });
     $(document.body).on("click", '#addAdminButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id + "/admin/add", function () {
             pushState("/profile");
+            $.notify({
+                icon: 'glyphicon glyphicon-ok',
+                title: 'Siker!',
+                message: 'A felhasználó megkapta az Admin jogosultságot.',
+                type: 'success'
+            });
         });
     });
     $(document.body).on("click", '#removeAdminButton', function() {
         var id = $(this).parent().attr('action');
         $("#main_content").load("/api/profile/" + id + "/admin/remove", function () {
             pushState("/profile");
+            $.notify({
+                icon: 'glyphicon glyphicon-ok',
+                title: 'Siker!',
+                message: 'A felhasználótól ellett véve az Admin jogosultság.',
+                target: '_blank',
+                type: 'success'
+            });
         });
     });
 }
@@ -66,23 +98,6 @@ function main() {
     userAuthModalHandling();
     userProfilePage();
     allUsersPage();
-
-    // $(document.body).on( "click", '#login-form-link', function() {
-    //     $("#login-form").delay(100).fadeIn(100);
-    //     $("#register-form").fadeOut(100);
-    //     $('#register-form-link').removeClass('active');
-    //     $(this).addClass('active');
-    //     e.preventDefault();
-    //     history.replaceState(null, null, 'login');
-    // });
-    // $(document.body).on( "click", '#register-form-link', function() {
-    //     $("#register-form").delay(100).fadeIn(100);
-    //     $("#login-form").fadeOut(100);
-    //     $('#login-form-link').removeClass('active');
-    //     $(this).addClass('active');
-    //     e.preventDefault();
-    //     history.replaceState(null, null, 'registration');
-    // });
 }
 
 

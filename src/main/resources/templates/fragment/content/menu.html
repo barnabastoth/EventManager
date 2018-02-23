@@ -19,7 +19,7 @@
         </form>
     </div>
 
-    <div class="event-information">
+    <div class="event-information" sec:authorize="hasAuthority('USER')">
         <h1 th:text="${menu.title}"></h1>
         <br>
         <br>

@@ -77,10 +77,11 @@ public class EventController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER')")
     @PostMapping("/event/new")
-    public String handleNewEventCreation(@Valid @ModelAttribute("event") Event event,
+    public String handleNewEventCreation(@ModelAttribute("event") Event event,
                                          @RequestParam("datetime") String date,
                                          @RequestParam("speakers") String emails) {
         event.setActive(1);
+        System.out.println(date);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm", Locale.ENGLISH);
         if(date.length() == 16) {
             event.setDate(LocalDateTime.parse(date, formatter));
