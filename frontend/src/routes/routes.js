@@ -1,34 +1,30 @@
-import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
 // GeneralViews
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 
 // Admin pages
-import Overview from '../components/Dashboard/Views/Overview.vue'
 import UserProfile from '../components/Dashboard/Views/UserProfile.vue'
-import Notifications from '../components/Dashboard/Views/Notifications.vue'
+import AllEvents from '../components/Dashboard/Views/AllEvents'
 import Icons from '../components/Dashboard/Views/Icons.vue'
 import Maps from '../components/Dashboard/Views/Maps.vue'
 import Typography from '../components/Dashboard/Views/Typography.vue'
-import TableList from '../components/Dashboard/Views/TableList.vue'
 import Vue from 'vue'
 import Router from 'vue-router'
+import Home from '../components/Dashboard/Views/Home'
+import Content from '../components/Dashboard/Layout/Content'
+import Event from '../components/Dashboard/Views/Event'
+import Login from '../components/Dashboard/Views/Authentication/Login'
 
 Vue.use(Router)
 
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: 'fooldal'
-  },
-  {
-    path: '/',
-    component: DashboardLayout,
+    component: Content,
     children: [
       {
         path: 'fooldal',
         name: 'Főoldal',
-        component: Overview
+        component: Home
       },
       {
         path: 'tanulmanyok',
@@ -38,7 +34,7 @@ const routes = [
       {
         path: 'esemenyek',
         name: 'Események',
-        component: Notifications
+        component: AllEvents
       },
       {
         path: 'rolunk',
@@ -53,11 +49,15 @@ const routes = [
         path: 'typography',
         name: 'typography',
         component: Typography
-      },
-      {
-        path: 'table-list',
-        name: 'table-list',
-        component: TableList
+      }, {
+        path: 'event/:id',
+        name: 'eventById',
+        component: Event,
+        props: true
+      }, {
+        path: 'login',
+        name: 'login',
+        component: Login
       }
     ]
   },

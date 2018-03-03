@@ -13,12 +13,7 @@
         </thead>
         <tbody>
           <tr v-for="item in data">
-            <!--<td v-for="column in columns" v-if="hasValue(item, column)">{{itemValue(item, column)}}</td>-->
-            <td>{{item.id}}</td>
-            <td>{{item.name}}</td>
-            <td>{{item.description}}</td>
-            <td>{{item.address}}</td>
-            <td>{{item.date.dayOfMonth}} {{item.date.month}} {{item.date.year}}</td>
+            <td v-for="column in columns" v-if="hasValue(item, column)">{{itemValue(item, column)}}</td>
           </tr>
         </tbody>
       </table>

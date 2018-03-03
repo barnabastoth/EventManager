@@ -2,11 +2,7 @@
   <div :class="sidebarClasses"
        :data-background-color="backgroundColor='darkblue'"
        :data-active-color="activeColor='success'">
-    <!--
-            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black | darkblue"
-            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-        -->
-    <!-- -->
+
     <div class="sidebar-wrapper" id="style-3">
       <div class="logo">
         <a href="#" class="simple-text">
@@ -50,7 +46,7 @@
       },
       backgroundColor: {
         type: String,
-        default: 'black',
+        default: 'darkblue',
         validator: (value) => {
           let acceptedValues = ['white', 'black', 'darkblue']
           return acceptedValues.indexOf(value) !== -1
@@ -114,6 +110,12 @@
           }
           return found
         })
+      },
+      showLogin () {
+        this.$modal.show('login')
+      },
+      hideLogin () {
+        this.$modal.hide('login')
       }
     },
     mounted () {
@@ -128,5 +130,4 @@
 
 </script>
 <style>
-
 </style>

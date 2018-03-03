@@ -5,17 +5,17 @@ const SidebarStore = {
   sidebarLinks: [
     {
       name: 'Főoldal',
-      icon: 'ti-panel',
+      icon: 'ti-home',
       path: '/fooldal'
     },
     {
       name: 'Tanulmányok',
-      icon: 'ti-user',
+      icon: 'ti-book',
       path: '/tanulmanyok'
     },
     {
       name: 'Események',
-      icon: 'ti-view-list-alt',
+      icon: 'ti-world',
       path: '/esemenyek'
     },
     {
@@ -25,18 +25,13 @@ const SidebarStore = {
     },
     {
       name: 'Kapcsolat',
-      icon: 'ti-pencil-alt2',
+      icon: 'ti-email',
       path: '/kapcsolat'
     },
     {
-      name: 'Table list',
-      icon: 'ti-text',
-      path: '/table-list'
-    },
-    {
-      name: 'Typography',
-      icon: 'ti-pencil-alt2',
-      path: '/typography'
+      name: 'Bejelentkezés',
+      icon: 'ti-email',
+      path: '/login'
     }
   ],
   displaySidebar (value) {

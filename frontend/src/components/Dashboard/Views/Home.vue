@@ -1,7 +1,7 @@
 <template>
   <div>
-
     <!--Stats cards-->
+    <blockquote>Legújabb események</blockquote>
     <div class="row">
       <div class="col-lg-3 col-sm-6" v-for="stats in statsCards">
         <stats-card>
@@ -17,13 +17,10 @@
           </div>
         </stats-card>
       </div>
-      <h1>anyad</h1>
-      <h1>{{event}}</h1>
     </div>
     <div>
       <p></p>
     </div>
-
 
     <!--Charts-->
     <div class="row">

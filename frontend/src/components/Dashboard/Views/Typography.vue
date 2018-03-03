@@ -4,6 +4,7 @@
     <div class="card">
       <div class="header">
         <h4 class="title">Paper Dashboard Headings</h4>
+        <h1>{{id}}</h1>
         <p class="category">Created using
           <a href="https://www.google.com/fonts/specimen/Muli">Muli</a> Font Family</p>
       </div>

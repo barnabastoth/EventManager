@@ -1,38 +1,38 @@
 <template>
-  <div :class="{'nav-open': $sidebar.showSidebar}">
-    <router-view></router-view>
-    <!--This sidebar appears only for screens smaller than 992px-->
-    <side-bar type="navbar" :sidebar-links="$sidebar.sidebarLinks">
-      <ul class="nav navbar-nav">
-        <li>
-          <a class="dropdown-toggle" data-toggle="dropdown">
-            <i class="ti-panel"></i>
-            <p>Stats</p>
-          </a>
-        </li>
-        <drop-down title="5 Notifications" icon="ti-bell">
+  <div class="wrapper">
+    <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks"></side-bar>
+    <notifications></notifications>
+    <div class="main-panel">
+      <top-navbar></top-navbar>
 
-          <li><a>Notification 1</a></li>
-          <li><a>Notification 2</a></li>
-          <li><a>Notification 3</a></li>
-          <li><a>Notification 4</a></li>
-          <li><a>Another notification</a></li>
+      <Content @click.native="toggleSidebar">
 
-        </drop-down>
-        <li>
-          <a>
-            <i class="ti-settings"></i>
-            <p>Settings</p>
-          </a>
-        </li>
-        <li class="divider"></li>
-      </ul>
-    </side-bar>
+      </Content>
+
+      <content-footer></content-footer>
+    </div>
   </div>
 </template>
+<style lang="scss">
 
+</style>
 <script>
-  export default {}
-</script>
+  import TopNavbar from '../src/components/Dashboard/Layout/TopNavbar.vue'
+  import ContentFooter from '../src/components/Dashboard/Layout/ContentFooter.vue'
+  import Content from '../src/components/Dashboard/Layout/Content.vue'
+  export default {
+    components: {
+      TopNavbar,
+      ContentFooter,
+      Content
+    },
+    methods: {
+      toggleSidebar () {
+        if (this.$sidebar.showSidebar) {
+          this.$sidebar.displaySidebar(false)
+        }
+      }
+    }
+  }
 
-<style lang="scss"></style>
+</script>

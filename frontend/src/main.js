@@ -16,9 +16,11 @@ import Chartist from 'chartist'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/sass/paper-dashboard.scss'
 import 'es6-promise/auto'
+import VModal from 'vue-js-modal'
 
 // plugin setup
 Vue.use(VueRouter)
+Vue.use(VModal)
 Vue.use(GlobalComponents)
 Vue.use(GlobalDirectives)
 Vue.use(Notifications)
