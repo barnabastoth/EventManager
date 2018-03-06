@@ -1,7 +1,8 @@
 package application.model.event;
 
 
-import application.model.account.Account;
+
+import application.model.authentication.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class Comment {
     public long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Account account;
+    private User user;
     private String message;
     private LocalDateTime date;
     @ManyToOne
@@ -26,11 +27,11 @@ public class Comment {
     public long getId() {
         return id;
     }
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
     public String getMessage() {
         return message;

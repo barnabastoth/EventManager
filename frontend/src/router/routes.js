@@ -20,6 +20,7 @@ const routes = [
   {
     path: '/',
     component: Content,
+    redirect: 'fooldal',
     children: [
       {
         path: 'fooldal',

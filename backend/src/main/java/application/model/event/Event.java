@@ -1,12 +1,11 @@
 package application.model.event;
 
-import application.model.account.Account;
+import application.model.authentication.User;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @NamedQueries({
@@ -16,15 +15,16 @@ import java.util.Set;
 @Table(name = "event")
 public class Event {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id") public long id;
-    public String title;
-    public String name;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id")
+    private long id;
+    private String title;
+    private String name;
     private String locationByPublicTransport;
     private String locationByCar;
     private String address;
     private String mapLatitude;
     private String mapLongTitude;
-    public LocalDateTime date;
+    private LocalDateTime date;
     @Lob @Type(type = "text") private String description;
     private String price;
     private String duration;
@@ -32,13 +32,13 @@ public class Event {
     private Integer active;
 
     @ManyToMany(mappedBy = "events")
-    private Set<Account> speakers = new HashSet<>();
+    private Set<User> speakers = new HashSet<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(mappedBy = "events")
-    private Set<Account> accounts = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public Event() {
     }
@@ -58,9 +58,9 @@ public class Event {
         this.ticketLink = ticketLink;
     }
 
-    public Boolean hasAccount(Account account) {
-        for (Account acc : accounts) {
-            if(acc.getId() == account.getId()) {
+    public Boolean hasUser(User user) {
+        for (User attendee : users) {
+            if(attendee.getId() == user.getId()) {
                 return false;
             }
         }
@@ -69,14 +69,14 @@ public class Event {
 
     public Integer getActive() { return active; }
     public void setActive(Integer active) { this.active = active; }
-    public Set<Account> getAccounts() {
-        return accounts;
+    public Set<User> getUsers() {
+        return users;
     }
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
-    public Set<Account> getAttendees() { return accounts; }
-    public void setAttendees(Set<Account> accounts) { this.accounts = accounts; }
+    public Set<User> getAttendees() { return users; }
+    public void setAttendees(Set<User> users) { this.users = users; }
     public Set<Comment> getComments() { return comments; }
     public void setComments(Set<Comment> comments) { this.comments = comments; }
     public long getId() {
@@ -152,6 +152,6 @@ public class Event {
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }
-    public Set<Account> getSpeakers() { return speakers; }
-    public void setSpeakers(Set<Account> speakers) { this.speakers = speakers; }
+    public Set<User> getSpeakers() { return speakers; }
+    public void setSpeakers(Set<User> speakers) { this.speakers = speakers; }
 }

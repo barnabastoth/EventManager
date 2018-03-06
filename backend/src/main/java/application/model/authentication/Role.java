@@ -1,4 +1,4 @@
-package application.model.account;
+package application.model.authentication;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,16 +9,16 @@ import java.util.Set;
 public class Role {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="role_id") private Long id;
 	@Column(name="role") private String role;
-	@ManyToMany(mappedBy = "roles") private Set<Account> accounts = new HashSet<>();
+	@ManyToMany(mappedBy = "roles") private Set<User> users = new HashSet<>();
 
 
 	public Role() {
 	}
-	public Set<Account> getAccounts() {
-		return accounts;
+	public Set<User> getUsers() {
+		return users;
 	}
-	public void setAccounts(Set<Account> accounts) {
-		this.accounts = accounts;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 	public Role(String role) {
 		this.role = role;
