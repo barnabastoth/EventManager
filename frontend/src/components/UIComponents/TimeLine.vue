@@ -8,7 +8,7 @@
         <div class="cd-timeline-content">
           <h2>{{event.title}}</h2>
           <p>{{ event.description}}</p>
-          <router-link :to="'/event/' + event.id">
+          <router-link :to="'/esemeny/' + event.id">
             <a class="cd-read-more">Megnézem</a>
           </router-link>
           <span class="cd-date">2018.03.02</span>

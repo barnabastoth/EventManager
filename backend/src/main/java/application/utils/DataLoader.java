@@ -1,12 +1,12 @@
-package application.service;
+package application.utils;
 
 
 import application.model.authentication.User;
-import application.model.event.Comment;
+import application.model.authentication.Role;
 import application.model.event.Event;
-import application.repository.CommentRepository;
 import application.repository.EventRepository;
-import application.repository.UserRepository;
+import application.repository.RoleRepository;
+import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,20 +15,35 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class DataLoader implements CommandLineRunner {
-    @Autowired UserService userService;
+    @Autowired
+    UserService userService;
     @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired private EventRepository eventRepository;
+    @Autowired private RoleRepository roleRepository;
 
     @Override
     public void run(String[] args) {
+        Role userRole = new Role();
+        Role adminRole = new Role();
+        Role ownerRole = new Role();
+        userRole.setRole("USER");
+        adminRole.setRole("ADMIN");
+        ownerRole.setRole("OWNER");
+        roleRepository.save(userRole);
+        roleRepository.save(adminRole);
+        roleRepository.save(ownerRole);
+
+
         User user = new User();
-        user.setUsername("anyad");
-        user.setPassword(bCryptPasswordEncoder.encode("anyad"));
+        user.setUsername("Exworm");
+        user.setEmail("vigyor99@gmail.com");
+        user.setRoles(Stream.of(roleRepository.findByRole("OWNER")).collect(Collectors.toSet()));
+        user.setPassword(bCryptPasswordEncoder.encode("password"));
         userService.save(user);
 
         Event event1 = new Event("Magyarország jövőjéről Budapesten", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
