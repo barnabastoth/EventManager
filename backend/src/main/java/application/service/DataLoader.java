@@ -7,6 +7,7 @@ import application.model.event.Comment;
 import application.model.event.Event;
 import application.model.menu.Menu;
 import application.repository.*;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +28,7 @@ public class DataLoader implements CommandLineRunner {
     @Autowired private EventRepository eventRepository;
     @Autowired RoleRepository roleRepository;
     @Autowired MenuRepository menuRepository;
+    @Autowired CommentRepository commentRepository;
 
     @Override
     public void run(String[] args) {
@@ -37,8 +39,8 @@ public class DataLoader implements CommandLineRunner {
         roleRepository.saveAndFlush(adminRole);
         roleRepository.saveAndFlush(ownerRole);
 
-        Event event1 = new Event("Magyarország jövőjéről Budapesten", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
-                "Any recool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+        Event event1 = new Event("Magyarország jövője", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simple ajax tutorial or case study for a simple input form, where I want to post a username through an input form, which sends it to the database and replies with the results.\n" +
+                "Any recool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event1.setActive(1);
         event1.setAddress("DEBRECEN valami utca1");
         event1.setDate(LocalDateTime.now());
@@ -46,15 +48,15 @@ public class DataLoader implements CommandLineRunner {
         eventRepository.save(event1);
 
         Event event2 = new Event("Magyarország jövőjéről DEBRECEN", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a s with the results.\n" +
-                "Any retool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+                "Any retool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event2.setAddress("DEBRECEN valami utca1");
         event2.setActive(1);
         event2.setDate(LocalDateTime.now());
         event2.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         eventRepository.save(event2);
 
-        Event event3 = new Event("Magyarország jövőjéről szoszsozszolnok", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
-                "Any recog Mootool but I'm searching for one using jQuery!", "400L", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+        Event event3 = new Event("Magyarország jövője", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
+                "Any recog Mootool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event3.setDate(LocalDateTime.now());
         event3.setAddress("DEBRECEN valami utca1");
         event3.setActive(1);
@@ -87,6 +89,13 @@ public class DataLoader implements CommandLineRunner {
         contact.setRoute("contact");
         menuRepository.save(contact);
 
+
+        Comment comment = new Comment();
+        comment.setDate(LocalDateTime.now());
+//        comment.setEvent(event2);
+        comment.setMessage("Ez egy komment");
+//        comment.setUser(user);
+        commentRepository.saveAndFlush(comment);
 
     }
 

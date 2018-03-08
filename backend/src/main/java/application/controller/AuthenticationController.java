@@ -68,7 +68,7 @@ public class AuthenticationController {
             authenticationUtils.registerNewUser(userName, email, password);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("AASDASDSADSA", HttpStatus.CONFLICT);
     }
 
 }

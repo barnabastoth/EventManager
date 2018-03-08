@@ -35,6 +35,7 @@
           <br>
           <h2>Itt az idő, hogy otthon érezd magad,</h2>
           <br>
+          <h2><small style="color: red">{{error}}</small></h2>
           <label>
             <span>Felhasználónév</span>
             <input v-model="register.username" type="text" />
@@ -139,7 +140,6 @@
               })
           })
         }).catch(function (error) {
-          console.log(error)
           if (error.response) {
             self.$notifications.notify(
               {

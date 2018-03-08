@@ -7,8 +7,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
+@NamedQueries({
+        @NamedQuery(name = "User.findLatestUser", query = "SELECT e FROM User e WHERE id = (SELECT max(id) FROM User)")
+})
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private Long id;

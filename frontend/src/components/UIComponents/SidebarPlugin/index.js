@@ -20,7 +20,7 @@ const SidebarStore = {
     },
     {
       name: 'Rólunk',
-      icon: 'ti-text',
+      icon: 'ti-thought',
       path: '/rolunk'
     },
     {

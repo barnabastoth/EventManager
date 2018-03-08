@@ -1,19 +1,18 @@
 <template>
   <div>
     <!--Stats cards-->
-    <blockquote>Legújabb események</blockquote>
     <div class="row">
-      <div class="col-lg-3 col-sm-6" v-for="stats in statsCards">
+      <div class="col-lg-4 col-sm-6" v-for="card in acitivityCards">
         <stats-card>
-          <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
-            <i :class="stats.icon"></i>
+          <div class="icon-big text-center" :class="`icon-${card.type}`" slot="header">
+            <i :class="card.icon"></i>
           </div>
           <div class="numbers" slot="content">
-            <p>{{stats.title}}</p>
-            {{stats.value}}
+            <p>{{card.title}}</p>
+            {{card.value}}
           </div>
           <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+            <i :class="card.footerIcon"></i> {{card.footerText}}
           </div>
         </stats-card>
       </div>
@@ -84,38 +83,30 @@
      */
     data () {
       return {
-        statsCards: [
-          {
-            type: 'warning',
-            icon: 'ti-server',
-            title: 'Capacity',
-            value: '105GB',
-            footerText: 'Updated now',
-            footerIcon: 'ti-reload'
-          },
+        acitivityCards: [
           {
             type: 'success',
-            icon: 'ti-wallet',
-            title: 'Revenue',
-            value: '$1,345',
-            footerText: 'Last day',
+            icon: 'ti-world',
+            title: '',
+            value: '',
+            footerText: '',
             footerIcon: 'ti-calendar'
           },
           {
-            type: 'danger',
-            icon: 'ti-pulse',
-            title: 'Errors',
-            value: '23',
-            footerText: 'In the last hour',
-            footerIcon: 'ti-timer'
+            type: 'warning',
+            icon: 'ti-user',
+            title: '',
+            value: '',
+            footerText: '',
+            footerIcon: 'ti-calendar'
           },
           {
             type: 'info',
-            icon: 'ti-twitter-alt',
-            title: 'Followers',
-            value: '+45',
-            footerText: 'Updated now',
-            footerIcon: 'ti-reload'
+            icon: 'ti-comment-alt',
+            title: '',
+            value: '',
+            footerText: '',
+            footerIcon: 'ti-calendar'
           }
         ],
         usersChart: {
@@ -173,9 +164,19 @@
     },
     created () {
       let self = this
-      AXIOS.get('http://localhost:8089/api/event/latest')
+      AXIOS.get('http://localhost:8089/api/menu/latestActivites')
         .then(function (response) {
-          self.event = response.data
+          self.acitivityCards[0].title = 'Esemény'
+          self.acitivityCards[0].value = response.data.event.title
+          self.acitivityCards[0].footerText = response.data.event.date.year + '  ' + response.data.event.date.month + '  ' + response.data.event.date.dayOfMonth
+
+          self.acitivityCards[1].title = 'Felhasználó'
+          self.acitivityCards[1].value = response.data.user.username
+          self.acitivityCards[1].footerText = response.data.user.memberSince.year + '   ' + response.data.user.memberSince.month + '   ' + response.data.user.memberSince.dayOfMonth
+
+          self.acitivityCards[2].title = 'Komment'
+          self.acitivityCards[2].value = response.data.comment.message
+          self.acitivityCards[2].footerText = response.data.user.memberSince.year + '  ' + response.data.user.memberSince.month + '  ' + response.data.user.memberSince.dayOfMonth
         })
     }
   }

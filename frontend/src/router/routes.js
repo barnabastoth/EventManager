@@ -4,7 +4,6 @@ import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 // Admin pages
 import UserProfile from '../components/Dashboard/Views/UserProfile.vue'
 import AllEvents from '../components/Dashboard/Views/AllEvents'
-import Icons from '../components/Dashboard/Views/Icons.vue'
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Dashboard/Views/Home'

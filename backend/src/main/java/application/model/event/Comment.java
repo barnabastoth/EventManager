@@ -7,6 +7,11 @@ import application.model.authentication.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+
+@NamedQueries({
+        @NamedQuery(name = "Comment.getLatestComment", query = "SELECT e FROM Comment e WHERE id = (SELECT max(id) FROM Comment)")
+})
 @Entity
 @Table(name = "Comment")
 public class Comment {

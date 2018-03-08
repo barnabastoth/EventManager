@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
+	public User getLatestUser() {
+		return userRepository.findLatestUser();
+	}
+
+	@Override
 	public void delete(long id) {
 		userRepository.delete(id);
 	}
