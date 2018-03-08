@@ -50,7 +50,7 @@ const LOGOUT = 'LOGOUT'
 const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem('token'),
-    profile: {}
+    loggedInUserName: ''
   },
   mutations: {
     [LOGIN] (state) {
@@ -59,7 +59,8 @@ const store = new Vuex.Store({
     [LOGIN_SUCCESS] (state, profile) {
       state.isLoggedIn = true
       state.pending = false
-      state.profile = profile
+      state.loggedInUserId = profile.id
+      state.loggedInUserName = profile.username
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
@@ -68,6 +69,7 @@ const store = new Vuex.Store({
   actions: {
     login ({ commit }, response) {
       localStorage.setItem('token', 'Bearer ' + response.data[0].token)
+      localStorage.setItem('userName', response.data[1].username)
       AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
       commit(LOGIN_SUCCESS, response.data[1])
     },
@@ -80,8 +82,8 @@ const store = new Vuex.Store({
     isLoggedIn: state => {
       return state.isLoggedIn
     },
-    profile: state => {
-      return state.profile
+    loggedInUserName: state => {
+      return state.loggedInUserName
     }
   }
 })
@@ -109,17 +111,18 @@ new Vue({
     }
   },
   created () {
-    if (store.getters.profile.username == null) {
-      this.$store.dispatch('logout')
-      this.$router.push('/login')
-      this.$notifications.notify(
-        {
-          message: 'Upsz, valami hiba történt, kérlek jelentkezz be újra.!',
-          icon: 'ti-thought',
-          horizontalAlign: 'center',
-          verticalAlign: 'top',
-          type: 'info'
-        })
-    }
+    store.state.loggedInUserName = localStorage.getItem('userName')
+    // if (this.$store.getters.loggedInUserName == null) {
+    //   this.$store.dispatch('logout')
+    //   this.$router.push('/login')
+    //   this.$notifications.notify(
+    //     {
+    //       message: 'Upsz, valami hiba történt, kérlek jelentkezz be újra.!',
+    //       icon: 'ti-thought',
+    //       horizontalAlign: 'center',
+    //       verticalAlign: 'top',
+    //       type: 'info'
+    //     })
+    // }
   }
 })

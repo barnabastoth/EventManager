@@ -20,10 +20,10 @@
            <li><a href="#">Another notification</a></li>
          </drop-down>
           <li v-if="this.$store.getters.isLoggedIn === true" class="open">
-            <router-link :to="'/profil/' + $store.state.profile.id">
+            <router-link :to="'/profil/' + $store.state.loggedInUserName">
               <a class="dropdown-toggle btn-magnify" data-toggle="dropdown">
                 <i class="ti-user"></i>
-                <p>{{ $store.state.profile.username }}</p>
+                <p>{{ $store.state.loggedInUserName }}</p>
               </a>
             </router-link>
 

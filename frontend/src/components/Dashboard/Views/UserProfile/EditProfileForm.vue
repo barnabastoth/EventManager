@@ -74,19 +74,3 @@
     </div>
   </div>
 </template>
-<script>
-  export default {
-    props: {
-      user: []
-    },
-    methods: {
-      updateProfile () {
-        alert('Your data: ' + JSON.stringify(this.user))
-      }
-    }
-  }
-
-</script>
-<style>
-
-</style>

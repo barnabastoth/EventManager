@@ -25,10 +25,8 @@ public class UserController {
     @RequestMapping(value="/user", method = RequestMethod.GET)
     public List<User> listUser(){ return userService.findAll(); }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public User getOne(@PathVariable(value = "id") Long id){
-        return userService.findById(id);
-    }
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+    public User getOne(@PathVariable(value = "username") String username){ return userService.findByUsername(username); }
 
     @GetMapping(value = "/user/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)

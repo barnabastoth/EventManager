@@ -27,11 +27,6 @@ const routes = [
         component: Home
       },
       {
-        path: 'tanulmanyok',
-        name: 'Tanulmányok',
-        component: UserProfile
-      },
-      {
         path: 'esemenyek',
         name: 'Események',
         component: AllEvents
@@ -56,14 +51,14 @@ const routes = [
         name: 'Belépés/Regisztráció',
         component: Login
       }, {
-        path: 'profile/:id',
+        path: 'profil/:username',
         name: 'Profil',
-        component: UserProfile
-
+        component: UserProfile,
+        props: true
       }
     ]
   },
-  { path: '*', component: NotFound }
+  { path: '*', name: '404', component: NotFound }
 ]
 
 /**

@@ -18,7 +18,7 @@
         <PaperTable :title="'Előadásai'" :data="user.events" :columns="['title', 'address', 'date', 'price', 'duration', 'active']">
 
         </PaperTable>
-        <edit-profile-form v-if="this.$store.getters.profile.id === user.id" :user="user">
+        <edit-profile-form v-if="this.$store.state.loggedInUserName === user.username" :user="user">
 
         </edit-profile-form>
       </div>
@@ -37,7 +37,7 @@
       MembersCard,
       PaperTable
     },
-    props: ['id'],
+    props: ['username'],
     data () {
       return {
         user: []
@@ -45,9 +45,8 @@
     },
     mounted () {
       let self = this
-      AXIOS.get('http://localhost:8089/api/user/' + this.id)
+      AXIOS.get('http://localhost:8089/api/user/' + this.username)
         .then(function (response) {
-          console.log('ANYADDASDSADSADSADSA')
           self.user = response.data
         })
     }
