@@ -1,4 +1,4 @@
-package application.api;
+package application.controller;
 
 import application.model.event.Event;
 import application.repository.EventRepository;
@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/event")
-public class EventService {
+public class EventController {
 
     @Autowired EventRepository eventRepository;
 
