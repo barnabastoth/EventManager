@@ -5,10 +5,8 @@ import application.model.authentication.Role;
 import application.model.authentication.User;
 import application.model.event.Comment;
 import application.model.event.Event;
-import application.repository.CommentRepository;
-import application.repository.EventRepository;
-import application.repository.RoleRepository;
-import application.repository.UserRepository;
+import application.model.menu.Menu;
+import application.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +26,7 @@ public class DataLoader implements CommandLineRunner {
     @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired private EventRepository eventRepository;
     @Autowired RoleRepository roleRepository;
+    @Autowired MenuRepository menuRepository;
 
     @Override
     public void run(String[] args) {
@@ -75,6 +74,19 @@ public class DataLoader implements CommandLineRunner {
         user.setMemberSince(LocalDateTime.now());
         user.setWebsite("http://event-manager.com");
         userService.save(user);
+
+        Menu about = new Menu();
+        about.setTitle("Rólunk");
+        about.setDescription("A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...");
+        about.setRoute("about");
+        menuRepository.save(about);
+
+        Menu contact = new Menu();
+        contact.setTitle("Kapcsolat");
+        contact.setDescription("A Kapcsolat , mely elérhető a Telekom mobil alkalmazásban. Töltsd le a mobilodra Telekom alkalmazásunkat, amelyben elérheted virtuális Kapcsolat kártyádat A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...A Rólunk szól i történet már indulásakor hatalmas siker volt. A három Golden Globe-díjra jelölt sorozat az Egyesült Államokban ...is. A Telekom alkalmazásban lévő Kapcsolat kártyádat teljes értékűen ...");
+        contact.setRoute("contact");
+        menuRepository.save(contact);
+
 
     }
 

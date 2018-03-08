@@ -22,7 +22,7 @@
     },
     created () {
       let self = this
-      AXIOS.get('http://localhost:8089/api/menu/contact').then(function (response) {
+      AXIOS.get('http://localhost:8089/api/menu/about').then(function (response) {
         self.data = response.data
         console.log(response.data)
       })
