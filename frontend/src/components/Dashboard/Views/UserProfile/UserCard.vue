@@ -53,7 +53,7 @@
 <script>
   export default {
     props: {
-      user: []
+      user: {}
     }
   }
 

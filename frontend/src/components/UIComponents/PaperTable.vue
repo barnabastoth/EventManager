@@ -29,7 +29,7 @@
   export default {
     props: {
       columns: Array,
-      data: Array,
+      data: {},
       type: {
         type: String, // striped | hover
         default: 'striped'

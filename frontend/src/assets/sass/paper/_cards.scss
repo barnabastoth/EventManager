@@ -160,7 +160,7 @@
 .card-user {
   .image {
     border-radius: 8px 8px 0 0;
-    height: 150px;
+    height: 200px;
     position: relative;
     overflow: hidden;
 
@@ -175,7 +175,7 @@
   .author {
     text-align: center;
     text-transform: none;
-    margin-top: -65px;
+    margin-top: -120px;
     .title {
       color: $default-states-color;
       small {
@@ -184,8 +184,8 @@
     }
   }
   .avatar {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     position: relative;
     margin-bottom: 15px;

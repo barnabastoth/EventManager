@@ -15,7 +15,7 @@
         <PaperTable :title="'Események'" :subTitle="'ahol résztvesz'" :data="user.events" :columns="['title', 'address', 'date', 'price', 'duration', 'active']">
 
         </PaperTable>
-        <PaperTable :title="'Előadásai'" :data="user.events" :columns="['title', 'address', 'date', 'price', 'duration', 'active']">
+        <PaperTable :title="'Előadások'" :data="user.events" :columns="['title', 'address', 'date', 'price', 'duration', 'active']">
 
         </PaperTable>
         <edit-profile-form v-if="this.$store.state.loggedInUserName === user.username" :user="user">
@@ -40,10 +40,10 @@
     props: ['username'],
     data () {
       return {
-        user: []
+        user: {}
       }
     },
-    mounted () {
+    created () {
       let self = this
       AXIOS.get('http://localhost:8089/api/user/' + this.username)
         .then(function (response) {
