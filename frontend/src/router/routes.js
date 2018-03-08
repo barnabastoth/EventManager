@@ -6,7 +6,6 @@ import UserProfile from '../components/Dashboard/Views/UserProfile.vue'
 import AllEvents from '../components/Dashboard/Views/AllEvents'
 import Icons from '../components/Dashboard/Views/Icons.vue'
 import Maps from '../components/Dashboard/Views/Maps.vue'
-import Typography from '../components/Dashboard/Views/Typography.vue'
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Dashboard/Views/Home'
@@ -46,18 +45,15 @@ const routes = [
         path: 'kapcsolat',
         name: 'Kapcsolat',
         component: Maps
-      }, {
-        path: 'typography',
-        name: 'typography',
-        component: Typography
-      }, {
-        path: 'event/:id',
-        name: 'eventById',
+      },
+      {
+        path: 'esemeny/:id',
+        name: 'Esemény',
         component: Event,
         props: true
       }, {
         path: 'login',
-        name: 'login',
+        name: 'Belépés/Regisztráció',
         component: Login
       }
     ]

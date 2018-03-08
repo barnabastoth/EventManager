@@ -19,7 +19,6 @@
       AXIOS.get('http://localhost:8089/api/event/' + this.id)
         .then(function (response) {
           self.event = response.data
-          console.log(response)
         })
     }
   }

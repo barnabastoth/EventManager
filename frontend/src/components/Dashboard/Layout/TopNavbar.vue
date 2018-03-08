@@ -12,24 +12,30 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="open">
+         <drop-down v-if="this.$store.getters.isLoggedIn === true" title="5 Értesítés" icon="ti-bell">
+           <li><a href="#">Notification 1</a></li>
+           <li><a href="#">Notification 2</a></li>
+           <li><a href="#">Notification 3</a></li>
+           <li><a href="#">Notification 4</a></li>
+           <li><a href="#">Another notification</a></li>
+         </drop-down>
+          <li v-if="this.$store.getters.isLoggedIn === true" class="open">
             <a href="#" class="dropdown-toggle btn-magnify" data-toggle="dropdown">
-              <i class="ti-panel"></i>
-              <p>Stats</p>
+              <i class="ti-user"></i>
+              <p>{{ $store.state.profile.username }}</p>
             </a>
           </li>
-             <drop-down title="5 Notifications" icon="ti-bell">
-               <li><a href="#">Notification 1</a></li>
-               <li><a href="#">Notification 2</a></li>
-               <li><a href="#">Notification 3</a></li>
-               <li><a href="#">Notification 4</a></li>
-               <li><a href="#">Another notification</a></li>
-             </drop-down>
-          <li>
-            <a href="#" class="btn-rotate">
-              <i class="ti-settings"></i>
+          <li v-if="this.$store.getters.isLoggedIn === true" class="open">
+            <a @click="performLogout()" href="#" class="dropdown-toggle btn-magnify" data-toggle="dropdown">
+              <i class="ti-unlock"></i>
+              <p>Kijelentkezés</p>
+            </a>
+          </li>
+          <li v-if="this.$store.getters.isLoggedIn === false">
+            <a @click="openLoginPage()" href="#" class="btn-rotate">
+              <i class="ti-user"></i>
               <p>
-                Settings
+                Belépés/Regisztráció
               </p>
             </a>
           </li>
@@ -66,6 +72,21 @@
       },
       hideSidebar () {
         this.$sidebar.displaySidebar(false)
+      },
+      openLoginPage () {
+        this.$router.push('login')
+      },
+      performLogout () {
+        this.$store.dispatch('logout')
+        this.$router.push('/login')
+        this.$notifications.notify(
+          {
+            message: 'Sikeresen kijelentkeztél. <br> Remélem azért még találkozunk!',
+            icon: 'ti-heart',
+            horizontalAlign: 'center',
+            verticalAlign: 'top',
+            type: 'info'
+          })
       }
     }
   }

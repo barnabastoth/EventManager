@@ -176,7 +176,6 @@
       AXIOS.get('http://localhost:8089/api/event/latest')
         .then(function (response) {
           self.event = response.data
-          console.log(response)
         })
     }
   }

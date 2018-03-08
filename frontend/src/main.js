@@ -8,6 +8,7 @@ import Notifications from './components/UIComponents/NotificationPlugin'
 import SideBar from './components/UIComponents/SidebarPlugin'
 import App from './App'
 import Vuex from 'vuex'
+import PaperNotification from 'src/components/UIComponents/NotificationPlugin/Notification.vue'
 
 // router setup
 import routes from './router/routes'
@@ -18,7 +19,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './assets/sass/paper-dashboard.scss'
 import 'es6-promise/auto'
 import VModal from 'vue-js-modal'
-import {AXIOS} from './components/http-common'
 
 // plugin setup
 Vue.use(VueRouter)
@@ -55,27 +55,18 @@ const store = new Vuex.Store({
     [LOGIN] (state) {
       state.pending = true
     },
-    [LOGIN_SUCCESS] (state) {
+    [LOGIN_SUCCESS] (state, profile) {
       state.isLoggedIn = true
       state.pending = false
+      state.profile = profile
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
     }
   },
   actions: {
-    login ({ commit }, creds) {
-      commit(LOGIN) // show spinner
-      AXIOS({
-        method: 'post',
-        url: 'http://localhost:8089/api/login',
-        data: creds,
-        config: { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
-      }).then(function (response) {
-        localStorage.setItem('token', 'Bearer ' + response.data.token)
-        AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-      })
-      commit(LOGIN_SUCCESS)
+    login ({ commit }, profile) {
+      commit(LOGIN_SUCCESS, profile) // show spinner
     },
     logout ({ commit }) {
       localStorage.removeItem('token')
@@ -98,7 +89,20 @@ new Vue({
   render: h => h(App),
   router,
   store,
+  PaperNotification,
   data: {
     Chartist: Chartist
+  },
+  methods: {
+    notify () {
+      this.$notifications.notify(
+        {
+          message: 'Üdv újra köztünk! <br> Sikeresen bejelentkeztél!',
+          icon: 'ti-heart',
+          horizontalAlign: 'center',
+          verticalAlign: 'top',
+          type: 'success'
+        })
+    }
   }
 })

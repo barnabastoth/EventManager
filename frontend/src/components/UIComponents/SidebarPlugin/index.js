@@ -27,11 +27,6 @@ const SidebarStore = {
       name: 'Kapcsolat',
       icon: 'ti-email',
       path: '/kapcsolat'
-    },
-    {
-      name: 'Bejelentkezés',
-      icon: 'ti-email',
-      path: '/login'
     }
   ],
   displaySidebar (value) {
