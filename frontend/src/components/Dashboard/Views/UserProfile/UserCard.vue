@@ -5,27 +5,45 @@
     </div>
     <div class="content">
       <div class="author">
-        <img class="avatar border-white" src="static/img/faces/face-2.jpg" alt="...">
-        <h4 class="title">Chet Faker
+        <img class="avatar border-white" :src="'http://localhost:8089/api/user/profilepic/' + user.id" alt="...">
+        <h4 class="title">{{user.lastName}} {{user.name}}
           <br>
           <a href="#">
-            <small>@chetfaker</small>
+            <small>@{{user.username}}</small>
           </a>
         </h4>
       </div>
       <p class="description text-center">
-        "I like the way you work it
-        <br> No diggity
-        <br> I wanna bag it up"
+        {{user.description}}
       </p>
     </div>
     <hr>
     <div class="text-center">
       <div class="row">
-        <div v-for="(info,index) in details" :class="getClasses(index)">
-          <h5>{{info.title}}
+        <div class="col-md-5 col-md-offset-1">
+          <h5>Foglalkozás
             <br>
-            <small>{{info.subTitle}}</small>
+            <small>{{user.profession}}</small>
+          </h5>
+        </div>
+        <div class="col-md-5 col-md-offset">
+          <h5>Weboldal
+            <br>
+            <small>{{user.website}}</small>
+          </h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 col-md-offset-1">
+          <h5>Csatlakozott
+            <br>
+            <small>{{user.memberSince.year}}.{{user.memberSince.monthValue}}.{{user.memberSince.dayOfMonth}}</small>
+          </h5>
+        </div>
+        <div class="col-md-5 col-md-offset">
+          <h5>Kommentek
+            <br>
+            <small>{{user.comments.length}}</small>
           </h5>
         </div>
       </div>
@@ -34,35 +52,8 @@
 </template>
 <script>
   export default {
-    data () {
-      return {
-        details: [
-          {
-            title: '12',
-            subTitle: 'Files'
-          },
-          {
-            title: '2GB',
-            subTitle: 'Used'
-          },
-          {
-            title: '24,6$',
-            subTitle: 'Spent'
-          }
-        ]
-      }
-    },
-    methods: {
-      getClasses (index) {
-        var remainder = index % 3
-        if (remainder === 0) {
-          return 'col-md-3 col-md-offset-1'
-        } else if (remainder === 2) {
-          return 'col-md-4'
-        } else {
-          return 'col-md-3'
-        }
-      }
+    props: {
+      user: []
     }
   }
 

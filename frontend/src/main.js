@@ -19,6 +19,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './assets/sass/paper-dashboard.scss'
 import 'es6-promise/auto'
 import VModal from 'vue-js-modal'
+import {AXIOS} from './components/http-common'
 
 // plugin setup
 Vue.use(VueRouter)
@@ -65,8 +66,10 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    login ({ commit }, profile) {
-      commit(LOGIN_SUCCESS, profile) // show spinner
+    login ({ commit }, response) {
+      localStorage.setItem('token', 'Bearer ' + response.data[0].token)
+      AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
+      commit(LOGIN_SUCCESS, response.data[1])
     },
     logout ({ commit }) {
       localStorage.removeItem('token')
@@ -102,6 +105,20 @@ new Vue({
           horizontalAlign: 'center',
           verticalAlign: 'top',
           type: 'success'
+        })
+    }
+  },
+  created () {
+    if (store.getters.profile.username == null) {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+      this.$notifications.notify(
+        {
+          message: 'Upsz, valami hiba történt, kérlek jelentkezz be újra.!',
+          icon: 'ti-thought',
+          horizontalAlign: 'center',
+          verticalAlign: 'top',
+          type: 'info'
         })
     }
   }

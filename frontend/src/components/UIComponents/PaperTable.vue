@@ -1,12 +1,17 @@
 <template>
-  <div>
+  <div class="card">
     <div class="header">
       <slot name="header">
         <h4 class="title">{{title}}</h4>
         <p class="category">{{subTitle}}</p>
       </slot>
     </div>
-    <div class="content table-responsive table-full-width">
+    <div v-if="data.length === 0" class="content table-responsive table-full-width">
+      <h4 style="text-align: center" class="title">Upsz</h4>
+      <p style="text-align: center" class="category">Ez még üresnek nézki</p>
+      <br><br>
+    </div>
+    <div v-else-if="data.length !== 0" class="content table-responsive table-full-width">
       <table class="table" :class="tableClass">
         <thead>
           <th v-for="column in columns">{{column}}</th>

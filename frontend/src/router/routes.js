@@ -55,6 +55,11 @@ const routes = [
         path: 'login',
         name: 'Belépés/Regisztráció',
         component: Login
+      }, {
+        path: 'profile/:id',
+        name: 'Profil',
+        component: UserProfile
+
       }
     ]
   },

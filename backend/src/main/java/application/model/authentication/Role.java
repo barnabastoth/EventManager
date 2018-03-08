@@ -14,14 +14,14 @@ public class Role {
 
 	public Role() {
 	}
+	public Role(String role) {
+		this.role = role;
+	}
 	public Set<User> getUsers() {
 		return users;
 	}
 	public void setUsers(Set<User> users) {
 		this.users = users;
-	}
-	public Role(String role) {
-		this.role = role;
 	}
 	public Long getId() {
 		return id;

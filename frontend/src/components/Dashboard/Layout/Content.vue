@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="background: url('../../../assets/img/background.jpg')">
     <div class="container-fluid">
         <transition name="fade" mode="out-in">
           <!-- your content here -->

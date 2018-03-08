@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-    public User save(User user) {
-        return userRepository.save(user);
-    }
+	public User save(User user) {
+		return userRepository.save(user);
+	}
 }

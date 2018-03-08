@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="cont">
-      <div class="form sign-in">
+      <div @keyup.enter="performLogin()" class="form sign-in">
         <br><br>
         <h2>Jó újra látni!</h2>
         <br>
@@ -84,11 +84,7 @@
           data: creds,
           config: { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
         }).then(function (response) {
-          localStorage.setItem('token', 'Bearer ' + response.data.token)
-          AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-          AXIOS.get('http://localhost:8089/api/user/' + self.login.username).then(function (response2) {
-            console.log(response2.data)
-            self.$store.dispatch('login', response2.data)
+          self.$store.dispatch('login', response).then(function () {
             self.$router.push('/fooldal')
             self.$notifications.notify(
               {

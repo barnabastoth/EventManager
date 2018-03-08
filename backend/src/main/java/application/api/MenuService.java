@@ -1,4 +1,4 @@
-package application.controller;
+package application.api;
 
 import application.model.menu.Menu;
 import application.repository.MenuRepository;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class MenuController {
+public class MenuService {
 
     @Autowired
     MenuRepository menuRepository;
