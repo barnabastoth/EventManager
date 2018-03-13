@@ -92,10 +92,16 @@ public class DataLoader implements CommandLineRunner {
 
         Comment comment = new Comment();
         comment.setDate(LocalDateTime.now());
-//        comment.setEvent(event2);
+        comment.setEvent(event2);
         comment.setMessage("Ez egy komment");
-//        comment.setUser(user);
+        comment.setUser(user);
         commentRepository.saveAndFlush(comment);
+
+        Set<Comment> comments = new HashSet<>();
+        comments.add(comment);
+
+        event1.setComments(comments);
+        eventRepository.saveAndFlush(event1);
 
     }
 

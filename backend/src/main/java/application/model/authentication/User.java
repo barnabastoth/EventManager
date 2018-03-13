@@ -2,6 +2,7 @@ package application.model.authentication;
 
 import application.model.event.Comment;
 import application.model.event.Event;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -49,11 +50,8 @@ public class User {
     )
     private Set<Event> speakerAt = new HashSet<>();
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
     public boolean hasRole(String role) {

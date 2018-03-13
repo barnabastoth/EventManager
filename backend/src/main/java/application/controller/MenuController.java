@@ -6,6 +6,11 @@ import application.repository.EventRepository;
 import application.repository.MenuRepository;
 import application.repository.UserRepository;
 import application.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +38,6 @@ public class MenuController {
         latestActivites.put("event", eventRepository.getLatestEvent());
         latestActivites.put("comment", commentRepository.getLatestComment());
         latestActivites.put("user", userService.getLatestUser());
-        System.out.println(latestActivites);
         return latestActivites;
     }
 

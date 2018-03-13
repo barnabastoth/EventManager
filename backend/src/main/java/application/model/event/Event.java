@@ -1,6 +1,8 @@
 package application.model.event;
 
 import application.model.authentication.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -34,7 +36,7 @@ public class Event {
     @ManyToMany(mappedBy = "events")
     private Set<User> speakers = new HashSet<>();
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true) @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(mappedBy = "events")
