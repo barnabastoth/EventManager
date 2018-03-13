@@ -24,6 +24,7 @@ target
 logback.out.xml
 
 backend/src/main/resources/public/
+backend/src/main/resources/templates/static
 backend/target
 frontend/dist/
 frontend/node/
@@ -37,3 +38,4 @@ frontend/yarn-error.log
 frontend/yarn.lock
 security/target/
 selenium-debug.log
+/backend/src/main/resources/templates/static/

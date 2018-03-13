@@ -7,9 +7,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>de.jonashackt</groupId>
+		<groupId>Event-Manager</groupId>
 		<artifactId>Event-Manager</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>3.0</version>
 	</parent>
 
 	<properties>
@@ -155,7 +155,7 @@
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/frontend/target/dist</directory>
+                                    <directory>${project.basedir}/frontend/target/dist</directory>
                                     <includes>
                                         <include>static/</include>
                                         <include>index.html</include>
