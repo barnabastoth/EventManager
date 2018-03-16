@@ -16,6 +16,7 @@ public class EventController {
 
     @Autowired EventRepository eventRepository;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/latest")
     public Event serveLatestEvent() {
         return eventRepository.getLatestEvent();

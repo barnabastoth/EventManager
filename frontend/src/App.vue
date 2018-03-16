@@ -13,9 +13,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
 
-</style>
 <script>
   import TopNavbar from '../src/components/Dashboard/Layout/TopNavbar.vue'
   import ContentFooter from '../src/components/Dashboard/Layout/ContentFooter.vue'
