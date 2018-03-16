@@ -8,6 +8,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String serveIndexPage() {
-        return "index";
+
+        return "redirect:/index.html";
     }
 }

@@ -39,7 +39,6 @@ public class AuthenticationController {
     @Autowired RoleRepository roleRepository;
     @Autowired AuthenticationUtils authenticationUtils;
 
-    @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<?> register(@RequestParam("username") String userName, @RequestParam("password") String password) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(

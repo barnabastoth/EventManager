@@ -1,4 +1,4 @@
-package application.service;
+package application.utils;
 
 
 import application.model.authentication.Role;
@@ -7,6 +7,7 @@ import application.model.event.Comment;
 import application.model.event.Event;
 import application.model.menu.Menu;
 import application.repository.*;
+import application.service.UserService;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,7 +24,8 @@ import java.util.stream.Stream;
 
 @Component
 public class DataLoader implements CommandLineRunner {
-    @Autowired UserService userService;
+    @Autowired
+    UserService userService;
     @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired private EventRepository eventRepository;
     @Autowired RoleRepository roleRepository;
@@ -32,9 +34,9 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String[] args) {
-        Role userRole = new Role("USER");
-        Role adminRole = new Role("ADMIN");
-        Role ownerRole = new Role("OWNER");
+        Role userRole = new Role("ROLE_USER");
+        Role adminRole = new Role("ROLE_ADMIN");
+        Role ownerRole = new Role("ROLE_OWNER");
         roleRepository.saveAndFlush(userRole);
         roleRepository.saveAndFlush(adminRole);
         roleRepository.saveAndFlush(ownerRole);
@@ -75,6 +77,7 @@ public class DataLoader implements CommandLineRunner {
         user.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         user.setMemberSince(LocalDateTime.now());
         user.setWebsite("http://event-manager.com");
+        user.addRole(adminRole);
         userService.save(user);
 
         Menu about = new Menu();

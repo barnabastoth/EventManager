@@ -2,6 +2,7 @@ package application.model.authentication;
 
 import application.model.event.Comment;
 import application.model.event.Event;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -29,30 +30,35 @@ public class User {
     @Column(name = "memberSince") private LocalDateTime memberSince;
     @Column(name = "image") private byte[] image;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role"
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @JsonBackReference
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_events"
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_speakers"
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
     private Set<Event> speakerAt = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 
     public boolean hasRole(String role) {
         for (Role r : roles) {
