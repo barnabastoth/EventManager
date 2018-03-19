@@ -35,7 +35,7 @@
           <br>
           <h2>Itt az idő, hogy otthon érezd magad,</h2>
           <br>
-          <h2><small style="color: red">{{error}}</small></h2>
+          <h2 v-for="error in errors"><small style="color: red">{{error}}</small></h2>
           <label>
             <span>Felhasználónév</span>
             <input v-model="register.username" type="text" />
@@ -69,22 +69,13 @@
           email: '',
           password: ''
         },
-        error: ''
+        errors: []
       }
     },
     methods: {
       performLogin () {
         let self = this
-        let creds = new URLSearchParams()
-        creds.append('username', self.login.username)
-        creds.append('password', self.login.password)
-        this.$store.commit('LOGIN')
-        AXIOS({
-          method: 'post',
-          url: 'http://localhost:8089/api/login',
-          data: creds,
-          config: { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
-        }).then(function (response) {
+        AXIOS.post('http://localhost:8089/api/login', this.$data.login).then(function (response) {
           self.$store.dispatch('login', response).then(function () {
             self.$router.push('/fooldal')
             self.$notifications.notify(
@@ -112,34 +103,14 @@
       },
       performRegistration () {
         let self = this
-        let creds = new URLSearchParams()
-        creds.append('username', self.register.username)
-        creds.append('email', self.register.email)
-        creds.append('password', self.register.password)
-        AXIOS({
-          method: 'post',
-          url: 'http://localhost:8089/api/register',
-          data: creds,
-          config: { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
-        }).then(function (response) {
-          AXIOS({
-            method: 'post',
-            url: 'http://localhost:8089/api/login',
-            data: creds,
-            config: { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }
-          }).then(function (response2) {
-            self.$store.dispatch('login', response2)
-            self.$router.push('/')
-            self.$notifications.notify(
-              {
-                message: 'Üdv közöttünk. <br> Sikeresen regisztráltál! <br> Automatikusan be is léptettünk a rendszerbe.',
-                icon: 'ti-check',
-                horizontalAlign: 'center',
-                verticalAlign: 'top',
-                type: 'success'
-              })
-          })
+        AXIOS.post('http://localhost:8089/api/register', this.$data.register).then(function (response) {
+          console.log(response)
+          self.login.username = self.register.username
+          self.login.password = self.register.password
+          // self.performLogin()
         }).catch(function (error) {
+          console.log(error.response)
+          self.errors = error.response.data
           if (error.response) {
             self.$notifications.notify(
               {

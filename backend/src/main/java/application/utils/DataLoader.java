@@ -68,7 +68,7 @@ public class DataLoader implements CommandLineRunner {
 
         User user = new User();
         user.setActive(1);
-        user.setPassword(bCryptPasswordEncoder.encode("anyad"));
+        user.setPassword(bCryptPasswordEncoder.encode("password"));
         user.setEmail("vigyor99@gmail.com");
         user.setUsername("Exworm");
         user.setName("Barnabás");

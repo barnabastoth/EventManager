@@ -1,9 +1,7 @@
 package application.controller;
 
 import application.config.JwtTokenUtil;
-import application.model.authentication.AuthToken;
-import application.model.authentication.Role;
-import application.model.authentication.User;
+import application.model.authentication.*;
 import application.repository.RoleRepository;
 import application.service.UserService;
 import application.utils.AuthenticationUtils;
@@ -17,8 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,16 +40,18 @@ public class AuthenticationController {
     @Autowired RoleRepository roleRepository;
     @Autowired AuthenticationUtils authenticationUtils;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<?> register(@RequestParam("username") String userName, @RequestParam("password") String password) throws AuthenticationException {
+    @PostMapping("/login")
+    public ResponseEntity<?> register(@RequestBody LogInUser logInUser) throws AuthenticationException {
+        System.out.println("ASD" + logInUser.getUsername());
+        System.out.println("ASDD" + logInUser.getPassword());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        userName,
-                        password
+                        logInUser.getUsername(),
+                        logInUser.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        final User user = userService.findByUsername(userName);
+        final User user = userService.findByUsername(logInUser.getUsername());
         if(user != null) {
             List<Object> entities = new ArrayList<>();
             final String token = jwtTokenUtil.generateToken(user);
@@ -59,15 +62,22 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<?> register(@RequestParam("username") String userName,
-                                      @RequestParam("email") String email,
-                                      @RequestParam("password") String password) {
-        if(userService.findByUsername(userName) == null && userService.findByEmail(email) == null) {
-            authenticationUtils.registerNewUser(userName, email, password);
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterUser registerUser, BindingResult bindingResult) {
+        System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        if(userService.findByUsername(registerUser.getUsername()) == null && userService.findByEmail(registerUser.getEmail()) == null) {
+            if(bindingResult.hasErrors()) {
+                List<String> errors = new ArrayList<>();
+                for (ObjectError error : bindingResult.getAllErrors()) {
+                    errors.add(error.getDefaultMessage());
+                }
+                return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+            } else {
+                authenticationUtils.registerNewUser(registerUser);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
         }
-        return new ResponseEntity<>("AASDASDSADSA", HttpStatus.CONFLICT);
+        return new ResponseEntity<>("Ez a felhasználónév vagy email-cím már foglalt", HttpStatus.CONFLICT);
     }
 
 }

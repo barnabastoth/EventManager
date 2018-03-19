@@ -4,6 +4,7 @@ import application.model.event.Comment;
 import application.model.event.Event;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private Long id;
     @Column(name = "username", unique = true) private String username;
-    @Column(name = "email", unique = true)  private String email;
+    @Column(name = "email", unique = true) private String email;
     @Column(name = "password") private String password;
     @Column(name = "name") private String name;
     @Column(name = "last_name") private String lastName;
