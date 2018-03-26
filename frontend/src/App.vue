@@ -1,17 +1,19 @@
 <template>
-  <div class="wrapper">
-    <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks"></side-bar>
-    <notifications></notifications>
-    <div class="main-panel">
-      <top-navbar></top-navbar>
+  <v-app id="inspire">
+    <div class="wrapper">
+      <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks"></side-bar>
+      <notifications></notifications>
+      <div class="main-panel">
+        <top-navbar></top-navbar>
 
-      <Content @click.native="toggleSidebar">
+        <Content @click.native="toggleSidebar">
 
-      </Content>
+        </Content>
 
-      <content-footer></content-footer>
+        <content-footer></content-footer>
+      </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>

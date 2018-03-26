@@ -5,6 +5,7 @@ import application.model.authentication.*;
 import application.repository.RoleRepository;
 import application.service.UserService;
 import application.utils.AuthenticationUtils;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,15 +17,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,8 +41,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> register(@RequestBody LogInUser logInUser) throws AuthenticationException {
-        System.out.println("ASD" + logInUser.getUsername());
-        System.out.println("ASDD" + logInUser.getPassword());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         logInUser.getUsername(),
@@ -64,12 +61,11 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUser registerUser, BindingResult bindingResult) {
-        System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
         if(userService.findByUsername(registerUser.getUsername()) == null && userService.findByEmail(registerUser.getEmail()) == null) {
             if(bindingResult.hasErrors()) {
-                List<String> errors = new ArrayList<>();
-                for (ObjectError error : bindingResult.getAllErrors()) {
-                    errors.add(error.getDefaultMessage());
+                Map<String, String> errors = new HashMap<>();
+                for (FieldError error : bindingResult.getFieldErrors()) {
+                    errors.put(error.getField(), error.getDefaultMessage());
                 }
                 return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
             } else {

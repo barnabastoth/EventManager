@@ -21,6 +21,19 @@ import 'es6-promise/auto'
 import VModal from 'vue-js-modal'
 import {AXIOS} from './components/http-common'
 
+const router = new VueRouter({
+  // configure router
+  routes, // short for routes: routes
+  linkActiveClass: 'active'
+})
+
+Object.defineProperty(Vue.prototype, '$Chartist', {
+// global library setup
+  get () {
+    return this.$root.Chartist
+  }
+})
+
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(VModal)
@@ -29,19 +42,6 @@ Vue.use(GlobalDirectives)
 Vue.use(Notifications)
 Vue.use(SideBar)
 Vue.use(Vuex)
-
-// configure router
-const router = new VueRouter({
-  routes, // short for routes: routes
-  linkActiveClass: 'active'
-})
-
-// global library setup
-Object.defineProperty(Vue.prototype, '$Chartist', {
-  get () {
-    return this.$root.Chartist
-  }
-})
 
 const LOGIN = 'LOGIN'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -111,18 +111,22 @@ new Vue({
     }
   },
   created () {
+    // AXIOS.get('http://localhost:8089/api/me')
+    //   .then(function (response) {
+    //     console.log(response.dataa)
+    //   })
     store.state.loggedInUserName = localStorage.getItem('userName')
-    // if (this.$store.getters.loggedInUserName == null) {
-    //   this.$store.dispatch('logout')
-    //   this.$router.push('/login')
-    //   this.$notifications.notify(
-    //     {
-    //       message: 'Upsz, valami hiba történt, kérlek jelentkezz be újra.!',
-    //       icon: 'ti-thought',
-    //       horizontalAlign: 'center',
-    //       verticalAlign: 'top',
-    //       type: 'info'
-    //     })
-    // }
+    if (this.$store.getters.loggedInUserName == null) {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+      this.$notifications.notify(
+        {
+          message: 'Upsz, valami hiba történt, kérlek jelentkezz be újra.!',
+          icon: 'ti-thought',
+          horizontalAlign: 'center',
+          verticalAlign: 'top',
+          type: 'info'
+        })
+    }
   }
 })

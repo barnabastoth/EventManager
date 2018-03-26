@@ -1,54 +1,59 @@
 <template>
-  <div class="card">
-    <div class="cont">
-      <div @keyup.enter="performLogin()" class="form sign-in">
-        <br><br>
-        <h2>Jó újra látni!</h2>
-        <br>
-        <label>
-          <span>Felhasználónév</span>
-          <input v-model="login.username" type="email" />
-        </label>
-        <label>
-          <span>Jelszó</span>
-          <input v-model="login.password" type="password" />
-        </label>
-        <p class="forgot-pass">Elfelejtetted a jelszavad?</p>
-        <button @click="performLogin()" type="button" class="submit">Bejelentkezés</button>
-      </div>
-      <div class="sub-cont">
-        <div class="img">
-          <div class="img__text m--up">
-            <h2>Új vagy?</h2>
-            <p>Regisztrálj, és csatlakozz nagyszerű közösségünkhöz.</p>
-          </div>
-          <div class="img__text m--in">
-            <h2>Már közénk tartozol?</h2>
-            <p>Ha van már felhasználód, csak jelentkezz be, már hiányoltunk!</p>
-          </div>
-          <div @click="toogleAuth()" class="img__btn">
-            <span class="m--up">Regisztráció</span>
-            <span class="m--in">Bejelentkezés</span>
-          </div>
-        </div>
-        <div class="form sign-up">
+  <div>
+    <div class="card" style="margin-bottom: 10px; padding: 20px;" v-if="Object.keys(register.errors).length">
+      <h2 style="padding: 10px;">Kérlek javítsd ki az alábbi hibákat.</h2>
+      <h2 v-for="error in register.errors"><small style="color: red">{{error}}</small></h2>
+    </div>
+    <div class="card">
+      <div class="cont">
+        <div @keyup.enter="performLogin()" class="form sign-in">
+          <br><br>
+          <h2>Jó újra látni!</h2>
           <br>
-          <h2>Itt az idő, hogy otthon érezd magad,</h2>
-          <br>
-          <h2 v-for="error in errors"><small style="color: red">{{error}}</small></h2>
           <label>
             <span>Felhasználónév</span>
-            <input v-model="register.username" type="text" />
-          </label>
-          <label>
-            <span>Email</span>
-            <input v-model="register.email" type="email" />
+            <input v-model="login.username" type="email" />
           </label>
           <label>
             <span>Jelszó</span>
-            <input v-model="register.password" type="password" />
+            <input v-model="login.password" type="password" />
           </label>
-          <button @click="performRegistration()" type="button" class="submit">Regisztráció</button>
+          <p class="forgot-pass">Elfelejtetted a jelszavad?</p>
+          <button @click="performLogin()" type="button" class="submit">Bejelentkezés</button>
+        </div>
+        <div class="sub-cont" @keyup.enter="performRegistration()">
+          <div class="img">
+            <div class="img__text m--up">
+              <h2>Új vagy?</h2>
+              <p>Regisztrálj, és csatlakozz nagyszerű közösségünkhöz.</p>
+            </div>
+            <div class="img__text m--in">
+              <h2>Már közénk tartozol?</h2>
+              <p>Ha van már felhasználód, csak jelentkezz be, már hiányoltunk!</p>
+            </div>
+            <div @click="toogleAuth()" class="img__btn">
+              <span @click="clearErrors()" class="m--up">Regisztráció</span>
+              <span @click="clearErrors()" class="m--in">Bejelentkezés</span>
+            </div>
+          </div>
+          <div class="form sign-up">
+            <br>
+            <h2>Itt az idő, hogy otthon érezd magad,</h2>
+            <br>
+            <label>
+              <span>Felhasználónév</span>
+              <input v-model="register.username" type="text" />
+            </label>
+            <label>
+              <span>Email</span>
+              <input v-model="register.email" type="email" />
+            </label>
+            <label>
+              <span>Jelszó</span>
+              <input v-model="register.password" type="password" />
+            </label>
+            <button @click="performRegistration()" type="button" class="submit">Regisztráció</button>
+          </div>
         </div>
       </div>
     </div>
@@ -62,17 +67,23 @@
       return {
         login: {
           username: '',
-          password: ''
+          password: '',
+          errors: {}
         },
         register: {
           username: '',
           email: '',
-          password: ''
-        },
-        errors: []
+          password: '',
+          errors: {}
+        }
       }
     },
     methods: {
+      clearErrors () {
+        alert('asd')
+        this.$data.login.errors = ['asd']
+        this.$data.register.errors = ['asd']
+      },
       performLogin () {
         let self = this
         AXIOS.post('http://localhost:8089/api/login', this.$data.login).then(function (response) {
@@ -103,25 +114,28 @@
       },
       performRegistration () {
         let self = this
-        AXIOS.post('http://localhost:8089/api/register', this.$data.register).then(function (response) {
-          console.log(response)
-          self.login.username = self.register.username
-          self.login.password = self.register.password
-          // self.performLogin()
-        }).catch(function (error) {
-          console.log(error.response)
-          self.errors = error.response.data
-          if (error.response) {
-            self.$notifications.notify(
-              {
-                message: 'Upsz, úgy nézki, hogy elütöttél valamit. <br> A regisztráció sikertelen volt :(',
-                icon: 'ti-heart-broken',
-                horizontalAlign: 'center',
-                verticalAlign: 'top',
-                type: 'danger'
-              })
-          }
-        })
+        AXIOS.post('http://localhost:8089/api/register', this.$data.register)
+          .then(function (response) {
+            console.log(response)
+            self.login.username = self.register.username
+            self.login.password = self.register.password
+            self.login.errors = {}
+            self.performLogin()
+          })
+          .catch(function (error) {
+            console.log(error.response)
+            self.register.errors = error.response.data
+            if (error.response) {
+              self.$notifications.notify(
+                {
+                  message: 'Upsz, úgy nézki, hogy elütöttél valamit. <br> A regisztráció sikertelen volt :(',
+                  icon: 'ti-heart-broken',
+                  horizontalAlign: 'center',
+                  verticalAlign: 'top',
+                  type: 'danger'
+                })
+            }
+          })
       },
       toogleAuth () {
         document.querySelector('.cont').classList.toggle('s--signup')

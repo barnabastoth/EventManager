@@ -194,10 +194,7 @@
                 <span class="ti-target"></span>
                 <span class="icon-name"> ti-target</span>
               </div>
-              <div class="icon-container">
-                <span class="ti-tag"></span>
-                <span class="icon-name"> ti-tag</span>
-              </div>
+              C
               <div class="icon-container">
                 <span class="ti-desktop"></span>
                 <span class="icon-name"> ti-desktop</span>

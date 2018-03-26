@@ -12,6 +12,10 @@
           Event Manager
         </a>
       </div>
+      <div class="logo">
+        <avatar></avatar>
+
+      </div>
       <slot>
 
       </slot>

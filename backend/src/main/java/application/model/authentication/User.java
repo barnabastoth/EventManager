@@ -4,9 +4,11 @@ import application.model.event.Comment;
 import application.model.event.Event;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -18,18 +20,50 @@ import java.util.*;
 @Table(name = "User")
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "user_id") private Long id;
-    @Column(name = "username", unique = true) private String username;
-    @Column(name = "email", unique = true) private String email;
-    @Column(name = "password") private String password;
-    @Column(name = "name") private String name;
-    @Column(name = "last_name") private String lastName;
-    @Column(name = "profession") private String profession;
-    @Column(name = "website") private String website;
-    @Column(name = "description", columnDefinition="text") private String description;
-    @Column(name = "active") private int active;
-    @Column(name = "memberSince") private LocalDateTime memberSince;
-    @Column(name = "image") private byte[] image;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private Long id;
+
+    @Column(name = "username", unique = true)
+    @Size(min = 4, max = 20, message = "A felhasználónevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    private String username;
+
+    @Column(name = "email", unique = true)
+    @NotEmpty(message = "Az email címed nem lehet üres.")
+    @Email(message = "Az email címed nem tűnik igazinak.")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "name")
+    @Size(min = 3, max = 15, message = "A keresztnevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    private String name;
+
+    @Column(name = "last_name")
+    @Size(min = 3, max = 15, message = "A családnevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    private String lastName;
+
+    @Column(name = "profession")
+    @Size(min = 6, max = 40, message = "A foglalkozásodnak legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    private String profession;
+
+    @Column(name = "website")
+    @Size(min = 6, max = 100, message = "A weboldalad címének legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    private String website;
+
+    @Column(name = "description", columnDefinition="text")
+    @Size(min = 20, max = 420, message = "A bemutatkozódnak legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    private String description;
+
+    @Column(name = "active")
+    private int active;
+
+    @Column(name = "memberSince")
+    private LocalDateTime memberSince;
+
+    @Column(name = "image")
+    private byte[] image;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role"
