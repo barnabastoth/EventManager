@@ -66,10 +66,12 @@ module.exports = function (ctx) {
         'QTabs',
         'QTab',
         'QTabPane',
-        'QRouteTab'
+        'QRouteTab',
+        'QTooltip'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'CloseOverlay'
       ],
       // Quasar plugins
       plugins: [
