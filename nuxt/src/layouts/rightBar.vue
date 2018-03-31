@@ -1,15 +1,11 @@
 <template>
   <q-layout-drawer
+    v-if="$store.state.isLoggedIn"
     side="right"
     v-model="$store.state.rightBarOpen"
     :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
   >
     <q-list class="vertical-middle">
-      <q-btn
-        color="secondary"
-        style="width:200px;"
-        @click="$router.push('/profile')"
-      >Go back</q-btn>
       <q-collapsible avatar="statics/guy-avatar.png" label="Barnabás Tóth">
         <q-item>
           <q-item-side>
@@ -41,11 +37,21 @@
       </q-collapsible>
       <q-item class="main-color">
         <q-item-side>
-          <q-btn><q-icon name="perm identity" /></q-btn>
-          <q-btn><q-icon name="lock open" /></q-btn>
-          <q-btn><q-icon name="settings" /></q-btn>
-          <q-btn><q-icon name="fa-bell"/></q-btn>
-          <q-btn><q-icon name="fa-bell"/></q-btn>
+          <q-btn icon="perm identity">
+            <q-tooltip>Profil</q-tooltip>
+          </q-btn>
+          <q-btn icon="message">
+            <q-tooltip>Üzenetek</q-tooltip>
+          </q-btn>
+          <q-btn icon="fa-bell">
+            <q-tooltip>Értesítések</q-tooltip>
+          </q-btn>
+          <q-btn @click="$store.dispatch('logout')" icon="lock">
+            <q-tooltip>Kijelentkezés</q-tooltip>
+          </q-btn>
+          <q-btn icon="settings">
+            <q-tooltip>Beállítások</q-tooltip>
+          </q-btn>
         </q-item-side>
       </q-item>
     </q-list>
