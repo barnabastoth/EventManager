@@ -23,7 +23,6 @@ module.exports = function (ctx) {
     },
     build: {
       scopeHoisting: true,
-      vueRouterMode: 'history',
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
@@ -67,7 +66,9 @@ module.exports = function (ctx) {
         'QTab',
         'QTabPane',
         'QRouteTab',
-        'QTooltip'
+        'QTooltip',
+        'QField',
+        'QInput'
       ],
       directives: [
         'Ripple',

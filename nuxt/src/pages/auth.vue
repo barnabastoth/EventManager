@@ -1,67 +1,83 @@
 <template>
-  <div>
-    <div class="card" style="margin-bottom: 10px; padding: 20px;" v-if="Object.keys(register.errors).length">
-      <h2 style="padding: 10px;">Kérlek javítsd ki az alábbi hibákat.</h2>
-      <h2 v-for="error in register.errors"><small style="color: red">{{error}}</small></h2>
-    </div>
-    <div class="card">
-      <div class="cont">
-        <div @keyup.enter="performLogin()" class="form sign-in">
-          <br><br>
-          <h2>Jó újra látni!</h2>
-          <br>
-          <label>
-            <span>Felhasználónév</span>
-            <input v-model="login.username" type="email" />
-          </label>
-          <label>
-            <span>Jelszó</span>
-            <input v-model="login.password" type="password" />
-          </label>
-          <p class="forgot-pass">Elfelejtetted a jelszavad?</p>
-          <button @click="performLogin()" type="button" class="submit">Bejelentkezés</button>
-        </div>
-        <div class="sub-cont" @keyup.enter="performRegistration()">
-          <div class="img">
-            <div class="img__text m--up">
-              <h2>Új vagy?</h2>
-              <p>Regisztrálj, és csatlakozz nagyszerű közösségünkhöz.</p>
-            </div>
-            <div class="img__text m--in">
-              <h2>Már közénk tartozol?</h2>
-              <p>Ha van már felhasználód, csak jelentkezz be, már hiányoltunk!</p>
-            </div>
-            <div @click="toogleAuth()" class="img__btn">
-              <span @click="clearErrors()" class="m--up">Regisztráció</span>
-              <span @click="clearErrors()" class="m--in">Bejelentkezés</span>
-            </div>
-          </div>
-          <div class="form sign-up">
-            <br>
-            <h2>Itt az idő, hogy otthon érezd magad,</h2>
-            <br>
-            <label>
-              <span>Felhasználónév</span>
-              <input v-model="register.username" type="text" />
-            </label>
-            <label>
-              <span>Email</span>
-              <input v-model="register.email" type="email" />
-            </label>
-            <label>
-              <span>Jelszó</span>
-              <input v-model="register.password" type="password" />
-            </label>
-            <button @click="performRegistration()" type="button" class="submit">Regisztráció</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div style="width: 500px; max-width: 90vw;" class="absolute-center">
+    <q-input v-model="login.email" inverted color="primary" type="email" :before="[{icon: 'mail', handler () {}}]"/>
+    <q-input v-model="login.password" inverted-light color="amber" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
+    <q-field
+      :count="7"
+      helper="What's your account name?"
+      :error="error2"
+      error-label="Hey, we got an error"
+      :warning="warning2"
+      warning-label="Hey, we got a warning"
+    >
+      <q-input v-model="text" />
+    </q-field>
+
+    <q-field
+      icon="wifi"
+      helper="Your awesome helper"
+      :error="error2"
+      error-label="We got an error"
+      :warning="warning2"
+      warning-label="Hey, we got a warning"
+    >
+      <q-input v-model="text" float-label="Textfield" />
+    </q-field>
+
+    <q-field
+      icon="account_circle"
+      label="Account"
+      :count="7"
+      helper="What's your account name?"
+      :error="error2"
+      error-label="Hey, we got an error"
+      :warning="warning2"
+      warning-label="Hey, we got a warning"
+    >
+      <q-input v-model="text" />
+    </q-field>
+
+    <q-field
+      icon="card_travel"
+      label="Travel card"
+      helper="Some helper"
+      :error="error2"
+      error-label="Wait, wait. Error!"
+      :warning="warning2"
+      warning-label="Hey, we got a warning"
+    >
+      <q-input v-model="text" float-label="Float label" />
+    </q-field>
+
+    <q-field
+      icon="important_devices"
+      label="Device name"
+      :count="15"
+      helper="Some helper"
+      :error="error2"
+      error-label="Wait, wait. Error!"
+      :warning="warning2"
+      warning-label="Hey, we got a warning"
+    >
+      <q-input v-model="text" inverted placeholder="On Field" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
+    </q-field>
+
+    <q-field
+      icon="place"
+      label="Your destination"
+      helper="Some helper"
+      :error="error2"
+      error-label="Some error"
+      :warning="warning2"
+      warning-label="Hey, we got a warning"
+    >
+      <q-input v-model="text" color="secondary" inverted stack-label="Stack Label" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
+    </q-field>
   </div>
 </template>
 
 <script>
-import {AXIOS} from '../../../http-common'
+import AXIOS from 'axios'
 export default {
   data: function () {
     return {
@@ -88,7 +104,7 @@ export default {
       let self = this
       AXIOS.post('http://localhost:8089/api/login', this.$data.login).then(function (response) {
         self.$store.dispatch('login', response).then(function () {
-          self.$router.push('/fooldal')
+          self.$router.push('/')
           self.$notifications.notify(
             {
               message: 'Üdv újra köztünk! <br> Sikeresen bejelentkeztél!',

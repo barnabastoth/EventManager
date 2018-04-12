@@ -32,12 +32,6 @@
         <q-item-tile label>Kapcsolat</q-item-tile>
       </q-item-main>
     </q-item>
-    <q-item>
-      <q-item-side icon="fa-address-card" inverted color="amber" />
-      <q-item-main>
-        <q-item-tile label>Kapcsolat</q-item-tile>
-      </q-item-main>
-    </q-item>
   </q-list>
 </q-layout-drawer>
 </template>
