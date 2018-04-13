@@ -1,99 +1,30 @@
 <template>
   <div style="width: 500px; max-width: 90vw;" class="absolute-center">
-    <q-input v-model="login.email" inverted color="primary" type="email" :before="[{icon: 'mail', handler () {}}]"/>
-    <q-input v-model="login.password" inverted-light color="amber" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
-    <q-field
-      :count="7"
-      helper="What's your account name?"
-      :error="error2"
-      error-label="Hey, we got an error"
-      :warning="warning2"
-      warning-label="Hey, we got a warning"
-    >
-      <q-input v-model="text" />
-    </q-field>
-
-    <q-field
-      icon="wifi"
-      helper="Your awesome helper"
-      :error="error2"
-      error-label="We got an error"
-      :warning="warning2"
-      warning-label="Hey, we got a warning"
-    >
-      <q-input v-model="text" float-label="Textfield" />
-    </q-field>
-
-    <q-field
-      icon="account_circle"
-      label="Account"
-      :count="7"
-      helper="What's your account name?"
-      :error="error2"
-      error-label="Hey, we got an error"
-      :warning="warning2"
-      warning-label="Hey, we got a warning"
-    >
-      <q-input v-model="text" />
-    </q-field>
-
-    <q-field
-      icon="card_travel"
-      label="Travel card"
-      helper="Some helper"
-      :error="error2"
-      error-label="Wait, wait. Error!"
-      :warning="warning2"
-      warning-label="Hey, we got a warning"
-    >
-      <q-input v-model="text" float-label="Float label" />
-    </q-field>
-
-    <q-field
-      icon="important_devices"
-      label="Device name"
-      :count="15"
-      helper="Some helper"
-      :error="error2"
-      error-label="Wait, wait. Error!"
-      :warning="warning2"
-      warning-label="Hey, we got a warning"
-    >
-      <q-input v-model="text" inverted placeholder="On Field" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
-    </q-field>
-
-    <q-field
-      icon="place"
-      label="Your destination"
-      helper="Some helper"
-      :error="error2"
-      error-label="Some error"
-      :warning="warning2"
-      warning-label="Hey, we got a warning"
-    >
-      <q-input v-model="text" color="secondary" inverted stack-label="Stack Label" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
-    </q-field>
+    <q-input float-label="Email" v-model="login.email" inverted color="primary" type="email" :before="[{icon: 'mail', handler () {}}]"/>
+    <br>
+    <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
+    <q-btn color="secondary" icon-right="fa-key" @click="performLogin()" label="Bejelentkezés" />
   </div>
 </template>
 
 <script>
 import AXIOS from 'axios'
 export default {
-  // data: function () {
-  //   return {
-  //     login: {
-  //       username: '',
-  //       password: '',
-  //       errors: {}
-  //     },
-  //     register: {
-  //       username: '',
-  //       email: '',
-  //       password: '',
-  //       errors: {}
-  //     }
-  //   }
-  // },
+  data: function () {
+    return {
+      login: {
+        username: '',
+        password: '',
+        errors: {}
+      },
+      register: {
+        username: '',
+        email: '',
+        password: '',
+        errors: {}
+      }
+    }
+  },
   methods: {
     clearErrors () {
       alert('asd')
@@ -102,31 +33,18 @@ export default {
     },
     performLogin () {
       let self = this
-      AXIOS.post('http://localhost:8089/api/login', this.$data.login).then(function (response) {
-        self.$store.dispatch('login', response).then(function () {
-          self.$router.push('/')
-          self.$notifications.notify(
-            {
-              message: 'Üdv újra köztünk! <br> Sikeresen bejelentkeztél!',
-              icon: 'ti-heart',
-              horizontalAlign: 'center',
-              verticalAlign: 'top',
-              type: 'success'
-            })
-        })
-      }).catch(function (error) {
-        console.log(error)
-        if (error.response) {
-          self.$notifications.notify(
-            {
-              message: 'Upsz, úgy nézki, hogy elütöttél valamit. <br> A bejelentkezés sikertelen volt :(',
-              icon: 'ti-heart-broken',
-              horizontalAlign: 'center',
-              verticalAlign: 'top',
-              type: 'danger'
-            })
-        }
+      this.$store.state.isLoggedIn = true
+      this.$store.dispatch('login', 'Exworm').then(function () {
+        self.$router.push('/')
       })
+      // let self = this
+      // AXIOS.post('http://localhost:8089/api/login', this.$data.login).then(function (response) {
+      //   self.$store.dispatch('login', response).then(function () {
+      //     self.$router.push('/')
+      //   })
+      // }).catch(function (error) {
+      //   console.log(error)
+      // })
     },
     performRegistration () {
       let self = this
@@ -141,16 +59,6 @@ export default {
         .catch(function (error) {
           console.log(error.response)
           self.register.errors = error.response.data
-          if (error.response) {
-            self.$notifications.notify(
-              {
-                message: 'Upsz, úgy nézki, hogy elütöttél valamit. <br> A regisztráció sikertelen volt :(',
-                icon: 'ti-heart-broken',
-                horizontalAlign: 'center',
-                verticalAlign: 'top',
-                type: 'danger'
-              })
-          }
         })
     },
     toogleAuth () {

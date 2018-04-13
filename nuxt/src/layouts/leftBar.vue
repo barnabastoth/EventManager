@@ -5,7 +5,7 @@
   :content-class="$q.theme === 'mat' ? 'bg-grey-1' : null"
 >
   <q-list class="text-center" >
-    <img alt="Quasar logo" src="../assets/quasar-logo-full.svg">
+    <img @click="$router.push('/')" alt="Quasar logo" src="../assets/quasar-logo-full.svg">
     <q-item>
       <q-item-side icon="home" inverted color="green" />
       <q-item-main>

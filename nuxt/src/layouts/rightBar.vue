@@ -1,6 +1,5 @@
 <template>
   <q-layout-drawer
-    v-if="$store.state.isLoggedIn === false"
     side="right"
     v-model="$store.state.rightBarOpen"
     :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
