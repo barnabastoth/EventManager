@@ -79,21 +79,21 @@
 <script>
 import AXIOS from 'axios'
 export default {
-  data: function () {
-    return {
-      login: {
-        username: '',
-        password: '',
-        errors: {}
-      },
-      register: {
-        username: '',
-        email: '',
-        password: '',
-        errors: {}
-      }
-    }
-  },
+  // data: function () {
+  //   return {
+  //     login: {
+  //       username: '',
+  //       password: '',
+  //       errors: {}
+  //     },
+  //     register: {
+  //       username: '',
+  //       email: '',
+  //       password: '',
+  //       errors: {}
+  //     }
+  //   }
+  // },
   methods: {
     clearErrors () {
       alert('asd')
