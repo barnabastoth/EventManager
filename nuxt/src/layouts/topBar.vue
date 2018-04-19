@@ -2,7 +2,7 @@
   <q-layout-header>
     <q-toolbar
       color="dark"
-      inverted
+
     >
       <q-btn
         @click="$store.dispatch('toggleLeftBar')"
@@ -16,10 +16,9 @@
         <div slot="subtitle">Esemény központú közösségi oldal</div>
       </q-toolbar-title>
       <div v-if="$store.state.isLoggedIn" @click="$store.dispatch('toggleRightBar')">
-        <q-tooltip>Felhasználói Panel</q-tooltip>
         <q-item class="main-color cursor-pointer">
           <q-item-side avatar="statics/guy-avatar.png" />
-          <q-item-main label="Barnabás Tóth"/>
+          <q-item-main>{{$store.state.loggedInUser.username}}</q-item-main>
           <q-item-side right>
             <q-btn
               aria-label="Menu"

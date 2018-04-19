@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.function.Function;
 
-import static application.model.authentication.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
-import static application.model.authentication.Constants.SIGNING_KEY;
+import static application.model.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
+import static application.model.Constants.SIGNING_KEY;
 
 
 @Component

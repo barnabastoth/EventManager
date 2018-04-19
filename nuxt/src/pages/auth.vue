@@ -1,10 +1,23 @@
 <template>
-  <div style="width: 500px; max-width: 90vw;" class="absolute-center">
-    <q-input float-label="Email" v-model="login.email" inverted color="primary" type="email" :before="[{icon: 'mail', handler () {}}]"/>
-    <br>
-    <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
-    <q-btn color="secondary" icon-right="fa-key" @click="performLogin()" label="Bejelentkezés" />
-  </div>
+  <q-layout>
+    <q-page-container>
+      <q-page>
+        <div style="width: 700px; max-width: 90vw;" class="absolute-center">
+          <div
+            class="main-color shadow-1 row inline flex-center text-white"
+            :class="`bg-${color}`"
+          >
+            asd
+          </div>
+          <q-input float-label="Email" v-model="login.username" inverted color="primary" type="email" :before="[{icon: 'mail', handler () {}}]"/>
+          <br>
+          <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
+          <br>
+          <q-btn color="secondary" icon-right="fa-key" @click="performLogin()" label="Bejelentkezés" />
+        </div>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
@@ -27,24 +40,13 @@ export default {
   },
   methods: {
     clearErrors () {
-      alert('asd')
       this.$data.login.errors = ['asd']
       this.$data.register.errors = ['asd']
     },
     performLogin () {
-      let self = this
-      this.$store.state.isLoggedIn = true
-      this.$store.dispatch('login', 'Exworm').then(function () {
+      this.$store.dispatch('login', {'username': this.$data.login.username, 'password': this.$data.login.password}).then(() => {
         self.$router.push('/')
       })
-      // let self = this
-      // AXIOS.post('http://localhost:8089/api/login', this.$data.login).then(function (response) {
-      //   self.$store.dispatch('login', response).then(function () {
-      //     self.$router.push('/')
-      //   })
-      // }).catch(function (error) {
-      //   console.log(error)
-      // })
     },
     performRegistration () {
       let self = this

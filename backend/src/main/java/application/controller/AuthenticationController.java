@@ -40,7 +40,7 @@ public class AuthenticationController {
     @Autowired AuthenticationUtils authenticationUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<?> register(@RequestBody LogInUser logInUser) throws AuthenticationException {
+    public ResponseEntity<?> login(@RequestBody LogInUser logInUser) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         logInUser.getUsername(),

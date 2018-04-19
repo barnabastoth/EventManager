@@ -1,4 +1,4 @@
-package application.model.authentication;
+package application.model;
 
 public class Constants {
 

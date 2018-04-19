@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { Notify } from 'quasar'
+import AXIOS from 'axios'
 
 Vue.use(Vuex)
 
@@ -23,12 +24,16 @@ const store = new Vuex.Store({
     [TOGGLE_RIGHT_BAR] (state) {
       state.rightBarOpen = !state.rightBarOpen
     },
-    [LOGIN_SUCCESS] (state, user) {
-      state.loggedInUser = user
+    [LOGIN_SUCCESS] (state, response) {
+      localStorage.setItem('Bearer ', response[0].token)
       state.isLoggedIn = true
+      state.loggedInUser = response[1]
+      state.rightBarOpen = true
+      state.leftBarOpen = true
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
+      localStorage.removeItem('Bearer ')
     }
   },
   actions: {
@@ -38,15 +43,28 @@ const store = new Vuex.Store({
     toggleRightBar ({ commit }) {
       commit(TOGGLE_RIGHT_BAR)
     },
-    login ({ commit }, user) {
-      commit(LOGIN_SUCCESS, user)
-      Notify.create({
-        type: 'positive',
-        color: 'positive',
-        position: 'bottom',
-        timeout: 3000,
-        message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
-      })
+    login ({ commit }, credentials) {
+      AXIOS.post('http://localhost:8089/api/login', credentials)
+        .then(function (response) {
+          console.log(response)
+          commit(LOGIN_SUCCESS, response.data)
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            position: 'bottom',
+            timeout: 3000,
+            message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
+          })
+        }).catch(function (error) {
+          console.log(error)
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            position: 'bottom',
+            timeout: 3000,
+            message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
+          })
+        })
     },
     logout ({ commit }) {
       Notify.create({
