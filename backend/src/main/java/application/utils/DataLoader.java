@@ -6,9 +6,11 @@ import application.model.authentication.User;
 import application.model.event.Comment;
 import application.model.event.Event;
 import application.model.menu.Menu;
-import application.repository.*;
+import application.repository.CommentRepository;
+import application.repository.EventRepository;
+import application.repository.MenuRepository;
+import application.repository.RoleRepository;
 import application.service.UserService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,8 +21,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class DataLoader implements CommandLineRunner {

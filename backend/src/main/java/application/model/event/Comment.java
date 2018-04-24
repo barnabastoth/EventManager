@@ -1,14 +1,9 @@
 package application.model.event;
 
-
-
 import application.model.authentication.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
-
 
 @NamedQueries({
         @NamedQuery(name = "Comment.getLatestComment", query = "SELECT e FROM Comment e WHERE id = (SELECT max(id) FROM Comment)")
