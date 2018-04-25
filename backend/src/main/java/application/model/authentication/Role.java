@@ -1,5 +1,6 @@
 package application.model.authentication;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -12,7 +13,8 @@ public class Role {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="role_id") private Long id;
 	@Column(name="role") private String role;
-	@ManyToMany(mappedBy = "roles") @JsonManagedReference private Set<User> users = new HashSet<>();
+	@ManyToMany(mappedBy = "roles") @JsonBackReference
+	private Set<User> users = new HashSet<>();
 
 
 	public Role() {

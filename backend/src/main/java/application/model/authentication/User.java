@@ -70,7 +70,8 @@ public class User {
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @JsonBackReference
+    @JsonManagedReference
+    @Column(name = "roles")
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

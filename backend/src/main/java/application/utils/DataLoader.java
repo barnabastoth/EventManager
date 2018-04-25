@@ -1,15 +1,13 @@
 package application.utils;
 
 
+import application.model.SiteSettings;
 import application.model.authentication.Role;
 import application.model.authentication.User;
 import application.model.event.Comment;
 import application.model.event.Event;
 import application.model.menu.Menu;
-import application.repository.CommentRepository;
-import application.repository.EventRepository;
-import application.repository.MenuRepository;
-import application.repository.RoleRepository;
+import application.repository.*;
 import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,12 +29,13 @@ public class DataLoader implements CommandLineRunner {
     @Autowired RoleRepository roleRepository;
     @Autowired MenuRepository menuRepository;
     @Autowired CommentRepository commentRepository;
+    @Autowired SiteSettingsRepository siteSettingsRepository;
 
     @Override
     public void run(String[] args) {
-        Role userRole = new Role("ROLE_USER");
-        Role adminRole = new Role("ROLE_ADMIN");
-        Role ownerRole = new Role("ROLE_OWNER");
+        Role userRole = new Role("Felhasználó");
+        Role adminRole = new Role("Admin");
+        Role ownerRole = new Role("Tulajdonos");
         roleRepository.saveAndFlush(userRole);
         roleRepository.saveAndFlush(adminRole);
         roleRepository.saveAndFlush(ownerRole);
@@ -77,7 +76,7 @@ public class DataLoader implements CommandLineRunner {
         user.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         user.setMemberSince(LocalDateTime.now());
         user.setWebsite("http://event-manager.com");
-        user.addRole(adminRole);
+        user.addRole(ownerRole);
         userService.save(user);
 
         Menu about = new Menu();
@@ -106,6 +105,11 @@ public class DataLoader implements CommandLineRunner {
         event1.setComments(comments);
         eventRepository.saveAndFlush(event1);
 
+        SiteSettings siteSettings = new SiteSettings();
+        siteSettings.setWelcomeMessage("Ebben az életben sokféle tapasztalást kellett eddig megtanulnom (vagyis közel 33 év alatt). Sok tanulással és sok felemelkedéssel járó idő volt az eltelt jó pár év. Egyfajta gondolkodásmódbeli felemelkedés, a világ és a nőiség más szemmel való megtapasztalása. A jóga megtanított arra (és a buddhista…");
+        siteSettings.setLeftBarOpen(true);
+        siteSettings.setRightBarOpen(true);
+        siteSettingsRepository.saveAndFlush(siteSettings);
     }
 
 

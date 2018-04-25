@@ -9,31 +9,32 @@ const TOGGLE_LEFT_BAR = 'TOOGLE_LEFT_BAR'
 const TOGGLE_RIGHT_BAR = 'TOGGLE_RIGHT_BAR'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGOUT = 'LOGOUT'
+const SET_SITE_SETTINGS = 'SET_SITE_SETTINGS'
 
 const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem('token'),
     loggedInUser: [],
-    leftBarOpen: true,
-    rightBarOpen: true
+    siteSettings: []
   },
   mutations: {
     [TOGGLE_LEFT_BAR] (state) {
-      state.leftBarOpen = !state.leftBarOpen
+      state.siteSettings.leftBarOpen = !state.siteSettings.leftBarOpen
     },
     [TOGGLE_RIGHT_BAR] (state) {
-      state.rightBarOpen = !state.rightBarOpen
+      state.siteSettings.rightBarOpen = !state.siteSettings.rightBarOpen
     },
-    [LOGIN_SUCCESS] (state, response) {
-      localStorage.setItem('Bearer ', response[0].token)
+    [LOGIN_SUCCESS] (state, user) {
       state.isLoggedIn = true
-      state.loggedInUser = response[1]
+      state.loggedInUser = user
       state.rightBarOpen = true
       state.leftBarOpen = true
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
-      localStorage.removeItem('Bearer ')
+    },
+    [SET_SITE_SETTINGS] (state, settings) {
+      state.siteSettings = settings
     }
   },
   actions: {
@@ -44,29 +45,57 @@ const store = new Vuex.Store({
       commit(TOGGLE_RIGHT_BAR)
     },
     login ({ commit }, credentials) {
-      AXIOS.post('http://localhost:8089/api/login', credentials)
-        .then(function (response) {
-          console.log(response)
-          commit(LOGIN_SUCCESS, response.data)
-          Notify.create({
-            type: 'positive',
-            color: 'positive',
-            position: 'bottom',
-            timeout: 3000,
-            message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
+      return new Promise((resolve, reject) => {
+        AXIOS.post('http://localhost:8089/api/login', credentials)
+          .then(response => {
+            localStorage.setItem('Bearer ', response.data[0].token)
+            commit(LOGIN_SUCCESS, response.data[1])
+            Notify.create({
+              type: 'positive',
+              color: 'positive',
+              position: 'bottom',
+              timeout: 2000,
+              message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
+            })
+            resolve()
+          }).catch(error => {
+            console.log(error)
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 3000,
+              message: 'Sajnos a bejelentkezés sikertelen volt, ellenőrizd le újra a felhasználóneved és jelszavad.'
+            })
+            reject(error)
           })
-        }).catch(function (error) {
-          console.log(error)
-          Notify.create({
-            type: 'positive',
-            color: 'positive',
-            position: 'bottom',
-            timeout: 3000,
-            message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
+      })
+    },
+    logInUserWithToken ({ commit }) {
+      let token = localStorage.getItem('Bearer ')
+      if (token !== null) {
+        let self = this
+        AXIOS.post('http://localhost:8089/api/me', token)
+          .then(response => {
+            commit(LOGIN_SUCCESS, response.data)
           })
-        })
+          .catch(error => {
+            console.log(error)
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 2000,
+              message: 'A Tokened lejárt, kérlek lépj be újra az oldalra.'
+            })
+            self.$router.push('/bejelentkezés')
+            localStorage.removeItem('Bearer ')
+          })
+      }
     },
     logout ({ commit }) {
+      localStorage.removeItem('Bearer ')
+      commit(LOGOUT)
       Notify.create({
         type: 'info',
         color: 'info',
@@ -74,7 +103,12 @@ const store = new Vuex.Store({
         timeout: 3000,
         message: 'Sikeresen kijelentkeztél. Remélem azért még találkozunk!'
       })
-      commit(LOGOUT)
+    },
+    loadSiteSettings ({ commit }) {
+      AXIOS.get('http://localhost:8089/api/siteSettings')
+        .then(response => {
+          commit(SET_SITE_SETTINGS, response.data)
+        })
     }
   }
 })

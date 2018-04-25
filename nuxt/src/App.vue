@@ -6,7 +6,11 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    this.$store.dispatch('logInUserWithToken')
+    this.$store.dispatch('loadSiteSettings')
+  }
 }
 </script>
 
