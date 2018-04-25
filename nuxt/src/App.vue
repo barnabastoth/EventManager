@@ -5,9 +5,11 @@
 </template>
 
 <script>
+import AXIOS from 'axios'
 export default {
   name: 'App',
   created () {
+    AXIOS.defaults.baseURL = 'http://localhost:8089'
     this.$store.dispatch('logInUserWithToken')
     this.$store.dispatch('loadSiteSettings')
   }

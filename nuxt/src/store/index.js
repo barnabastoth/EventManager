@@ -46,7 +46,7 @@ const store = new Vuex.Store({
     },
     login ({ commit }, credentials) {
       return new Promise((resolve, reject) => {
-        AXIOS.post('http://localhost:8089/api/login', credentials)
+        AXIOS.post('/api/login', credentials)
           .then(response => {
             localStorage.setItem('Bearer ', response.data[0].token)
             commit(LOGIN_SUCCESS, response.data[1])
@@ -75,7 +75,7 @@ const store = new Vuex.Store({
       let token = localStorage.getItem('Bearer ')
       if (token !== null) {
         let self = this
-        AXIOS.post('http://localhost:8089/api/me', token)
+        AXIOS.post('/api/me', token)
           .then(response => {
             commit(LOGIN_SUCCESS, response.data)
           })
@@ -106,7 +106,7 @@ const store = new Vuex.Store({
       this.$router.push('/bejelentkezés')
     },
     loadSiteSettings ({ commit }) {
-      AXIOS.get('http://localhost:8089/api/siteSettings')
+      AXIOS.get('/api/siteSettings')
         .then(response => {
           commit(SET_SITE_SETTINGS, response.data)
         })
