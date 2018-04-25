@@ -23,7 +23,7 @@ module.exports = function (ctx) {
     },
     build: {
       scopeHoisting: true,
-      vueRouterMode: 'hash',
+      vueRouterMode: 'history',
       // gzip: true,
       // analyze: true,
       // extractCSS: false,

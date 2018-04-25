@@ -103,6 +103,7 @@ const store = new Vuex.Store({
         timeout: 3000,
         message: 'Sikeresen kijelentkeztél. Remélem azért még találkozunk!'
       })
+      this.$router.push('/bejelentkezés')
     },
     loadSiteSettings ({ commit }) {
       AXIOS.get('http://localhost:8089/api/siteSettings')
