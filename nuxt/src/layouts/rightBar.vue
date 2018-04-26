@@ -40,45 +40,280 @@
           <q-btn icon="perm identity">
             <q-tooltip>Profil</q-tooltip>
           </q-btn>
-          <q-btn icon="message">
-            <q-tooltip>Üzenetek</q-tooltip>
-          </q-btn>
-          <q-btn icon="fa-bell">
-            <q-tooltip>Értesítések</q-tooltip>
-          </q-btn>
           <q-btn @click="logout()" icon="lock">
             <q-tooltip>Kijelentkezés</q-tooltip>
           </q-btn>
           <q-btn icon="settings">
             <q-tooltip>Beállítások</q-tooltip>
           </q-btn>
+          <q-btn icon="fa-bug">
+            <q-tooltip>Hiba jelentés</q-tooltip>
+          </q-btn>
         </q-item-side>
       </q-item>
     </q-list>
     <q-list>
-      <q-list-header>Recent chats</q-list-header>
-      <q-item>
-        <q-item-side>
-          <q-item-tile avatar>
-            <img src="statics/guy-avatar.png">
-          </q-item-tile>
-        </q-item-side>
-        <q-item-main label="John Doe" />
-        <q-item-side>
-          <q-item-tile icon="chat_bubble" color="green" />
-        </q-item-side>
-      </q-item>
-      <q-item>
-        <q-item-side avatar="statics/guy-avatar.png" />
-        <q-item-main label="Jim Doe" />
-        <q-item-side right icon="chat_bubble" />
-      </q-item>
-      <q-item-separator />
-      <q-list-header>Previous chats</q-list-header>
-      <q-item>
-        <q-item-side avatar="statics/guy-avatar.png" />
-        <q-item-main label="Jack Doe" />
-      </q-item>
+      <q-tabs color="bg-grey-2" text-color="primary" align="justify">
+        <q-tab default name="events" slot="title" icon="fa-calendar-alt">
+          <q-chip floating color="red">3</q-chip>
+        </q-tab>
+        <q-tab name="messages" slot="title" icon="mail">
+          <q-chip floating color="red">9</q-chip>
+        </q-tab>
+        <q-tab name="notifications" slot="title" icon="fa-bell">
+          <q-chip floating color="red">6</q-chip>
+        </q-tab>
+
+        <q-tab-pane name="messages">
+          <q-list-header>Bejövő üzenetek</q-list-header>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+          <q-item multiline>
+            <q-item-side avatar="statics/guy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+              <q-item-tile sublabel lines="2">
+                <span>John Doe</span>
+                -- I'll be in your neighborhood doing errands this
+                weekend. Do you want to grab brunch?
+              </q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile stamp>2 years</q-item-tile>
+              <q-item-tile icon="mail" color="primary" />
+            </q-item-side>
+          </q-item>
+        </q-tab-pane>
+
+        <q-tab-pane name="notifications">
+          <q-list-header>Értesítések</q-list-header>
+        </q-tab-pane>
+
+        <q-tab-pane name="events">
+          <q-list-header>Közelgő eseményeid</q-list-header>
+          <q-card inline class="q-ma-sm">
+            <q-card-media>
+              <img src="statics/parallax2.jpg">
+            </q-card-media>
+            <q-list>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="primary" icon="local bar" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Bar XYZ</q-item-tile>
+                  <q-item-tile sublabel>Have a drink.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="red" icon="local gas station" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Gas Station</q-item-tile>
+                  <q-item-tile sublabel>Fill your gas tank.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="amber" icon="local movies" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Cinema XYZ</q-item-tile>
+                  <q-item-tile sublabel>Watch a movie.</q-item-tile>
+                </q-item-main>
+              </q-item>
+            </q-list>
+          </q-card>
+          <q-card inline class="q-ma-sm">
+            <q-card-media>
+              <img src="statics/parallax2.jpg">
+            </q-card-media>
+            <q-list>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="primary" icon="local bar" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Bar XYZ</q-item-tile>
+                  <q-item-tile sublabel>Have a drink.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="red" icon="local gas station" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Gas Station</q-item-tile>
+                  <q-item-tile sublabel>Fill your gas tank.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="amber" icon="local movies" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Cinema XYZ</q-item-tile>
+                  <q-item-tile sublabel>Watch a movie.</q-item-tile>
+                </q-item-main>
+              </q-item>
+            </q-list>
+          </q-card>
+          <q-card inline class="q-ma-sm">
+            <q-card-media>
+              <img src="statics/parallax2.jpg">
+            </q-card-media>
+            <q-list>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="primary" icon="local bar" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Bar XYZ</q-item-tile>
+                  <q-item-tile sublabel>Have a drink.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="red" icon="local gas station" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Gas Station</q-item-tile>
+                  <q-item-tile sublabel>Fill your gas tank.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="amber" icon="local movies" />
+                </q-item-side>
+                <q-item-main>
+                  <q-item-tile label>Cinema XYZ</q-item-tile>
+                  <q-item-tile sublabel>Watch a movie.</q-item-tile>
+                </q-item-main>
+              </q-item>
+            </q-list>
+          </q-card>
+        </q-tab-pane>
+
+      </q-tabs>
     </q-list>
   </q-layout-drawer>
 </template>

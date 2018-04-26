@@ -88,8 +88,7 @@ const store = new Vuex.Store({
               timeout: 2000,
               message: 'A Tokened lejárt, kérlek lépj be újra az oldalra.'
             })
-            self.$router.push('/bejelentkezés')
-            localStorage.removeItem('Bearer ')
+            self.logout()
           })
       }
     },
