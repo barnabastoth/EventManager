@@ -92,6 +92,10 @@ public class User {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Message> messages = new ArrayList<>();
+
     public void addRole(Role role) {
         roles.add(role);
     }
@@ -105,6 +109,8 @@ public class User {
         return false;
     }
 
+    public List<Message> getMessages() { return messages; }
+    public void setMessages(List<Message> messages) { this.messages = messages; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     public Set<Event> getSpeakerAt() { return speakerAt; }

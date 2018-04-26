@@ -5,6 +5,7 @@ import application.model.authentication.*;
 import application.repository.RoleRepository;
 import application.service.UserService;
 import application.utils.AuthenticationUtils;
+import application.utils.DataExtractionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ public class AuthenticationController {
     @Autowired BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired RoleRepository roleRepository;
     @Autowired AuthenticationUtils authenticationUtils;
+    @Autowired DataExtractionUtils dataExtractionUtils;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LogInUser logInUser) throws AuthenticationException {
@@ -58,11 +60,7 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUser registerUser, BindingResult bindingResult) {
         if(userService.findByUsername(registerUser.getUsername()) == null && userService.findByEmail(registerUser.getEmail()) == null) {
             if(bindingResult.hasErrors()) {
-                Map<String, String> errors = new HashMap<>();
-                for (FieldError error : bindingResult.getFieldErrors()) {
-                    errors.put(error.getField(), error.getDefaultMessage());
-                }
-                return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+                return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.CONFLICT);
             } else {
                 authenticationUtils.registerNewUser(registerUser);
                 return new ResponseEntity<>(HttpStatus.OK);

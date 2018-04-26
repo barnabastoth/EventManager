@@ -10,12 +10,14 @@ const TOGGLE_RIGHT_BAR = 'TOGGLE_RIGHT_BAR'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGOUT = 'LOGOUT'
 const SET_SITE_SETTINGS = 'SET_SITE_SETTINGS'
+const TOGGLE_SEND_ERROR_MODAL = 'TOGGLE_SEND_ERROR_MODAL'
 
 const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem('token'),
     loggedInUser: [],
-    siteSettings: []
+    siteSettings: [],
+    showSendErrorModal: false
   },
   mutations: {
     [TOGGLE_LEFT_BAR] (state) {
@@ -35,9 +37,15 @@ const store = new Vuex.Store({
     },
     [SET_SITE_SETTINGS] (state, settings) {
       state.siteSettings = settings
+    },
+    [TOGGLE_SEND_ERROR_MODAL] (state) {
+      state.showSendErrorModal = !state.showSendErrorModal
     }
   },
   actions: {
+    toggleSendErrorModal ({ commit }) {
+      commit(TOGGLE_SEND_ERROR_MODAL)
+    },
     toggleLeftBar ({ commit }) {
       commit(TOGGLE_LEFT_BAR)
     },

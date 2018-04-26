@@ -23,8 +23,12 @@
             <q-btn
               aria-label="Menu"
             >
-              <q-icon v-if="$store.state.rightBarOpen === false" title="Felhasználói Panel" name="fa-angle-left"/>
-              <q-icon v-if="$store.state.rightBarOpen === true" title="Felhasználói Panel" name="fa-angle-right"/>
+              <q-icon v-if="$store.state.siteSettings.rightBarOpen === false" title="Felhasználói Panel" name="fa-angle-left">
+                <q-tooltip>Panel megnyítása</q-tooltip>
+              </q-icon>
+              <q-icon v-if="$store.state.siteSettings.rightBarOpen === true" title="Felhasználói Panel" name="fa-angle-right">
+                <q-tooltip>Panel bezárása</q-tooltip>
+              </q-icon>
             </q-btn>
           </q-item-side>
         </q-item>

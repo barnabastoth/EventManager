@@ -1,26 +1,41 @@
 package application.controller;
 
+import application.model.authentication.Message;
+import application.model.authentication.NewMessage;
+import application.model.authentication.RegisterUser;
 import application.model.authentication.User;
+import application.repository.MessageRepository;
 import application.service.UserService;
+import application.utils.DataExtractionUtils;
+import application.utils.MessageUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
+    @Autowired private DataExtractionUtils dataExtractionUtils;
+    @Autowired private MessageUtils messageUtils;
 
     @RequestMapping(value="/user", method = RequestMethod.GET)
     public List<User> listUser(){ return userService.findAll(); }
@@ -46,6 +61,16 @@ public class UserController {
             baos.close();
             response.getOutputStream().write(imageInByte);
         }
+    }
+
+    @PostMapping(value = "/sendMessage")
+    public ResponseEntity<?> sendMessage(@Valid @RequestBody NewMessage newMessage, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.CONFLICT);
+        }
+        System.out.println(newMessage);
+        messageUtils.saveNewMessage(newMessage);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
