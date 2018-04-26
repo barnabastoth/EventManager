@@ -1,41 +1,27 @@
 <template>
-  <q-modal v-model="$store.state.showSendErrorModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
-    <q-modal-layout>
-      <q-toolbar slot="header">
-        <q-btn
-          flat
-          round
-          dense
-          v-close-overlay
-          icon="keyboard_arrow_left"
-        />
-        <q-toolbar-title>
-          Header
-        </q-toolbar-title>
-      </q-toolbar>
-
-      <q-toolbar slot="header">
-        <q-search inverted v-model="search" color="none" />
-      </q-toolbar>
-
-      <q-toolbar slot="footer">
-        <q-toolbar-title>
-          Footer
-        </q-toolbar-title>
-      </q-toolbar>
-
-      <div class="layout-padding">
-        <h1>Modal</h1>
-
-        <q-btn
-          color="primary"
-          v-close-overlay
-          label="Close"
-        />
-
-        <p>This is a Modal presenting a Layout.</p>
-      </div>
-    </q-modal-layout>
+  <q-modal v-model="$store.state.showSendErrorModal" :content-css="{minWidth: '100vw', minHeight: '80vh'}">
+    <div style="padding: 20px; width: 100%; max-width: 90%; background-color: black;" class="absolute-center">
+      <q-card color="primary" inline class="q-ma-sm full-width">
+        <q-card-main class="text-center">
+          Kérlek töltsd ki az összes mezőt a hibával kapcsolatban.
+        </q-card-main>
+      </q-card>
+      <q-input float-label="Oldal címe ahol a hibát észlelte" inverted color="grey" type="email" :before="[{icon: 'fa-link', handler () {}}]"/>
+      <q-input v-model="area" inverted color="grey" float-label="Hiba leírása" type="textarea" />
+      <q-btn
+        class="float-right"
+        icon="fa-envelope"
+        color="primary"
+        label="Hiba elküldése a fejlesztőnek"
+      />
+      <q-btn
+        class="float-right"
+        icon="fa-times-circle"
+        @click="$store.dispatch('toggleSendErrorModal')"
+        color="primary"
+        label="Vissza az oldalra"
+      />
+    </div>
   </q-modal>
 </template>
 
