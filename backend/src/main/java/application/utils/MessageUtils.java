@@ -15,12 +15,12 @@ public class MessageUtils {
     @Autowired MessageRepository messageRepository;
     @Autowired UserRepository userRepository;
 
-    public void saveNewMessage(NewMessage newMessage) {
-        Message message = new Message();
-        message.setMessage(newMessage.getMessage());
-        message.setReceiver(userRepository.findByUsername(newMessage.getReceiver()));
-        message.setSender(userRepository.findByUsername(newMessage.getSender()));
-        message.setDate(LocalDateTime.now());
-        messageRepository.saveAndFlush(message);
-    }
+//    public void saveNewMessage(NewMessage newMessage) {
+//        Message message = new Message();
+//        message.setMessage(newMessage.getMessage());
+//        message.setReceiver(userRepository.findByUsername(newMessage.getReceiver()));
+//        message.setSender(userRepository.findByUsername(newMessage.getSender()));
+//        message.setDate(LocalDateTime.now());
+//        messageRepository.saveAndFlush(message);
+//    }
 }

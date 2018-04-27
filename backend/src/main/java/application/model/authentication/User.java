@@ -92,9 +92,13 @@ public class User {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private List<Message> messages = new ArrayList<>();
+//    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
+//    @JsonManagedReference
+//    private List<Message> sentMessages = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "receiver", fetch = FetchType.EAGER)
+//    @JsonManagedReference
+//    private List<Message> receivedMessages = new ArrayList<>();
 
     public void addRole(Role role) {
         roles.add(role);
@@ -109,8 +113,10 @@ public class User {
         return false;
     }
 
-    public List<Message> getMessages() { return messages; }
-    public void setMessages(List<Message> messages) { this.messages = messages; }
+//    public List<Message> getSentMessages() { return sentMessages; }
+//    public void setSentMessages(List<Message> sentMessages) { this.sentMessages = sentMessages; }
+//    public List<Message> getReceivedMessages() { return receivedMessages; }
+//    public void setReceivedMessages(List<Message> receivedMessages) { this.receivedMessages = receivedMessages; }
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     public Set<Event> getSpeakerAt() { return speakerAt; }

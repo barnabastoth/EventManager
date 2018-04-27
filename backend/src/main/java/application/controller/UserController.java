@@ -69,7 +69,7 @@ public class UserController {
             return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.CONFLICT);
         }
         System.out.println(newMessage);
-        messageUtils.saveNewMessage(newMessage);
+//        messageUtils.saveNewMessage(newMessage);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
