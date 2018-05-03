@@ -83,7 +83,6 @@ const store = new Vuex.Store({
     logInUserWithToken ({ commit }) {
       let token = localStorage.getItem('Bearer ')
       if (token !== null) {
-        let self = this
         AXIOS.post('/api/me', token)
           .then(response => {
             commit(LOGIN_SUCCESS, response.data)
@@ -97,7 +96,8 @@ const store = new Vuex.Store({
               timeout: 2000,
               message: 'A Tokened lejárt, kérlek lépj be újra az oldalra.'
             })
-            self.logout()
+            localStorage.removeItem('Bearer ')
+            commit(LOGOUT)
           })
       }
     },

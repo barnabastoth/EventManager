@@ -36,7 +36,7 @@ public class AuthenticationController {
     @Autowired DataExtractionUtils dataExtractionUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LogInUser logInUser) throws AuthenticationException {
+    public ResponseEntity<?> login(@RequestBody LogInUser logInUser, BindingResult bindingResult) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         logInUser.getUsername(),
@@ -53,7 +53,7 @@ public class AuthenticationController {
             System.out.println(user.getRoles());
             return new ResponseEntity<>(entities, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/register")

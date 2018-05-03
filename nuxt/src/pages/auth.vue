@@ -6,19 +6,55 @@
   >
     <q-layout>
       <q-page-container>
-        <q-page>
-          <div style="width: 700px; max-width: 90vw;" class="absolute-center">
-            <div
-              class="main-color shadow-1 row inline flex-center text-white"
-              :class="`bg-black`"
-            >
-            </div>
-            <q-input float-label="Felhasználónév" v-model="login.username" inverted color="primary" type="email" :before="[{icon: 'fa-address-card', handler () {}}]"/>
-            <br>
-            <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
-            <br>
-            <q-btn color="primary" icon-right="fa-sign-in-alt" @click="performLogin()" label="Bejelentkezés" />
-          </div>
+        <q-page padding style="width: 700px; max-width: 90vw;">
+          <q-tabs color="primary" class="shadow-24" glossy align="justify">
+            <q-tab default name="Belépés" slot="title" icon="fa-user" label="Belépés" />
+            <q-tab name="Regisztráció" slot="title" icon="fa-lock-open" label="Regisztriáció" />
+
+            <q-tab-pane name="Belépés">
+              <q-item>
+                <q-item-side icon="fa-info" inverted color="green" />
+                <q-item-main>
+                  <q-item-tile label>Üdvözöllek újra köztünk, itt tudsz belépni.</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item v-show="login.hasErrors">
+                <q-item-side icon="fa-danger" inverted color="green" />
+                <q-item-main>
+                  <q-item-tile label>{{login.errors}}</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <br>
+              <q-input float-label="Felhasználónév" v-model="login.username" inverted color="primary" type="text" :before="[{icon: 'fa-address-card', handler () {}}]"/>
+              <br>
+              <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key', handler () {}}]" />
+              <br>
+              <q-btn color="primary" icon-right="fa-sign-in-alt" @click="performLogin()" label="Bejelentkezés" />
+            </q-tab-pane>
+
+            <q-tab-pane name="Regisztráció">
+              <q-item>
+                <q-item-side icon="fa-info" inverted color="green" />
+                <q-item-main>
+                  <q-item-tile label>Kérlek valós adatokat adj meg a regisztráció során</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <q-item v-show="register.hasErrors">
+                <q-item-side icon="fa-exclamation-triangle" inverted color="red" />
+                <q-item-main>
+                  <q-item-tile label>{{register.errors}}</q-item-tile>
+                </q-item-main>
+              </q-item>
+              <br>
+              <q-input float-label="Felhasználónév" v-model="register.username" inverted color="primary" type="text" :before="[{icon: 'fa-address-card', handler () {}}]"/>
+              <br>
+              <q-input float-label="Email cím" v-model="register.email" inverted color="primary" type="email" :before="[{icon: 'fa-envelope', handler () {}}]" />
+              <br>
+              <q-input float-label="Jelszó" v-model="register.password" inverted color="primary" type="password" :before="[{icon: 'fa-key', handler () {}}]" />
+              <br>
+              <q-btn color="primary" icon-right="fa-sign-in-alt" @click="performRegistration()" label="Regisztráció" />
+            </q-tab-pane>
+          </q-tabs>
         </q-page>
       </q-page-container>
     </q-layout>
@@ -33,13 +69,15 @@ export default {
       login: {
         username: '',
         password: '',
-        errors: {}
+        errors: {},
+        hasErrors: false
       },
       register: {
         username: '',
         email: '',
         password: '',
-        errors: {}
+        errors: {},
+        hasErrors: false
       }
     }
   },
@@ -54,8 +92,9 @@ export default {
         .then(() => {
           self.$router.push('/')
         })
-        .catch(() => {
-          self.$router.push('/bejelentkezes')
+        .catch((error) => {
+          self.login.errors = error.response.data
+          self.login.hasErrors = true
         })
     },
     performRegistration () {
@@ -69,6 +108,7 @@ export default {
         })
         .catch(function (error) {
           self.register.errors = error.response.data
+          self.register.hasErrors = true
         })
     },
     toogleAuth () {
