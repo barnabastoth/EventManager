@@ -22,7 +22,10 @@ public class EventController {
     }
 
     @GetMapping("/")
-    public List<Event> serveAllEvent() { return eventRepository.findAll();}
+    public List<Event> serveAllEvent() {
+        System.out.println(eventRepository.findAllByOrderByDateAsc());
+        return eventRepository.findAllByOrderByDateAsc();
+    }
 
     @GetMapping("/{id}")
     public Event serveAllEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}

@@ -44,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
                 "Any recool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
         event1.setActive(1);
         event1.setAddress("DEBRECEN valami utca1");
-        event1.setDate(LocalDateTime.now());
+        event1.setDate(LocalDateTime.of(2018, 4,20,18,20,30));
         event1.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
         eventRepository.save(event1);
 
@@ -58,7 +58,7 @@ public class DataLoader implements CommandLineRunner {
 
         Event event3 = new Event("Magyarország jövője", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
                 "Any recog Mootool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
-        event3.setDate(LocalDateTime.now());
+        event3.setDate(LocalDateTime.of(2012, 6, 20, 13, 20 ,36));
         event3.setAddress("DEBRECEN valami utca1");
         event3.setActive(1);
         event3.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
