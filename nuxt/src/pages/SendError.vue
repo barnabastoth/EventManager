@@ -1,5 +1,5 @@
 <template>
-  <q-modal position="right" v-model="$store.state.showSendErrorModal" :content-css="{minWidth: '20vw', minHeight: '40vh', maxHeighth: '80vw'}">
+  <q-modal class="group" position="right" v-model="$store.state.showSendErrorModal" :content-css="{minWidth: '20vw', minHeight: '40vh', maxHeighth: '80vw'}">
     <q-modal-layout>
       <q-toolbar slot="header">
         <q-btn
@@ -20,13 +20,14 @@
         />
       </q-toolbar>
 
-      <q-toolbar slot="footer">
-        <q-toolbar-title class="text-right">
+      <q-toolbar slot="footer" class="group">
+        <q-toolbar-title class="text-right group">
           <q-btn
-            class="float-right"
+            class="float-right group"
             icon="fa-envelope"
             color="warning"
             label="Hiba elküldése a fejlesztőnek"
+            @click="sendBugReport()"
           />
         </q-toolbar-title>
       </q-toolbar>
@@ -35,6 +36,12 @@
           <div>
             <q-card color="primary" inline class="q-ma-sm full-width">
               <q-card-main class="text-center">
+                <q-btn
+                  class="float-left group"
+                  icon="fa-info"
+                  color="info"
+                  style="margin-right: 10px"
+                />
                 Kérlek töltsd ki az összes mezőt a hibával kapcsolatban.
               </q-card-main>
             </q-card>
@@ -44,7 +51,7 @@
             <q-input float-label="Oldal címe ahol a hibát észlelte" inverted color="grey" type="email" :before="[{icon: 'fa-link', handler () {}}]"/>
           </div>
           <div class="q-ma-sm full-width">
-            <q-input v-model="area" inverted color="grey" float-label="Hiba leírása" type="textarea" />
+            <q-input v-model="description" inverted color="grey" float-label="Hiba leírása" type="textarea" />
           </div>
         </div>
       </q-toolbar>
@@ -54,8 +61,27 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
 export default {
-  name: 'send-error'
+  name: 'send-error',
+  methods: {
+    sendBugReport () {
+      this.$store.dispatch('toggleSendErrorModal')
+      Notify.create({
+        type: 'positive',
+        color: 'positive',
+        position: 'bottom',
+        timeout: 3000,
+        message: 'Az üzeneted továbbítva lett a fejlesztőnek. Köszönjük az információt.'
+      })
+    }
+  },
+  data: function () {
+    return {
+      link: '',
+      description: ''
+    }
+  }
 }
 </script>
 

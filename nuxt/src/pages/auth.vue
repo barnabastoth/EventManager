@@ -1,22 +1,28 @@
 <template>
-  <q-layout>
-    <q-page-container>
-      <q-page>
-        <div style="width: 700px; max-width: 90vw;" class="absolute-center">
-          <div
-            class="main-color shadow-1 row inline flex-center text-white"
-            :class="`bg-black`"
-          >
+  <transition
+    appear
+    enter-active-class="animated zoomIn"
+    leave-active-class="animated zoomOut"
+  >
+    <q-layout>
+      <q-page-container>
+        <q-page>
+          <div style="width: 700px; max-width: 90vw;" class="absolute-center">
+            <div
+              class="main-color shadow-1 row inline flex-center text-white"
+              :class="`bg-black`"
+            >
+            </div>
+            <q-input float-label="Felhasználónév" v-model="login.username" inverted color="primary" type="email" :before="[{icon: 'fa-address-card', handler () {}}]"/>
+            <br>
+            <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
+            <br>
+            <q-btn color="primary" icon-right="fa-sign-in-alt" @click="performLogin()" label="Bejelentkezés" />
           </div>
-          <q-input float-label="Felhasználónév" v-model="login.username" inverted color="primary" type="email" :before="[{icon: 'fa-address-card', handler () {}}]"/>
-          <br>
-          <q-input float-label="Jelszó" v-model="login.password" inverted color="primary" type="password" :before="[{icon: 'fa-key'}]" :after="[{icon: 'done', condition: login.password.length >= 5, handler () {}}]" />
-          <br>
-          <q-btn color="primary" icon-right="fa-sign-in-alt" @click="performLogin()" label="Bejelentkezés" />
-        </div>
-      </q-page>
-    </q-page-container>
-  </q-layout>
+        </q-page>
+      </q-page-container>
+    </q-layout>
+  </transition>
 </template>
 
 <script>
@@ -49,7 +55,7 @@ export default {
           self.$router.push('/')
         })
         .catch(() => {
-          self.$router.push('/bejelentkezés')
+          self.$router.push('/bejelentkezes')
         })
     },
     performRegistration () {

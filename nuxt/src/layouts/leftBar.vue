@@ -4,9 +4,13 @@
   v-model="$store.state.siteSettings.leftBarOpen"
   :content-class="$q.theme === 'mat' ? 'bg-grey-1' : null"
 >
-  <q-list class="text-center" >
+  <q-list class="text-center"
+          no-border
+          link
+          inset-delimiter
+  >
     <img @click="$router.push('/')" alt="Quasar logo" src="../assets/quasar-logo-full.svg">
-    <q-item class="cursor-pointer">
+    <q-item @click.native="$router.push('/')" class="cursor-pointer">
       <q-item-side icon="home" inverted color="green" />
       <q-item-main>
         <q-item-tile label>Főoldal</q-item-tile>
@@ -20,13 +24,19 @@
         <q-item-tile label>Tanulmányok</q-item-tile>
       </q-item-main>
     </q-item>
-    <q-item class="cursor-pointer">
+    <q-item @click.native="$router.push('/esemenyek')" class="cursor-pointer">
       <q-item-side icon="fa-calendar" inverted color="amber" />
       <q-item-main>
         <q-item-tile label>Események</q-item-tile>
       </q-item-main>
     </q-item>
-    <q-item class="cursor-pointer">
+    <q-item @click.native="$router.push('/projekt')" class="cursor-pointer">
+      <q-item-side icon="fa-calendar" inverted color="amber" />
+      <q-item-main>
+        <q-item-tile label>A Projekt</q-item-tile>
+      </q-item-main>
+    </q-item>
+    <q-item @click.native="$router.push('/kapcsolat')" class="cursor-pointer">
       <q-item-side icon="fa-address-card" inverted color="amber" />
       <q-item-main>
         <q-item-tile label>Kapcsolat</q-item-tile>

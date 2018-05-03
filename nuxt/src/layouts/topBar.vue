@@ -33,7 +33,7 @@
           </q-item-side>
         </q-item>
       </div>
-      <div class="cursor-pointer" @click="$router.push('/bejelentkezés')" v-if="$store.state.isLoggedIn === false">
+      <div class="cursor-pointer" @click="$router.push('/bejelentkezes')" v-if="$store.state.isLoggedIn === false">
         <q-item>
           <q-item-side icon="lock open" inverted color="green" />
           <q-item-main>

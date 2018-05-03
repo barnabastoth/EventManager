@@ -4,7 +4,10 @@ export default [
     component: () => import('layouts/default'),
     children: [
       { path: '', component: () => import('pages/index') },
-      { path: 'bejelentkezés', component: () => import('pages/auth') }
+      { path: '/bejelentkezes', component: () => import('pages/auth') },
+      { path: '/projekt', component: () => import('pages/theProject') },
+      { path: '/kapcsolat', component: () => import('pages/contact') },
+      { path: '/esemenyek', component: () => import('pages/events') }
     ]
   },
 

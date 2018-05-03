@@ -14,7 +14,7 @@ const TOGGLE_SEND_ERROR_MODAL = 'TOGGLE_SEND_ERROR_MODAL'
 
 const store = new Vuex.Store({
   state: {
-    isLoggedIn: !!localStorage.getItem('token'),
+    isLoggedIn: !!localStorage.getItem('Bearer '),
     loggedInUser: [],
     siteSettings: [],
     showSendErrorModal: false
@@ -34,6 +34,7 @@ const store = new Vuex.Store({
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
+      state.loggedInUser = []
     },
     [SET_SITE_SETTINGS] (state, settings) {
       state.siteSettings = settings
@@ -110,7 +111,7 @@ const store = new Vuex.Store({
         timeout: 3000,
         message: 'Sikeresen kijelentkeztél. Remélem azért még találkozunk!'
       })
-      this.$router.push('/bejelentkezés')
+      this.$router.push('/bejelentkezes')
     },
     loadSiteSettings ({ commit }) {
       AXIOS.get('/api/siteSettings')

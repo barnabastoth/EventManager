@@ -80,7 +80,9 @@ module.exports = function (ctx) {
         'QCardSeparator',
         'QCardActions',
         'QModal',
-        'QModalLayout'
+        'QModalLayout',
+        'QTimeline',
+        'QTimelineEntry'
       ],
       directives: [
         'Ripple',
