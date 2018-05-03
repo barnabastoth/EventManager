@@ -6,7 +6,7 @@
   >
     <q-layout>
       <q-page-container>
-        <q-page padding style="width: 700px; max-width: 90vw;">
+        <q-page padding style="width: 1000px; max-width: 90vw;">
           <q-timeline color="red" dark class="bg-black" style="padding: 24px; margin-top: 50px;">
             <q-timeline-entry
               v-for="event in events" :key="event.id"
@@ -15,7 +15,7 @@
               :side="event.side"
             >
               <div>{{event.description}}</div>
-              <q-btn @click="$router.push('/esemeny/' + event.id)" color="primary" icon-right="fa-external-link-alt" label="Megnyitás" />
+              <q-btn size="sm" @click="$router.push('/esemeny/' + event.id)" color="primary" icon-right="fa-external-link-alt" label="Megnyitás" />
             </q-timeline-entry>
           </q-timeline>
         </q-page>

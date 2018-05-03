@@ -65,6 +65,33 @@ public class DataLoader implements CommandLineRunner {
 
         eventRepository.save(event3);
 
+        Event event4 = new Event("Magyarország jövője", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
+                "Any recog Mootool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+        event4.setDate(LocalDateTime.of(2012, 6, 20, 13, 20 ,36));
+        event4.setAddress("DEBRECEN valami utca1");
+        event4.setActive(1);
+        event4.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+
+        eventRepository.save(event4);
+
+        Event event5 = new Event("Magyarország jövője", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
+                "Any recog Mootool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+        event5.setDate(LocalDateTime.of(2012, 6, 20, 13, 20 ,36));
+        event5.setAddress("DEBRECEN valami utca1");
+        event5.setActive(1);
+        event5.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+
+        eventRepository.save(event5);
+
+        Event event6 = new Event("Magyarország jövője", "Magyarország jövőjéről ülünk le beszélgetni x,y,zvel ügyesen", "gyere a 86os busszal aztán sétálj kurva sokat", "gyere a 6os uton, aztán majd találj ide", "1124 Váci út 4/2 28as kapucsefewfewfewfewfewfwengő", "47.486548199999994D", "19.094626899999998D", "I need a simpleth the results.\n" +
+                "Any recog Mootool but I'm searching for one using jQuery!", "I like Spring Data JPA. It helps simplify your codebase, and frees me up from writing JPAQL or SQL.", "40L", "https://stackoverflow.com/questions/9436534/ajax-tutorial-for-post-and-get", "asd");
+        event6.setDate(LocalDateTime.of(2012, 6, 20, 13, 20 ,36));
+        event6.setAddress("DEBRECEN valami utca1");
+        event6.setActive(1);
+        event6.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+
+        eventRepository.save(event6);
+
         User user = new User();
         user.setActive(1);
         user.setPassword(bCryptPasswordEncoder.encode("password"));

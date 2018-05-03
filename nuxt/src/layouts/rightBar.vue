@@ -37,7 +37,7 @@
       </q-collapsible>
       <q-item class="main-color">
         <q-item-side>
-          <q-btn icon="perm identity">
+          <q-btn @click="$router.push('/profil/' + $store.state.loggedInUser.username)" icon="perm identity">
             <q-tooltip>Profil</q-tooltip>
           </q-btn>
           <q-btn @click="logout()" icon="lock">
