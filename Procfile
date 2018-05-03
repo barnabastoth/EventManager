@@ -1,1 +1,1 @@
-web: java -jar backend/target/backend-3.0.jar
+web: java -jar target/backend-3.0.jar
