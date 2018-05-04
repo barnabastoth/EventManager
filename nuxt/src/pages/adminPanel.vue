@@ -56,13 +56,6 @@
                         link
                         inset-delimiter
                 >
-                  <q-item @click.native="$router.push('/esemeny/uj')" class="shadow-1 cursor-pointer">
-                    <q-item-side image="statics/blank-calendar.png"></q-item-side>
-                    <q-item-main>
-                      <q-item-tile label>Új esemény létrehozásához</q-item-tile>
-                      <q-item-tile sublabel>Kattints ide</q-item-tile>
-                    </q-item-main>
-                  </q-item>
                   <q-item-separator></q-item-separator>
                   <q-list-header>Felhasználók</q-list-header>
                   <q-item-separator></q-item-separator>

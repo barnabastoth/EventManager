@@ -93,7 +93,7 @@ public class DataLoader implements CommandLineRunner {
 //        eventRepository.save(event6);
 
         User user = new User();
-        user.setActive(true);
+        user.setActive(1);
         user.setPassword(bCryptPasswordEncoder.encode("password"));
         user.setEmail("vigyor99@gmail.com");
         user.setUsername("Exworm");

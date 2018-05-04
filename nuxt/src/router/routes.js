@@ -9,6 +9,7 @@ export default [
       { path: '/kapcsolat', component: () => import('pages/contact') },
       { path: '/esemenyek', component: () => import('pages/events') },
       { path: '/felhasznalo/:username', props: true, component: () => import('pages/profile') },
+      { path: '/esemeny/uj', component: () => import('pages/newEvent') },
       { path: '/esemeny/:id', props: true, component: () => import('pages/event') },
       { path: '/admin', props: true, component: () => import('pages/adminPanel') }
     ]

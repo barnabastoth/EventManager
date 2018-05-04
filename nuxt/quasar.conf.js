@@ -82,7 +82,9 @@ module.exports = function (ctx) {
         'QModal',
         'QModalLayout',
         'QTimeline',
-        'QTimelineEntry'
+        'QTimelineEntry',
+        'QBtnToggle',
+        'QToggle'
       ],
       directives: [
         'Ripple',

@@ -1,10 +1,8 @@
 package application.model.event;
 
-import application.model.Field;
 import application.model.authentication.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,19 +20,19 @@ public class Event {
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id")
     private long id;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field title;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field name;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field locationByPublicTransport;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field locationByCar;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field address;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field mapLatitude;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field mapLongTitude;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field description;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field price;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field duration;
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field ticketLink;
+    @OneToOne(mappedBy = "event") private Field title;
+    @OneToOne(mappedBy = "event") private Field name;
+    @OneToOne(mappedBy = "event") private Field locationByPublicTransport;
+    @OneToOne(mappedBy = "event") private Field locationByCar;
+    @OneToOne(mappedBy = "event") private Field address;
+    @OneToOne(mappedBy = "event") private Field mapLatitude;
+    @OneToOne(mappedBy = "event") private Field mapLongTitude;
+    @OneToOne(mappedBy = "event") private Field description;
+    @OneToOne(mappedBy = "event") private Field price;
+    @OneToOne(mappedBy = "event") private Field duration;
+    @OneToOne(mappedBy = "event") private Field ticketLink;
     private LocalDateTime date;
-    private Boolean active;
+    private Integer active;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "events")
@@ -149,11 +147,11 @@ public class Event {
         this.date = date;
     }
 
-    public Boolean getActive() {
+    public Integer getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(Integer active) {
         this.active = active;
     }
 

@@ -1,7 +1,9 @@
 package application.controller;
 
 import application.model.event.Event;
+import application.model.event.NewEvent;
 import application.repository.EventRepository;
+import application.utils.EventUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 public class EventController {
 
     @Autowired EventRepository eventRepository;
+    @Autowired EventUtils eventUtils;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/latest")
@@ -32,9 +35,9 @@ public class EventController {
     @GetMapping("/{id}")
     public Event serveEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}
 
-    @PostMapping("/save")
-    public ResponseEntity<?> saveEvent(@RequestBody Event event) {
-        eventRepository.saveAndFlush(event);
+    @PostMapping("/new")
+    public ResponseEntity<?> saveEvent(@RequestBody NewEvent newEvent) {
+        eventUtils.saveEvent(newEvent);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -57,7 +57,7 @@ public class User {
     private String description;
 
     @Column(name = "active")
-    private Boolean active;
+    private Integer active;
 
     @Column(name = "memberSince")
     private LocalDateTime memberSince;
@@ -146,11 +146,11 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public Boolean getActive() {
+    public Integer getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(Integer active) {
         this.active = active;
     }
 
