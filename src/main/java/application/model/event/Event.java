@@ -1,6 +1,8 @@
 package application.model.event;
 
+import application.model.Field;
 import application.model.authentication.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
 
@@ -19,141 +21,163 @@ public class Event {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id")
     private long id;
-    private String title;
-    private String name;
-    private String locationByPublicTransport;
-    private String locationByCar;
-    private String address;
-    private String mapLatitude;
-    private String mapLongTitude;
-    private LocalDateTime date;
-    @Lob @Type(type = "text") private String description;
-    private String price;
-    private String duration;
-    private String ticketLink;
-    private Integer active;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field title;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field name;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field locationByPublicTransport;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field locationByCar;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field address;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field mapLatitude;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field mapLongTitude;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field description;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field price;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field duration;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "event") private Field ticketLink;
+    private LocalDateTime date;
+    private Boolean active;
+
+    @JsonBackReference
     @ManyToMany(mappedBy = "events")
     private Set<User> speakers = new HashSet<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true) @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "events")
     private Set<User> users = new HashSet<>();
 
-    public Event() {
-    }
+    public Event() { }
 
-    public Event(String title, String name, String locationByPublicTransport, String locationByCar, String address, String mapLatitude, String mapLongTitude, String date, String description, String price, String duration, String ticketLink) {
-        this();
-        this.title = title;
-        this.name = name;
-        this.locationByPublicTransport = locationByPublicTransport;
-        this.locationByCar = locationByCar;
-        this.address = address;
-        this.mapLatitude = mapLatitude;
-        this.mapLongTitude = mapLongTitude;
-        this.description = description;
-        this.price = price;
-        this.duration = duration;
-        this.ticketLink = ticketLink;
-    }
-
-    public Boolean hasUser(User user) {
-        for (User attendee : users) {
-            if(attendee.getId() == user.getId()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public Integer getActive() { return active; }
-    public void setActive(Integer active) { this.active = active; }
-    public Set<User> getUsers() {
-        return users;
-    }
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-    public Set<User> getAttendees() { return users; }
-    public void setAttendees(Set<User> users) { this.users = users; }
-    public Set<Comment> getComments() { return comments; }
-    public void setComments(Set<Comment> comments) { this.comments = comments; }
     public long getId() {
         return id;
     }
-    public String getTitle() {
+
+    public Field getTitle() {
         return title;
     }
-    public void setTitle(String title) {
+
+    public void setTitle(Field title) {
         this.title = title;
     }
-    public String getName() {
+
+    public Field getName() {
         return name;
     }
-    public void setName(String name) {
+
+    public void setName(Field name) {
         this.name = name;
     }
-    public String getLocationByPublicTransport() {
+
+    public Field getLocationByPublicTransport() {
         return locationByPublicTransport;
     }
-    public void setLocationByPublicTransport(String locationByPublicTransport) { this.locationByPublicTransport = locationByPublicTransport; }
-    public String getLocationByCar() {
+
+    public void setLocationByPublicTransport(Field locationByPublicTransport) {
+        this.locationByPublicTransport = locationByPublicTransport;
+    }
+
+    public Field getLocationByCar() {
         return locationByCar;
     }
-    public void setLocationByCar(String locationByCar) {
+
+    public void setLocationByCar(Field locationByCar) {
         this.locationByCar = locationByCar;
     }
-    public String getAddress() {
+
+    public Field getAddress() {
         return address;
     }
-    public void setAddress(String address) {
+
+    public void setAddress(Field address) {
         this.address = address;
     }
-    public String getMapLatitude() {
+
+    public Field getMapLatitude() {
         return mapLatitude;
     }
-    public void setMapLatitude(String mapLatitude) {
+
+    public void setMapLatitude(Field mapLatitude) {
         this.mapLatitude = mapLatitude;
     }
-    public String getMapLongTitude() {
+
+    public Field getMapLongTitude() {
         return mapLongTitude;
     }
-    public void setMapLongTitude(String mapLongTitude) {
+
+    public void setMapLongTitude(Field mapLongTitude) {
         this.mapLongTitude = mapLongTitude;
     }
+
+    public Field getDescription() {
+        return description;
+    }
+
+    public void setDescription(Field description) {
+        this.description = description;
+    }
+
+    public Field getPrice() {
+        return price;
+    }
+
+    public void setPrice(Field price) {
+        this.price = price;
+    }
+
+    public Field getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Field duration) {
+        this.duration = duration;
+    }
+
+    public Field getTicketLink() {
+        return ticketLink;
+    }
+
+    public void setTicketLink(Field ticketLink) {
+        this.ticketLink = ticketLink;
+    }
+
     public LocalDateTime getDate() {
         return date;
     }
+
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-    public String getDescription() {
-        return description;
+
+    public Boolean getActive() {
+        return active;
     }
-    public void setDescription(String description) {
-        this.description = description;
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
-    public String getPrice() {
-        return price;
+
+    public Set<User> getSpeakers() {
+        return speakers;
     }
-    public void setPrice(String price) {
-        this.price = price;
+
+    public void setSpeakers(Set<User> speakers) {
+        this.speakers = speakers;
     }
-    public String getDuration() {
-        return duration;
+
+    public Set<Comment> getComments() {
+        return comments;
     }
-    public void setDuration(String duration) {
-        this.duration = duration;
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
-    public String getTicketLink() {
-        return ticketLink;
+
+    public Set<User> getUsers() {
+        return users;
     }
-    public void setTicketLink(String ticketLink) {
-        this.ticketLink = ticketLink;
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
-    public Set<User> getSpeakers() { return speakers; }
-    public void setSpeakers(Set<User> speakers) { this.speakers = speakers; }
 }

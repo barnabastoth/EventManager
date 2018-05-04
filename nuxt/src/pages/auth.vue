@@ -50,6 +50,10 @@
               <br>
               <q-input float-label="Email cím" v-model="register.email" inverted color="primary" type="email" :before="[{icon: 'fa-envelope', handler () {}}]" />
               <br>
+              <q-input float-label="Becenév" v-model="register.name" inverted color="primary" type="text" :before="[{icon: 'fa-address-card', handler () {}}]" />
+              <br>
+              <q-input float-label="Keresztnév" v-model="register.lastName" inverted color="primary" type="text" :before="[{icon: 'fa-address-card', handler () {}}]" />
+              <br>
               <q-input float-label="Jelszó" v-model="register.password" inverted color="primary" type="password" :before="[{icon: 'fa-key', handler () {}}]" />
               <br>
               <q-btn color="primary" icon-right="fa-sign-in-alt" @click="performRegistration()" label="Regisztráció" />
@@ -75,6 +79,8 @@ export default {
       register: {
         username: '',
         email: '',
+        name: '',
+        lastName: '',
         password: '',
         errors: {},
         hasErrors: false

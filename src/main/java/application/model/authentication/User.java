@@ -25,7 +25,7 @@ public class User {
     private Long id;
 
     @Column(name = "username", unique = true)
-    @Size(min = 4, max = 20, message = "A felhasználónevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    @Size(min = 4, max = 10, message = "A felhasználónevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
     private String username;
 
     @Column(name = "email", unique = true)
@@ -37,11 +37,11 @@ public class User {
     private String password;
 
     @Column(name = "name")
-    @Size(min = 3, max = 15, message = "A keresztnevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    @Size(min = 3, max = 10, message = "A keresztnevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
     private String name;
 
     @Column(name = "last_name")
-    @Size(min = 3, max = 15, message = "A családnevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
+    @Size(min = 3, max = 10, message = "A családnevednek legalább {min} és legfeljebb {max} karakterből kell állnia.")
     private String lastName;
 
     @Column(name = "profession")
@@ -57,7 +57,7 @@ public class User {
     private String description;
 
     @Column(name = "active")
-    private int active;
+    private Boolean active;
 
     @Column(name = "memberSince")
     private LocalDateTime memberSince;
@@ -79,6 +79,7 @@ public class User {
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
+    @JsonManagedReference
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -86,6 +87,7 @@ public class User {
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
+    @JsonManagedReference
     private Set<Event> speakerAt = new HashSet<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -143,8 +145,15 @@ public class User {
     public void setLastName(String lastName) { this.lastName = lastName; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-    public int getActive() { return active; }
-    public void setActive(int active) { this.active = active; }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public Set<Role> getRoles() { return roles; }
     public void setRoles(Set<Role> roles) { this.roles = roles; }
     public String getDescription() { return description; }

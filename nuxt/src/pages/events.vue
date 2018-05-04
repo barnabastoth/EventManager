@@ -7,7 +7,15 @@
     <q-layout>
       <q-page-container>
         <q-page padding style="width: 1000px; max-width: 90vw;">
-          <q-timeline color="red" dark class="bg-black" style="padding: 24px; margin-top: 50px;">
+          <q-timeline color="red" class="shadow-24" style="padding: 24px; margin-top: 50px;">
+            <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
+              <q-item-side left>
+                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-globe" />
+              </q-item-side>
+              <q-item-main>
+                <q-item-tile style="font-size: 30px;" class="text-center" label>Események</q-item-tile>
+              </q-item-main>
+            </q-item>
             <q-timeline-entry
               v-for="event in events" :key="event.id"
               :title="event.title"

@@ -7,10 +7,15 @@
     <q-layout>
       <q-page-container>
         <q-page padding style="width: 700px; max-width: 90vw;">
-          <q-card inline class="q-ma-sm shadow-24">
-            <q-card-title class="text-center">
-              <h7>Kapcsolat</h7>
-            </q-card-title>
+          <q-card inline class="q-ma-sm shadow-24" style="padding: 24px;">
+            <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
+              <q-item-side left>
+                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-address-card" />
+              </q-item-side>
+              <q-item-main>
+                <q-item-tile style="font-size: 30px;" class="text-center" label>Kapcsolat</q-item-tile>
+              </q-item-main>
+            </q-item>
             <q-card-media>
               <img src="../statics/contact.jpg" class="responsive">
             </q-card-media>
