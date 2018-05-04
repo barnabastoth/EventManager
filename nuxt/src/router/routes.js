@@ -8,7 +8,8 @@ export default [
       { path: '/projekt', component: () => import('pages/theProject') },
       { path: '/kapcsolat', component: () => import('pages/contact') },
       { path: '/esemenyek', component: () => import('pages/events') },
-      { path: '/profil/:username', props: true, component: () => import('pages/profile') }
+      { path: '/profil/:username', props: true, component: () => import('pages/profile') },
+      { path: '/esemeny/:id', props: true, component: () => import('pages/event') }
     ]
   },
 

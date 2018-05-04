@@ -28,6 +28,6 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public Event serveAllEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}
+    public Event serveEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}
 
 }
