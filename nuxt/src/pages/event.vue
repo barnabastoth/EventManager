@@ -12,8 +12,8 @@
                 <img src="statics/parallax2.jpg">
 
                 <q-card-title slot="overlay">
-                  {{event.title}}
-                  <span slot="subtitle">{{event.name}}</span>
+                  {{event.fields['title'].text}}
+                  <span slot="subtitle">{{event.fields['name'].text}}</span>
                 </q-card-title>
               </q-card-media>
               <q-card-actions class="bg-grey-3">
@@ -28,7 +28,7 @@
                     <q-item-tile color="primary" icon="fa-globe" />
                   </q-item-side>
                   <q-item-main>
-                    <q-item-tile label>{{event.name}}</q-item-tile>
+                    <q-item-tile label>{{event.fields['name'].text}}</q-item-tile>
                     <q-item-tile sublabel>Név</q-item-tile>
                   </q-item-main>
                 </q-item>
@@ -37,7 +37,7 @@
                     <q-item-tile color="primary" icon="fa-address-book" />
                   </q-item-side>
                   <q-item-main>
-                    <q-item-tile label>{{event.address}}</q-item-tile>
+                    <q-item-tile label>{{event.fields['address'].text}}</q-item-tile>
                     <q-item-tile sublabel>Cím</q-item-tile>
                   </q-item-main>
                 </q-item>
@@ -46,7 +46,7 @@
                     <q-item-tile color="primary" icon="fa-calendar" />
                   </q-item-side>
                   <q-item-main>
-                    <q-item-tile label>{{event.date.year}}.{{event.date.monthValue}}.{{event.date.dayOfMonth}} {{event.date.hour}}:{{event.date.minute}}</q-item-tile>
+                    <!--<q-item-tile label>{{event.date.year}}.{{event.date.monthValue}}.{{event.date.dayOfMonth}} {{event.date.hour}}:{{event.date.minute}}</q-item-tile>-->
                     <q-item-tile sublabel>Időpont</q-item-tile>
                   </q-item-main>
                 </q-item>
@@ -55,7 +55,7 @@
                     <q-item-tile color="primary" icon="fa-clock" />
                   </q-item-side>
                   <q-item-main>
-                    <q-item-tile label>{{event.duration}}</q-item-tile>
+                    <q-item-tile label>{{event.fields['duration'].text}}</q-item-tile>
                     <q-item-tile sublabel>Időtartalom</q-item-tile>
                   </q-item-main>
                 </q-item>

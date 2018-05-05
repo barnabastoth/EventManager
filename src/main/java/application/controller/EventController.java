@@ -5,8 +5,6 @@ import application.model.event.NewEvent;
 import application.repository.EventRepository;
 import application.utils.EventUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +34,8 @@ public class EventController {
     public Event serveEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}
 
     @PostMapping("/new")
-    public ResponseEntity<?> saveEvent(@RequestBody NewEvent newEvent) {
-        eventUtils.saveEvent(newEvent);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void saveEvent(@RequestBody NewEvent newEvent) {
+        eventUtils.createNewEvent(newEvent);
     }
 
 }

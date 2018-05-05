@@ -219,35 +219,51 @@ export default {
       event: {
         title: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-address-book'
         },
         name: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-address-book'
         },
         address: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-calendar'
         },
         description: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-clock'
         },
         price: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-map-marker'
         },
         duration: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-ticket-alt'
         },
         ticketLink: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-link'
         },
         date: {
           text: '',
-          active: '1'
+          subText: '',
+          active: '1',
+          icon: 'fa-calendar'
         },
         active: '1'
       }

@@ -40,8 +40,9 @@
                   <q-item @click.native="$router.push('/esemeny/' + event.id)" class="shadow-1" v-for="event in events" :key="event.id">
                     <q-item-side image="statics/parallax2.jpg"></q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{event.name}}</q-item-tile>
-                      <q-item-tile sublabel>{{event.title}}</q-item-tile>
+                      <q-item-tile label>{{event.fields['title'].text}}</q-item-tile>
+                      <q-item-tile sublabel>{{event.fields['address'].text}}</q-item-tile>
+                      <q-item-tile sublabel>{{event.active}}</q-item-tile>
                     </q-item-main>
                     <q-item-side right>
                       <q-item-tile icon="fa-edit"></q-item-tile>
