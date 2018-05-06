@@ -19,6 +19,7 @@
             <q-tabs color="primary" class="shadow-1" glossy align="justify">
               <q-tab default name="Események" slot="title" icon="fa-calendar" label="Események" />
               <q-tab name="Felhasználók" slot="title" icon="fa-user" label="Felhasználók" />
+              <q-tab name="Oldalak" slot="title" icon="fa-link" label="Oldalak" />
               <q-tab name="Beállítások" slot="title" icon="fa-cog" label="Beállítások" />
 
               <q-tab-pane name="Események">
@@ -74,8 +75,12 @@
                 </q-list>
               </q-tab-pane>
 
-              <q-tab-pane name="Beállítások">
+              <q-tab-pane name="Oldalak">
+                asdsad
+              </q-tab-pane>
 
+              <q-tab-pane name="Beállítások">
+                afwefwe
               </q-tab-pane>
             </q-tabs>
           </q-card>

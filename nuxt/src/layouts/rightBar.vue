@@ -9,7 +9,7 @@
       <q-collapsible avatar="statics/guy-avatar.png" :label="this.$store.state.loggedInUser.username">
         <q-item>
           <q-item-side>
-            <q-item-tile color="primary" icon="fa-user" />
+            <q-item-tile color="primary" icon="fa-user-md" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>{{this.$store.state.loggedInUser.profession}}</q-item-tile>

@@ -84,7 +84,11 @@ module.exports = function (ctx) {
         'QTimeline',
         'QTimelineEntry',
         'QBtnToggle',
-        'QToggle'
+        'QToggle',
+        'QStepper',
+        'QStep',
+        'QStepperNavigation',
+        'QDatetime'
       ],
       directives: [
         'Ripple',
