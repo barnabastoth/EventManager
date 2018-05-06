@@ -10,6 +10,7 @@ import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Component
@@ -46,6 +47,7 @@ public class EventUtils {
         event.setSpeakers(speakers);
 
         event.setActive(Integer.parseInt(newEvent.getSettings().get("active")));
+        event.setDate(ZonedDateTime.parse(newEvent.getBasicInfo().get("date")).toLocalDateTime());
 
         eventRepository.saveAndFlush(event);
 

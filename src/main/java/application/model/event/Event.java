@@ -21,7 +21,7 @@ public class Event {
     private String name;
     private String address;
     private LocalDateTime date;
-    @Lob private String description;
+    @Column(length = 500) private String description;
 
     private Integer active;
 
@@ -37,7 +37,7 @@ public class Event {
     private Set<User> speakers = new HashSet<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
 
     @JsonBackReference
