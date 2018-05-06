@@ -198,7 +198,7 @@
                 </q-item-main>
               </q-item>
             </q-card>
-            <p>{{event.speakers}}</p>
+            <p>{{event}}</p>
             <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="createNewEvent()" label="Esemény létrehozása" />
           </q-step>
 
@@ -309,15 +309,16 @@ export default {
   },
   methods: {
     createNewEvent () {
+      let self = this
       AXIOS.post('/api/event/new', this.$data.event)
         .then(response => {
           self.$router.push('/esemeny/' + response.data)
           Notify.create({
             type: 'positive',
             color: 'positive',
-            position: 'bottom',
+            position: 'center',
             timeout: 3000,
-            message: 'Az eseményt sikeresen létre lett hozva. Át is irányítottunk az esemény oldalára.'
+            message: 'Az esemény sikeresen létre lett hozva. Át is irányítottunk az esemény oldalára.'
           })
         })
         .catch(error => {

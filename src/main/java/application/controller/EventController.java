@@ -20,7 +20,6 @@ public class EventController {
     @Autowired EventRepository eventRepository;
     @Autowired EventUtils eventUtils;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/latest")
     public Event serveLatestEvent() {
         return eventRepository.getLatestEvent();
@@ -36,11 +35,8 @@ public class EventController {
     public Event serveEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}
 
     @PostMapping("/new")
-    public void saveEvent(@RequestBody String newEvent) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        NewEvent event = mapper.readValue(newEvent, NewEvent.class);
-        System.out.println("ANYADTEGECI" + event);
-//        eventUtils.createNewEvent(newEvent);
+    public int saveEvent(@RequestBody NewEvent newEvent) throws IOException {
+        return eventUtils.createNewEvent(newEvent);
     }
 
 }
