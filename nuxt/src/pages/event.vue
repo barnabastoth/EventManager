@@ -38,7 +38,7 @@
                   </q-item-side>
                   <q-item-main>
                     <q-item-tile label>{{event.fields['address'].text}}</q-item-tile>
-                    <q-item-tile sublabel>Cím</q-item-tile>
+                    <q-item-tile sublabel>{{event.fields['address'].subText}}</q-item-tile>
                   </q-item-main>
                 </q-item>
                 <q-item>

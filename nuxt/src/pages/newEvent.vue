@@ -26,13 +26,13 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.address" float-label="Az esemény címe"></q-input>
+                <q-input v-model="event.basicInfo.title" float-label="Az esemény címe"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-clock" color="primary"></q-item-side>
               <q-item-main>
-                <q-datetime stack-label="Az esemény időpontja" v-model="event.basicInfo.address" clearable format24h type="datetime" />
+                <q-datetime stack-label="Az esemény időpontja" modal="true" v-model="event.basicInfo.address" clearable format24h type="datetime" />
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -44,9 +44,50 @@
           </q-step>
 
           <q-step name="second" title="Extra mezők hozzá adása">
-            <q-card>
+            <q-card color="primary" inline class="q-ma-sm full-width">
+              <q-card-main>
+                <q-btn
+                  icon="fa-info"
+                  color="info"
+                  style="margin: 10px"
+                />
+                Hasznos információk
+                <q-item-tile>
+                  Ezek az extra információk amivel személyre tudod szabni az eseményt. Jelenleg három példa mező van, ezeket nyugodtan töröld, vagy adj hozzájuk újat.
+                </q-item-tile>
+                <q-item-tile>
+                  A mezők olyan sorrendbe fognak megjelenni az eseménynél, amilyen sorrendbe itt húzod őket. Drag'n'drop.
+                </q-item-tile>
+                <q-item-tile>
+                  Az icon átállításához ezen a linken: <a style="color: white; font-weight: bold;" href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank" >KATTINTS RÁM</a>. Keresd ki amelyik tetszik aztán a nevét másold be a mezőhöz az icon részbe. Ha jó akkor azonnal megfog jelenni az ikon mellette.
+                </q-item-tile>
+              </q-card-main>
+            </q-card>
+            <q-btn
+              v-if="draggableFields === false"
+              @click="toggleDraggableFields()"
+              class="bg-grey-1 shadow-2"
+              style="margin: 20px 0px 20px 0px;"
+              icon-right="fa-arrows-alt"
+            >
+              Mezők mozgatása
+            </q-btn>
+            <q-btn
+              v-if="draggableFields === true"
+              @click="toggleDraggableFields()"
+              class="bg-grey-1 shadow-2"
+              style="margin: 20px 0px 20px 0px;"
+              icon-right="fa-edit"
+            >
+              Mezők szerkesztése
+            </q-btn>
+            <q-card v-if="draggableFields === false">
               <q-item class="shadow-2 bg-grey-1" v-for="(field, index) in event.fields" :key="field.subText" style="margin-bottom: 15px;">
                 <q-item-main>
+                  <q-btn
+                    color="info"
+                    style="margin-bottom: 10px;"
+                  >{{index + 1}}</q-btn>
                   <q-field>
                     <q-input v-model="field.subText" float-label="A mező neve"></q-input>
                     <q-input :after="[{icon: field.icon}]" v-model="field.icon" float-label="A mező ikonja"></q-input>
@@ -69,12 +110,36 @@
                 <q-btn color="info" icon-right="fa-plus" @click="addNewField()" label="Új mező hozzáadása" />
               </q-item>
             </q-card>
+
+            <q-card v-if="draggableFields">
+              <draggable v-model="event.fields">
+                <q-item class="shadow-2 bg-grey-1" v-for="(field, index) in event.fields" :key="field.subText" style="margin-bottom: 15px;">
+                  <q-item-main>
+                    <q-btn
+                      color="info"
+                      style="margin-bottom: 10px;"
+                    >{{index + 1}}</q-btn>
+                    <q-field>
+                      <q-item>
+                        <q-item-side>
+                          <q-item-tile color="primary" :icon="field.icon" />
+                        </q-item-side>
+                        <q-item-main>
+                          <q-item-tile label>{{field.text}}</q-item-tile>
+                          <q-item-tile sublabel>{{field.subText}}</q-item-tile>
+                        </q-item-main>
+                      </q-item>
+                    </q-field>
+                  </q-item-main>
+                </q-item>
+              </draggable>
+            </q-card>
           </q-step>
 
           <q-step name="third" title="Előadók beállítása">
             <q-btn color="info" icon-right="fa-plus" @click="openUsersModal()" label="Új előadó hozzáadása" />
             <q-list-header>Kiválasztott előadók</q-list-header>
-            <q-card v-for="(speaker, index) in event.speakers" :key="speaker.id" inline class="q-ma-sm shadow-10" style="width: 250px; max-width: 90%">
+            <q-card v-for="(speaker, index) in event.speakers" :key="speaker.id" inline class="q-ma-sm shadow-10">
               <q-item>
                 <q-item-side avatar="statics/guy-avatar.png" />
                 <q-item-main>
@@ -109,7 +174,12 @@
           </q-step>
 
           <q-step name="fifth" title="Térkép beállítása">
-asd2
+            <google-map style="width: 100%; height: 100%; position: absolute; left:0; top:0"
+                        :center="{lat: 1.38, lng: 103.8}"
+                        :zoom="12"
+            >
+
+            </google-map>
           </q-step>
 
           <q-step name="fourth" title="Esemény beállítása">
@@ -187,11 +257,17 @@ asd2
 <script>
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
+import draggable from 'vuedraggable'
+// import {load, Map, Marker} from 'vue-google-maps'
 export default {
   name: 'newEvent',
+  components: {
+    draggable
+  },
   data: function () {
     return {
       usersModal: false,
+      draggableFields: false,
       users: [],
       event: {
         basicInfo: {
@@ -264,7 +340,7 @@ export default {
         })
     },
     addNewField () {
-      if (this.$data.event[this.$data.event.length - 1].subText === 'Új mező') {
+      if (this.$data.event.fields.length > 0 && this.$data.event.fields[this.$data.event.fields.length - 1].subText === 'Új mező') {
         Notify.create({
           type: 'info',
           color: 'info',
@@ -273,7 +349,7 @@ export default {
           message: 'Már kész van egy új mező'
         })
       } else {
-        this.$data.event.push({
+        this.$data.event.fields.push({
           text: '',
           subText: 'Új mező',
           active: '1',
@@ -287,7 +363,7 @@ export default {
       Notify.create({
         type: 'positive',
         color: 'positive',
-        position: 'bottom',
+        position: 'center',
         timeout: 3000,
         message: 'Sikeresen törölted a következő mezőt: ' + name
       })
@@ -298,7 +374,7 @@ export default {
       Notify.create({
         type: 'positive',
         color: 'positive',
-        position: 'bottom',
+        position: 'center',
         timeout: 3000,
         message: 'Sikeresen törölted a következő előadót: ' + username
       })
@@ -321,6 +397,27 @@ export default {
         description: user.description
       })
       this.$data.usersModal = false
+    },
+    toggleDraggableFields () {
+      if (this.$data.draggableFields) {
+        this.$data.draggableFields = false
+        Notify.create({
+          type: 'info',
+          color: 'info',
+          position: 'bottom',
+          timeout: 2000,
+          message: 'Az elemekek most már cserélhető módban vannak'
+        })
+      } else {
+        this.$data.draggableFields = true
+        Notify.create({
+          type: 'info',
+          color: 'info',
+          position: 'bottom',
+          timeout: 2000,
+          message: 'Az elemekek most már cserélhető módban vannak'
+        })
+      }
     }
   }
 }
