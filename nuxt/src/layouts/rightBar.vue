@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import SendError from '../pages/SendError'
+import SendError from '../components/SendError'
 export default {
   components: {
     SendError

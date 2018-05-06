@@ -14,7 +14,6 @@
     "@nuxtjs/auth": "^4.0.0-rc.3",
     "@nuxtjs/axios": "^5.1.1",
     "axios": "^0.18.0",
-    "vue-google-maps": "^0.1.21",
     "vuedraggable": "^2.16.0"
   },
   "devDependencies": {

@@ -1,88 +1,50 @@
 package application.model.event;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NewEvent {
 
-    private HashMap<String, String> title = new HashMap<>();
-    private HashMap<String, String> name = new HashMap<>();
-    private HashMap<String, String> address = new HashMap<>();
-    private HashMap<String, String> description = new HashMap<>();
-    private HashMap<String, String> price = new HashMap<>();
-    private HashMap<String, String> duration = new HashMap<>();
-    private HashMap<String, String> ticketLink = new HashMap<>();
-    private HashMap<String, String> date = new HashMap<>();
-    private Integer active;
+    private Map<String, String> basicInfo = new HashMap<>();
+    private List<Map<String, String>> fields = new ArrayList<>();
+    private List<Map<String, String>> speakers = new ArrayList<>();
+    private Map<String, String> settings = new HashMap<>();
 
-    public HashMap<String, String> getTitle() {
-        return title;
+    public NewEvent() { }
+
+    public Map<String, String> getBasicInfo() {
+        return basicInfo;
     }
 
-    public void setTitle(HashMap<String, String> title) {
-        this.title = title;
+    public void setBasicInfo(Map<String, String> basicInfo) {
+        this.basicInfo = basicInfo;
     }
 
-    public HashMap<String, String> getName() {
-        return name;
+    public List<Map<String, String>> getFields() {
+        return fields;
     }
 
-    public void setName(HashMap<String, String> name) {
-        this.name = name;
+    public void setFields(List<Map<String, String>> fields) {
+        this.fields = fields;
     }
 
-    public HashMap<String, String> getAddress() {
-        return address;
+    public List<Map<String, String>> getSpeakers() {
+        return speakers;
     }
 
-    public void setAddress(HashMap<String, String> address) {
-        this.address = address;
+    public void setSpeakers(List<Map<String, String>> speakers) {
+        this.speakers = speakers;
     }
 
-    public HashMap<String, String> getDescription() {
-        return description;
+    public Map<String, String> getSettings() {
+        return settings;
     }
 
-    public void setDescription(HashMap<String, String> description) {
-        this.description = description;
-    }
-
-    public HashMap<String, String> getPrice() {
-        return price;
-    }
-
-    public void setPrice(HashMap<String, String> price) {
-        this.price = price;
-    }
-
-    public HashMap<String, String> getDuration() {
-        return duration;
-    }
-
-    public void setDuration(HashMap<String, String> duration) {
-        this.duration = duration;
-    }
-
-    public HashMap<String, String> getTicketLink() {
-        return ticketLink;
-    }
-
-    public void setTicketLink(HashMap<String, String> ticketLink) {
-        this.ticketLink = ticketLink;
-    }
-
-    public HashMap<String, String> getDate() {
-        return date;
-    }
-
-    public void setDate(HashMap<String, String> date) {
-        this.date = date;
-    }
-
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
+    public void setSettings(Map<String, String> settings) {
+        this.settings = settings;
     }
 }

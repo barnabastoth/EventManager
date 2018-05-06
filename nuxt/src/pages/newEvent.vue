@@ -26,13 +26,13 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.title" float-label="Az esemény címe"></q-input>
+                <q-input v-model="event.basicInfo.address" float-label="Az esemény címe"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-clock" color="primary"></q-item-side>
               <q-item-main>
-                <q-datetime stack-label="Az esemény időpontja" modal="true" v-model="event.basicInfo.address" clearable format24h type="datetime" />
+                <q-datetime stack-label="Az esemény időpontja" modal="true" v-model="event.basicInfo.date" clearable format24h type="datetime" />
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -56,10 +56,13 @@
                   Ezek az extra információk amivel személyre tudod szabni az eseményt. Jelenleg három példa mező van, ezeket nyugodtan töröld, vagy adj hozzájuk újat.
                 </q-item-tile>
                 <q-item-tile>
-                  A mezők olyan sorrendbe fognak megjelenni az eseménynél, amilyen sorrendbe itt húzod őket. Drag'n'drop.
+                  A mezők megjelenésének sorrendjének változtatásához kattints a Mezők Mozgatása gombra.
                 </q-item-tile>
                 <q-item-tile>
                   Az icon átállításához ezen a linken: <a style="color: white; font-weight: bold;" href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank" >KATTINTS RÁM</a>. Keresd ki amelyik tetszik aztán a nevét másold be a mezőhöz az icon részbe. Ha jó akkor azonnal megfog jelenni az ikon mellette.
+                </q-item-tile>
+                <q-item-tile>
+                  Itt tudsz megadni extra információt, mint például: Útvonal tömegközlekedéssel
                 </q-item-tile>
               </q-card-main>
             </q-card>
@@ -139,12 +142,13 @@
           <q-step name="third" title="Előadók beállítása">
             <q-btn color="info" icon-right="fa-plus" @click="openUsersModal()" label="Új előadó hozzáadása" />
             <q-list-header>Kiválasztott előadók</q-list-header>
-            <q-card v-for="(speaker, index) in event.speakers" :key="speaker.id" inline class="q-ma-sm shadow-10">
+            <q-card v-for="(speaker, index) in event.speakers" :key="speaker.id" inline class="q-ma-sm shadow-10" style="width: 100%">
               <q-item>
                 <q-item-side avatar="statics/guy-avatar.png" />
                 <q-item-main>
                   <q-item-tile label>{{speaker.name}} {{speaker.lastName}}</q-item-tile>
                   <q-item-tile sublabel>{{speaker.username}}</q-item-tile>
+                  <q-item-tile sublabel>{{speaker.id}}</q-item-tile>
                 </q-item-main>
               </q-item>
               <q-list>
@@ -173,15 +177,6 @@
             </q-card>
           </q-step>
 
-          <q-step name="fifth" title="Térkép beállítása">
-            <google-map style="width: 100%; height: 100%; position: absolute; left:0; top:0"
-                        :center="{lat: 1.38, lng: 103.8}"
-                        :zoom="12"
-            >
-
-            </google-map>
-          </q-step>
-
           <q-step name="fourth" title="Esemény beállítása">
             <q-card style="margin-bottom: 20px;">
               <q-item>
@@ -192,7 +187,7 @@
                   <q-field>
                     <p>Maga az esemény:</p>
                     <q-btn-toggle
-                      v-model="active"
+                      v-model="event.settings.active"
                       toggle-color="primary"
                       :options="[
                             {label: 'Legyen látható', value: '1'},
@@ -203,6 +198,7 @@
                 </q-item-main>
               </q-item>
             </q-card>
+            <p>{{event.speakers}}</p>
             <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="createNewEvent()" label="Esemény létrehozása" />
           </q-step>
 
@@ -258,7 +254,6 @@
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
 import draggable from 'vuedraggable'
-// import {load, Map, Marker} from 'vue-google-maps'
 export default {
   name: 'newEvent',
   components: {
@@ -285,7 +280,7 @@ export default {
           },
           {
             text: '',
-            subText: 'Jegy ár',
+            subText: 'Jegy ar',
             active: '1',
             icon: 'fa-ticket-alt'
           },
@@ -306,9 +301,6 @@ export default {
             description: this.$store.state.loggedInUser.description
           }
         ],
-        map: {
-
-        },
         settings: {
           active: '1'
         }
@@ -346,7 +338,7 @@ export default {
           color: 'info',
           position: 'bottom',
           timeout: 3000,
-          message: 'Már kész van egy új mező'
+          message: 'Már kész van egy új mező, először szerkeszd azt, azután csinálhatsz többet.'
         })
       } else {
         this.$data.event.fields.push({

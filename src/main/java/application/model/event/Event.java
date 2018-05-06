@@ -18,27 +18,26 @@ public class Event {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id")
     private long id;
-
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field title;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field name;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field locationByPublicTransport;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field locationByCar;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field address;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field mapLatitude;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field mapLongTitude;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field description;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field price;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field duration;
-//    @JsonManagedReference @OneToOne(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true) private Field ticketLink;
-    @JsonManagedReference @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER) private Map<String, Field> fields = new HashMap<>();
+    private String name;
+    private String address;
     private LocalDateTime date;
+    @Lob private String description;
+
     private Integer active;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    private List<Field> fields = new ArrayList<>();
+
+    @ElementCollection
+    private Map<String, String> settings = new HashMap<>();
 
     @JsonBackReference
     @ManyToMany(mappedBy = "events")
     private Set<User> speakers = new HashSet<>();
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true) @JsonManagedReference
+    @JsonManagedReference
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
     @JsonBackReference
@@ -51,12 +50,20 @@ public class Event {
         return id;
     }
 
-    public Map<String, Field> getFields() {
-        return fields;
+    public String getName() {
+        return name;
     }
 
-    public void setFields(Map<String, Field> fields) {
-        this.fields = fields;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getDate() {
@@ -67,12 +74,36 @@ public class Event {
         this.date = date;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Integer getActive() {
         return active;
     }
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
+
+    public Map<String, String> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Map<String, String> settings) {
+        this.settings = settings;
     }
 
     public Set<User> getSpeakers() {

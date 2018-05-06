@@ -97,8 +97,8 @@ public class DataLoader implements CommandLineRunner {
         user.setPassword(bCryptPasswordEncoder.encode("password"));
         user.setEmail("vigyor99@gmail.com");
         user.setUsername("Exworm");
-        user.setName("Barnabás");
-        user.setLastName("Tóth");
+        user.setName("Barnabss");
+        user.setLastName("Toth");
         user.setProfession("Junior Java Developer");
         user.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         user.setMemberSince(LocalDateTime.now());

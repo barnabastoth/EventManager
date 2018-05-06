@@ -1,5 +1,6 @@
 package application.utils;
 
+import application.model.authentication.User;
 import application.model.event.Event;
 import application.model.event.Field;
 import application.model.event.NewEvent;
@@ -8,10 +9,7 @@ import application.repository.FieldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class EventUtils {
@@ -20,19 +18,35 @@ public class EventUtils {
     @Autowired FieldRepository fieldRepository;
 
     public void createNewEvent(NewEvent newEvent) {
-        Event event = new Event();
-        eventRepository.saveAndFlush(event);
-        Map<String, Field> fields = new HashMap<>();
-        fields.put("title", new Field(newEvent.getTitle().get("text"), Integer.parseInt(newEvent.getTitle().get("active")), event));
-        fields.put("name", new Field(newEvent.getName().get("text"), Integer.parseInt(newEvent.getName().get("active")), event));
-        fields.put("address", new Field(newEvent.getAddress().get("text"), Integer.parseInt(newEvent.getAddress().get("active")), event));
-        fields.put("description", new Field(newEvent.getDescription().get("text"), Integer.parseInt(newEvent.getDescription().get("active")), event));
-        fields.put("price", new Field(newEvent.getPrice().get("text"), Integer.parseInt(newEvent.getPrice().get("active")), event));
-        fields.put("duration", new Field(newEvent.getDuration().get("text"), Integer.parseInt(newEvent.getDuration().get("active")), event));
-        fields.put("ticketLink", new Field(newEvent.getTicketLink().get("text"), Integer.parseInt(newEvent.getTicketLink().get("active")), event));
-//        event.setDate(new Field(newEvent.getDate().get("text"), Integer.parseInt(newEvent.getDate().get("active"))));
-        event.setActive(newEvent.getActive());
-        event.setFields(fields);
-        eventRepository.saveAndFlush(event);
+//        Event event = new Event();
+//        eventRepository.saveAndFlush(event);
+//        event.setName(newEvent.getBasicInfo().get("name"));
+//        event.setAddress(newEvent.getBasicInfo().get("address"));
+////        event.setDate(newEvent.getBasicInfo().get("date"));
+//        event.setDescription(newEvent.getBasicInfo().get("description"));
+//
+//        List<Field> fields = new ArrayList<>();
+//        for (int i = 0; i < newEvent.getFields().size(); i++) {
+//            Field field = new Field();
+//            field.setActive(Integer.parseInt(newEvent.getFields().get(i).get("active")));
+//            field.setEvent(event);
+//            field.setIcon(newEvent.getFields().get(i).get("icon"));
+//            field.setSubText(newEvent.getFields().get(i).get("subText"));
+//            field.setText(newEvent.getFields().get(i).get("text"));
+//            fields.add(field);
+//        }
+//        event.setFields(fields);
+
+//        List<User> speakers = new ArrayList<>();
+//        for (int i = 0; i < newEvent.getSpeakers().size(); i++) {
+//            if(eventRepository.findOne(Long.parseLong(newEvent.getSpeakers().get("id"))))
+//        }
+
+        Map<String, String> settings = new HashMap<>();
+//        settings.put("active", newEvent.getSpeakers().get("active"));
+//        event.setSettings(settings);
+//
+//        eventRepository.saveAndFlush(event);
     }
+
 }
