@@ -16,13 +16,10 @@
         </q-item>
         <q-card-main>
           <q-item class="shadow-2 bg-grey-1" v-for="(field, index) in event" :key="field.subText" style="margin-bottom: 15px;">
-            <q-item-side>
-              <q-item-tile color="primary" :icon="field.icon" />
-            </q-item-side>
             <q-item-main>
               <q-field>
                 <q-input v-model="field.subText" float-label="A mező neve"></q-input>
-                <q-input v-model="field.icon" float-label="A mező ikonja"></q-input>
+                <q-input :after="[{icon: field.icon}]" v-model="field.icon" float-label="A mező ikonja"></q-input>
                 <q-input type="textarea" rows="3" v-model="field.text" float-label="A mező szöveges tartalma"></q-input>
               </q-field>
               <q-field style="margin-top: 3px;">
@@ -30,8 +27,8 @@
                   v-model="field.active"
                   toggle-color="primary"
                   :options="[
-                            {label: 'Legyen látható', value: '1'},
-                            {label: 'Ne legyen látható', value: '0'}
+                            {label: 'Publikus', value: '1'},
+                            {label: 'Privát', value: '0'}
                           ]"
                 />
                 <q-btn class="float-right" color="warning" icon="fa-trash-alt" @click="deleteField(index)"><q-tooltip>Mező törlése</q-tooltip></q-btn>
