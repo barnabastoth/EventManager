@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 
 import routes from './routes'
 
@@ -19,6 +20,18 @@ const Router = new VueRouter({
   base: process.env.VUE_ROUTER_BASE,
   scrollBehavior: () => ({ y: 0 }),
   routes
+})
+
+Router.beforeEach((to, from, next) => {
+  switch (to.path) {
+    case '/admin':
+      if (store.state.isLoggedIn) {
+        next()
+      } else {
+        alert('Először jelentkezz be')
+      }
+  }
+  next()
 })
 
 export default Router

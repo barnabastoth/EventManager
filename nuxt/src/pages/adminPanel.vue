@@ -94,6 +94,15 @@
 import AXIOS from 'axios'
 export default {
   name: 'adminPanel',
+  beforeRouteUpdate (to, from, next) {
+    alert('asd')
+    if (!this.$store.state.isLoggedIn) {
+      console.log(next)
+      console.log(to)
+    } else {
+      to('bejelentkezes')
+    }
+  },
   data: function () {
     return {
       events: [],

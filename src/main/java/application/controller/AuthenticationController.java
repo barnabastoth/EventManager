@@ -78,7 +78,7 @@ public class AuthenticationController {
             System.out.println(userName);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 

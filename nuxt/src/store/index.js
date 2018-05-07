@@ -57,7 +57,7 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) => {
         AXIOS.post('/api/login', credentials)
           .then(response => {
-            localStorage.setItem('token', 'Bearer' + response.data[0].token)
+            localStorage.setItem('token', response.data[0].token)
             commit(LOGIN_SUCCESS, response.data[1])
             Notify.create({
               type: 'positive',

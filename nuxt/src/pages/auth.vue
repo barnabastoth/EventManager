@@ -68,6 +68,7 @@
 <script>
 import AXIOS from 'axios'
 export default {
+  middleware: 'auth',
   data: function () {
     return {
       login: {

@@ -381,15 +381,26 @@ export default {
         })
     },
     addUserToSpeakers (user) {
-      this.$data.event.speakers.push({
-        id: user.id,
-        username: user.username,
-        name: user.name,
-        lastName: user.lastName,
-        profession: user.profession,
-        description: user.description
-      })
-      this.$data.usersModal = false
+      let searchedUser = this.$data.event.speakers[user.id]
+      if (searchedUser === undefined) {
+        this.$data.event.speakers.push({
+          id: user.id,
+          username: user.username,
+          name: user.name,
+          lastName: user.lastName,
+          profession: user.profession,
+          description: user.description
+        })
+        this.$data.usersModal = false
+      } else {
+        Notify.create({
+          type: 'warning',
+          color: 'warning',
+          position: 'bottom',
+          timeout: 2000,
+          message: 'Ez a felhasználó már hozzá van adva az előadokhóz, válassz másikat.'
+        })
+      }
     },
     toggleDraggableFields () {
       if (this.$data.draggableFields) {

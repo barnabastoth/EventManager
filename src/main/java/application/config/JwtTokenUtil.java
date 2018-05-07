@@ -1,16 +1,18 @@
 package application.config;
 
+import application.model.authentication.Role;
 import application.model.authentication.User;
+import application.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.function.Function;
 
 import static application.model.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
@@ -19,6 +21,8 @@ import static application.model.Constants.SIGNING_KEY;
 
 @Component
 public class JwtTokenUtil implements Serializable {
+
+    @Autowired UserRepository userRepository;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -52,11 +56,21 @@ public class JwtTokenUtil implements Serializable {
     private String doGenerateToken(String subject) {
 
         Claims claims = Jwts.claims().setSubject(subject);
-        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+//        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+
+        User user = userRepository.findByUsername(subject);
+        Iterator<Role> iterator = user.getRoles().iterator();
+        List<SimpleGrantedAuthority> scopes = new ArrayList<>();
+        while(iterator.hasNext()) {
+            scopes.add(new SimpleGrantedAuthority(iterator.next().getRole()));
+        }
+
+        claims.put("scopes", scopes);
+
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuer("http://devglan.com")
+                .setIssuer("http://event-manager.com")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS*1000))
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)

@@ -3,15 +3,43 @@ export default [
     path: '/',
     component: () => import('layouts/default'),
     children: [
-      { path: '', component: () => import('pages/index') },
-      { path: '/bejelentkezes', component: () => import('pages/auth') },
-      { path: '/projekt', component: () => import('pages/theProject') },
-      { path: '/kapcsolat', component: () => import('pages/contact') },
-      { path: '/esemenyek', component: () => import('pages/events') },
-      { path: '/felhasznalo/:username', props: true, component: () => import('pages/profile') },
-      { path: '/esemeny/uj', component: () => import('pages/newEvent') },
-      { path: '/esemeny/:id', props: true, component: () => import('pages/event') },
-      { path: '/admin', props: true, component: () => import('pages/adminPanel') }
+      {
+        path: '',
+        component: () => import('pages/index')
+      },
+      {
+        path: '/bejelentkezes',
+        component: () => import('pages/auth')
+      },
+      {
+        path: '/projekt',
+        component: () => import('pages/theProject')
+      },
+      {
+        path: '/kapcsolat',
+        component: () => import('pages/contact')
+      },
+      {
+        path: '/esemenyek',
+        component: () => import('pages/events')
+      },
+      {
+        path: '/felhasznalo/:username',
+        props: true,
+        component: () => import('pages/profile')
+      },
+      { path: '/esemeny/uj',
+        component: () => import('pages/newEvent')
+      },
+      {
+        path: '/esemeny/:id',
+        props: true,
+        component: () => import('pages/event')
+      },
+      {
+        path: '/admin',
+        component: () => import('pages/adminPanel')
+      }
     ]
   },
 
