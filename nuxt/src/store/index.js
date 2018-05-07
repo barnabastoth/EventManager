@@ -14,7 +14,7 @@ const TOGGLE_SEND_ERROR_MODAL = 'TOGGLE_SEND_ERROR_MODAL'
 
 const store = new Vuex.Store({
   state: {
-    isLoggedIn: !!localStorage.getItem('Bearer '),
+    isLoggedIn: !!localStorage.getItem('token'),
     loggedInUser: [],
     siteSettings: [],
     showSendErrorModal: false
@@ -57,7 +57,7 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) => {
         AXIOS.post('/api/login', credentials)
           .then(response => {
-            localStorage.setItem('Bearer ', response.data[0].token)
+            localStorage.setItem('token', 'Bearer' + response.data[0].token)
             commit(LOGIN_SUCCESS, response.data[1])
             Notify.create({
               type: 'positive',
@@ -81,7 +81,7 @@ const store = new Vuex.Store({
       })
     },
     logInUserWithToken ({ commit }) {
-      let token = localStorage.getItem('Bearer ')
+      let token = localStorage.getItem('token')
       if (token !== null) {
         AXIOS.post('/api/me', token)
           .then(response => {
@@ -96,13 +96,13 @@ const store = new Vuex.Store({
               timeout: 2000,
               message: 'A Tokened lejárt, kérlek lépj be újra az oldalra.'
             })
-            localStorage.removeItem('Bearer ')
+            localStorage.removeItem('token')
             commit(LOGOUT)
           })
       }
     },
     logout ({ commit }) {
-      localStorage.removeItem('Bearer ')
+      localStorage.removeItem('token')
       commit(LOGOUT)
       Notify.create({
         type: 'info',
