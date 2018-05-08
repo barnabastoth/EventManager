@@ -24,13 +24,13 @@
         <q-item-tile label>Tanulmányok</q-item-tile>
       </q-item-main>
     </q-item>
-    <q-item @click.native="$store.dispatch('toggleEventBar')" class="cursor-pointer">
-      <q-item-side icon="fa-chart-line" inverted color="green" />
-      <q-item-main>
-        <q-item-tile label>Eseménysáv</q-item-tile>
-      </q-item-main>
-      <q-item-side right icon="info" />
-    </q-item>
+    <!--<q-item @click.native="$store.dispatch('toggleEventBar')" class="cursor-pointer">-->
+      <!--<q-item-side icon="fa-chart-line" inverted color="green" />-->
+      <!--<q-item-main>-->
+        <!--<q-item-tile label>Eseménysáv</q-item-tile>-->
+      <!--</q-item-main>-->
+      <!--<q-item-side right icon="info" />-->
+    <!--</q-item>-->
     <q-item @click.native="$router.push('/idovonal')" class="cursor-pointer">
       <q-item-side icon="fa-calendar" inverted color="amber" />
       <q-item-main>

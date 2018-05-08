@@ -9,8 +9,6 @@ public class SiteSettings {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Lob
-    private String welcomeMessage;
     private Boolean leftBarOpen;
     private Boolean rightBarOpen;
     private Boolean eventBarOpen;
@@ -21,14 +19,6 @@ public class SiteSettings {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getWelcomeMessage() {
-        return welcomeMessage;
-    }
-
-    public void setWelcomeMessage(String welcomeMessage) {
-        this.welcomeMessage = welcomeMessage;
     }
 
     public Boolean getLeftBarOpen() {

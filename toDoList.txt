@@ -1,0 +1,19 @@
+Event Comment display
+Event Comment Send
+Event Comment Edit
+
+More site setting options
+EventBar update to Slick, awesome-vue
+Role handling client side
+Refresh api/me fix
+Login/Register page to modal
+
+Admin Panel - delete user
+Edit user
+Proper About/Contact page
+About/Contact page edit on Admin Panel
+Upload Tanulmányok!!!
+User own settings
+SendError implement server side, design improvement
+DATE management on the whole site
+RightBar improvements, notifications, incoming events, comments, messages

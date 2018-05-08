@@ -77,52 +77,43 @@
                 <q-item-tile style="font-size: 30px;" class="text-center" label>Előadók</q-item-tile>
               </q-item-main>
             </q-item>
-            <q-item>
-              <carousel-3d
-                :disable3d="true"
-                border="0"
-                :inverse-scaling="1000"
-                :space="300"
-                :controls-visible="true"
-                height="500px"
-                width="300"
-                animation-speed="1000"
-                :autoplay-timeout="3000"
-                :autoplay="true"
-                start-index="0"
-                utoplayHoverPause="true"
-              >
-                <slide style="background-color: white" :index="index" v-for="(speaker, index) in event.speakers" :key="speaker.id">
-                  <q-card inline class="q-ma-sm" style="height:370px; width: 285px;">
-                    <q-btn style="width: 100%" icon-right="fa-external-link-alt" @click="$router.push('/felhasznalo/' + speaker.id)" color="info">Esemény megnyitása</q-btn>
-                    <q-card-media>
-                      <img style="display: block;
-                           width: auto;
-                           height: auto;
-                           max-height: 200px" src="statics/parallax2.jpg">
-                    </q-card-media>
-                    <q-list>
-                      <q-item>
-                        <q-item-side>
-                          <q-item-tile color="primary" icon="local bar" />
-                        </q-item-side>
-                        <q-item-main>
-                          <q-item-tile label>{{speaker.name}} {{speaker.lastName}}</q-item-tile>
-                          <q-item-tile sublabel>{{speaker.username}}</q-item-tile>
-                        </q-item-main>
-                      </q-item>
-                      <q-item>
-                        <q-item-side>
-                          <q-item-tile color="red" icon="fa-user-md" />
-                        </q-item-side>
-                        <q-item-main>
-                          <q-item-tile label>{{speaker.profession}}</q-item-tile>
-                        </q-item-main>
-                      </q-item>
-                    </q-list>
-                  </q-card>
-                </slide>
-              </carousel-3d>
+            <q-item class="flex flex-center">
+              <q-card inline class="q-ma-sm" v-for="speaker in event.speakers" :key="speaker.id">
+                <q-btn style="width: 100%" icon-right="fa-external-link-alt" @click="$router.push('/felhasznalo/' + speaker.id)" color="info">Profil megnyitása</q-btn>
+                <q-card-media>
+                  <img style="display: block;
+                       width: auto;
+                       height: auto;
+                       max-height: 200px" src="statics/parallax2.jpg">
+                </q-card-media>
+                <q-list>
+                  <q-item>
+                    <q-item-side>
+                      <q-item-tile color="primary" icon="local bar" />
+                    </q-item-side>
+                    <q-item-main>
+                      <q-item-tile label>{{speaker.name}} {{speaker.lastName}}</q-item-tile>
+                      <q-item-tile sublabel>{{speaker.username}}</q-item-tile>
+                    </q-item-main>
+                  </q-item>
+                  <q-item>
+                    <q-item-side>
+                      <q-item-tile color="red" icon="fa-user-md" />
+                    </q-item-side>
+                    <q-item-main>
+                      <q-item-tile label>{{speaker.profession}}</q-item-tile>
+                    </q-item-main>
+                  </q-item>
+                </q-list>
+              </q-card>
+            </q-item>
+            <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
+              <q-item-side left>
+                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-comment-alt" />
+              </q-item-side>
+              <q-item-main>
+                <q-item-tile style="font-size: 30px;" class="text-center" label>Kommentek</q-item-tile>
+              </q-item-main>
             </q-item>
           </q-list>
         </q-page>
