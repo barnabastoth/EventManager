@@ -26,7 +26,7 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.address" float-label="Az esemény címe"></q-input>
+                <q-input v-model="event.basicInfo.address" float-label="Helyszín"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -38,7 +38,7 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-book" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.description" type="textarea" rows="3" modal="true" float-label="Az esemény leírása"></q-input>
+                <q-input v-model="event.basicInfo.description" float-label="Az esemény leírása"></q-input>
               </q-item-main>
             </q-item>
           </q-step>

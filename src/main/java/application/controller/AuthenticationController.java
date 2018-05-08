@@ -50,7 +50,6 @@ public class AuthenticationController {
             final String token = jwtTokenUtil.generateToken(user);
             entities.add(new AuthToken(token));
             entities.add(user);
-            System.out.println(user.getRoles());
             return new ResponseEntity<>(entities, HttpStatus.OK);
         }
         return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.BAD_REQUEST);
@@ -71,11 +70,11 @@ public class AuthenticationController {
 
     @PostMapping("/me")
     public ResponseEntity<?> resourceServer(@RequestBody String token) {
-        System.out.println(token);
+        System.out.println("TOKEN" + token);
         if(token != null) {
             User user = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
             String userName = user.getUsername();
-            System.out.println(userName);
+            System.out.println("TOKENUSERNAME: " + userName);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

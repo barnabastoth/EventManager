@@ -36,6 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = req.getHeader(HEADER_STRING);
         String username = null;
         String authToken = null;
+        System.out.println("Header: " + header);
+        System.out.println("UsernameE: " + username);
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
             authToken = header.replace(TOKEN_PREFIX,"");
             try {
@@ -50,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
         }
-        System.out.println("USERNAME: " + username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);

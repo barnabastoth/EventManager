@@ -17,7 +17,7 @@ import java.util.*;
 public class Event {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "event_id")
-    private long id;
+    private Long id;
     private String name;
     private String address;
     private LocalDateTime date;
@@ -46,7 +46,7 @@ public class Event {
 
     public Event() { }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

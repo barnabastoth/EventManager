@@ -31,6 +31,7 @@ const store = new Vuex.Store({
       state.loggedInUser = user
       state.rightBarOpen = true
       state.leftBarOpen = true
+      AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
@@ -57,7 +58,8 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) => {
         AXIOS.post('/api/login', credentials)
           .then(response => {
-            localStorage.setItem('token', response.data[0].token)
+            console.log(response.data)
+            localStorage.setItem('token', 'Bearer' + response.data[0].token)
             commit(LOGIN_SUCCESS, response.data[1])
             Notify.create({
               type: 'positive',

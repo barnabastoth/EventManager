@@ -18,7 +18,7 @@
             </q-item>
             <q-timeline-entry
               v-for="event in events" :key="event.id"
-              :title="event.title"
+              :title="event.name"
               :subtitle="event.date.year + '.' + event.date.monthValue + '.' + event.date.dayOfMonth"
               :side="event.side"
             >

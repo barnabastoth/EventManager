@@ -18,7 +18,7 @@
             <q-card-media>
               <img src="statics/parallax2.jpg">
             </q-card-media>
-            <q-tabs color="primary" class="shadow-24" glossy align="justify">
+            <q-tabs color="primary" class="shadow-24" glossy>
               <q-tab default name="Információk" slot="title" icon="fa-user" label="Információk" />
               <q-tab name="Kommentek" slot="title" icon="fa-comment-alt" label="Kommentek" />
               <q-tab name="Kommentek" slot="title" icon="fa-calendar" label="Események" />

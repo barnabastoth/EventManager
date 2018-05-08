@@ -32,7 +32,6 @@ public class EventController {
 
     @GetMapping("/")
     public List<Event> serveAllEvent() {
-        System.out.println(eventRepository.findAllByOrderByDateAsc());
         return eventRepository.findAllByOrderByDateAsc();
     }
 
@@ -42,8 +41,6 @@ public class EventController {
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/new")
     public int saveEvent(@RequestBody NewEvent newEvent) throws IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("AUTHORITITIES: " + authentication.getAuthorities());
         return eventUtils.createNewEvent(newEvent);
     }
 

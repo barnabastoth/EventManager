@@ -9,10 +9,9 @@ import AXIOS from 'axios'
 export default {
   name: 'App',
   beforeMount () {
-    AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     AXIOS.defaults.baseURL = 'http://localhost:8089'
-    this.$store.dispatch('logInUserWithToken')
     this.$store.dispatch('loadSiteSettings')
+    this.$store.dispatch('logInUserWithToken')
   }
 }
 </script>

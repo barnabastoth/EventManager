@@ -16,7 +16,7 @@
                 <q-item-tile style="font-size: 30px;" class="text-center" label>Admin Panel</q-item-tile>
               </q-item-main>
             </q-item>
-            <q-tabs color="primary" class="shadow-1" glossy align="justify">
+            <q-tabs color="primary" class="shadow-1" glossy>
               <q-tab default name="Események" slot="title" icon="fa-calendar" label="Események" />
               <q-tab name="Felhasználók" slot="title" icon="fa-user" label="Felhasználók" />
               <q-tab name="Oldalak" slot="title" icon="fa-link" label="Oldalak" />
