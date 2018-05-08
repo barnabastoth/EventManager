@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service(value = "userService")
@@ -45,8 +46,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		userRepository.delete(id);
+	public void deleteById(Long id) {
+		userRepository.deleteById(id);
 	}
 
 	@Override
@@ -55,8 +56,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public User findById(Long id) {
-		return userRepository.findOne(id);
+	public Optional<User> findById(Long id) {
+		return userRepository.findById(id);
 	}
 
 	@Override

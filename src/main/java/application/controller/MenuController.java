@@ -26,13 +26,4 @@ public class MenuController {
         return menuRepository.findByRoute(menu);
     }
 
-    @GetMapping("/latestActivites")
-    public Map<String, Object> serveLatestActivites() {
-        Map<String, Object> latestActivites = new TreeMap<>();
-        latestActivites.put("event", eventRepository.getLatestEvent());
-        latestActivites.put("comment", commentRepository.getLatestComment());
-        latestActivites.put("user", userService.getLatestUser());
-        return latestActivites;
-    }
-
 }

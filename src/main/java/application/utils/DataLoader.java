@@ -89,7 +89,7 @@ public class DataLoader implements CommandLineRunner {
 //        event6.setAddress("DEBRECEN valami utca1");
 //        event6.setActive(true);
 //        event6.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-
+//
 //        eventRepository.save(event6);
 
         User user = new User();

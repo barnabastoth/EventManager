@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -39,20 +40,22 @@ public class UserController {
     @GetMapping(value = "/user/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws IOException {
-        User user = userService.findById(id);
+        Optional<User> user = userService.findById(id);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-        if(user.getImage() != null) {
-            response.getOutputStream().write(user.getImage());
-        } else {
-            ClassLoader classLoader = getClass().getClassLoader();
-            File defaultProfilePic = new File(classLoader.getResource("images/user.png").getFile());
-            BufferedImage originalImage = ImageIO.read(defaultProfilePic);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
-            baos.flush();
-            byte[] imageInByte = baos.toByteArray();
-            baos.close();
-            response.getOutputStream().write(imageInByte);
+        if(user.isPresent()) {
+            if(user.get().getImage() != null) {
+                response.getOutputStream().write(user.get().getImage());
+            } else {
+                ClassLoader classLoader = getClass().getClassLoader();
+                File defaultProfilePic = new File(classLoader.getResource("images/user.png").getFile());
+                BufferedImage originalImage = ImageIO.read(defaultProfilePic);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(originalImage, "png", baos);
+                baos.flush();
+                byte[] imageInByte = baos.toByteArray();
+                baos.close();
+                response.getOutputStream().write(imageInByte);
+            }
         }
     }
 

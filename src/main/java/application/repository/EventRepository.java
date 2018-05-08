@@ -8,7 +8,4 @@ import java.util.List;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
-    Event getLatestEvent();
-    Event findOne(Long id);
-    List<Event> findAllByOrderByDateAsc();
 }

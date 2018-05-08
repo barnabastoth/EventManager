@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
+import static application.model.Constants.TOKEN_PREFIX;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -70,11 +72,11 @@ public class AuthenticationController {
 
     @PostMapping("/me")
     public ResponseEntity<?> resourceServer(@RequestBody String token) {
-        System.out.println("TOKEN" + token);
         if(token != null) {
+            token = token.replace(TOKEN_PREFIX,"");
             User user = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
             String userName = user.getUsername();
-            System.out.println("TOKENUSERNAME: " + userName);
+            System.out.println("Resource server username:: " + userName);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

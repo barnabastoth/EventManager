@@ -42,7 +42,8 @@ public class EventUtils {
 
         Set<User> speakers = new HashSet<>();
         for (int i = 0; i < newEvent.getSpeakers().size(); i++) {
-            speakers.add(userRepository.findOne(Long.parseLong(newEvent.getSpeakers().get(i).get("id"))));
+            Optional<User> speaker = userRepository.findById(Long.parseLong(newEvent.getSpeakers().get(i).get("id")));
+            speaker.ifPresent(speakers::add);
         }
         event.setSpeakers(speakers);
 

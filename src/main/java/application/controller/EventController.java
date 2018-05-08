@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -25,18 +26,16 @@ public class EventController {
     @Autowired EventRepository eventRepository;
     @Autowired EventUtils eventUtils;
 
-    @GetMapping("/latest")
-    public Event serveLatestEvent() {
-        return eventRepository.getLatestEvent();
-    }
-
     @GetMapping("/")
     public List<Event> serveAllEvent() {
-        return eventRepository.findAllByOrderByDateAsc();
+        return eventRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Event serveEvent(@PathVariable("id") Long id) { return eventRepository.findOne(id);}
+    public Event serveEvent(@PathVariable("id") Long id) {
+        Optional<Event> event = eventRepository.findById(id);
+        return event.orElseGet(event::get);
+    }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/new")

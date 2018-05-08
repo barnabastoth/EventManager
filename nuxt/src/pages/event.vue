@@ -47,7 +47,7 @@
                 <q-item-tile color="primary" icon="fa-calendar" />
               </q-item-side>
               <q-item-main>
-                <q-item-tile label>{{event.date.year}}.{{event.date.monthValue}}.{{event.date.dayOfMonth}} {{event.date.hour}}:{{event.date.minute}}</q-item-tile>
+                <q-item-tile label>{{event.date.year}}.{{event.date.monthValue}}.{{event.date.dayOfMonth}} {{event.date.hour}}:{{event.date.minute}} {{event.date}}</q-item-tile>
                 <q-item-tile sublabel>Időpont</q-item-tile>
               </q-item-main>
             </q-item>
