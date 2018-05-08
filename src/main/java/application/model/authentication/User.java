@@ -79,15 +79,11 @@ public class User {
             , joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
-    @JsonManagedReference
+    @JsonBackReference
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_speakers"
-            , joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-    @JsonManagedReference
+    @ManyToMany(mappedBy = "speakers")
+    @JsonBackReference
     private Set<Event> speakerAt = new HashSet<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)

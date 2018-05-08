@@ -23,8 +23,6 @@ public class Event {
     private LocalDateTime date;
     @Column(length = 500) private String description;
 
-    private Integer active;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private List<Field> fields = new ArrayList<>();
@@ -32,16 +30,20 @@ public class Event {
     @ElementCollection
     private Map<String, String> settings = new HashMap<>();
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "events")
+    @JsonManagedReference
+    @ManyToMany()
+    @JoinTable(name = "user_speakers"
+            , joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     private Set<User> speakers = new HashSet<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(mappedBy = "events", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
     public Event() { }
@@ -80,14 +82,6 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
     }
 
     public List<Field> getFields() {

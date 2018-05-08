@@ -5,6 +5,7 @@
     leave-active-class="animated zoomOut"
   >
     <q-page class="flex flex-center">
+      {{this.$store.state.siteSettings.eventBarOpen}}
       <img alt="Quasar logo" src="../assets/quasar-logo-full.svg">
     </q-page>
   </transition>

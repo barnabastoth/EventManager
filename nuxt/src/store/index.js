@@ -2,11 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { Notify } from 'quasar'
 import AXIOS from 'axios'
+import Carousel3d from 'vue-carousel-3d'
 
 Vue.use(Vuex)
+Vue.use(Carousel3d)
 
 const TOGGLE_LEFT_BAR = 'TOOGLE_LEFT_BAR'
 const TOGGLE_RIGHT_BAR = 'TOGGLE_RIGHT_BAR'
+const TOGGLE_EVENT_BAR = 'TOGGLE_EVENT_BAR'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGOUT = 'LOGOUT'
 const SET_SITE_SETTINGS = 'SET_SITE_SETTINGS'
@@ -20,12 +23,6 @@ const store = new Vuex.Store({
     showSendErrorModal: false
   },
   mutations: {
-    [TOGGLE_LEFT_BAR] (state) {
-      state.siteSettings.leftBarOpen = !state.siteSettings.leftBarOpen
-    },
-    [TOGGLE_RIGHT_BAR] (state) {
-      state.siteSettings.rightBarOpen = !state.siteSettings.rightBarOpen
-    },
     [LOGIN_SUCCESS] (state, user) {
       state.isLoggedIn = true
       state.loggedInUser = user
@@ -36,6 +33,15 @@ const store = new Vuex.Store({
     [LOGOUT] (state) {
       state.isLoggedIn = false
       state.loggedInUser = []
+    },
+    [TOGGLE_LEFT_BAR] (state) {
+      state.siteSettings.leftBarOpen = !state.siteSettings.leftBarOpen
+    },
+    [TOGGLE_RIGHT_BAR] (state) {
+      state.siteSettings.rightBarOpen = !state.siteSettings.rightBarOpen
+    },
+    [TOGGLE_EVENT_BAR] (state) {
+      state.siteSettings.eventBarOpen = !state.siteSettings.eventBarOpen
     },
     [SET_SITE_SETTINGS] (state, settings) {
       state.siteSettings = settings
@@ -53,6 +59,9 @@ const store = new Vuex.Store({
     },
     toggleRightBar ({ commit }) {
       commit(TOGGLE_RIGHT_BAR)
+    },
+    toggleEventBar ({ commit }) {
+      commit(TOGGLE_EVENT_BAR)
     },
     login ({ commit }, credentials) {
       return new Promise((resolve, reject) => {

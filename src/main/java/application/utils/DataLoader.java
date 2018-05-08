@@ -136,6 +136,7 @@ public class DataLoader implements CommandLineRunner {
         siteSettings.setWelcomeMessage("Ebben az életben sokféle tapasztalást kellett eddig megtanulnom (vagyis közel 33 év alatt). Sok tanulással és sok felemelkedéssel járó idő volt az eltelt jó pár év. Egyfajta gondolkodásmódbeli felemelkedés, a világ és a nőiség más szemmel való megtapasztalása. A jóga megtanított arra (és a buddhista…");
         siteSettings.setLeftBarOpen(true);
         siteSettings.setRightBarOpen(true);
+        siteSettings.setEventBarOpen(true);
         siteSettingsRepository.saveAndFlush(siteSettings);
     }
 

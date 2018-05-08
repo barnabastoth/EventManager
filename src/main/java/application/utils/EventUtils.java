@@ -47,7 +47,8 @@ public class EventUtils {
         }
         event.setSpeakers(speakers);
 
-        event.setActive(Integer.parseInt(newEvent.getSettings().get("active")));
+        event.getSettings().put("Active", newEvent.getSettings().get("active"));
+
         event.setDate(ZonedDateTime.parse(newEvent.getBasicInfo().get("date")).toLocalDateTime());
 
         eventRepository.saveAndFlush(event);

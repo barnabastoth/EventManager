@@ -20,8 +20,8 @@ export default [
         component: () => import('pages/contact')
       },
       {
-        path: '/esemenyek',
-        component: () => import('pages/events')
+        path: '/idovonal',
+        component: () => import('pages/eventsTimeLine')
       },
       {
         path: '/felhasznalo/:username',

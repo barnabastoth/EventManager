@@ -34,6 +34,7 @@ public class EventController {
     @GetMapping("/{id}")
     public Event serveEvent(@PathVariable("id") Long id) {
         Optional<Event> event = eventRepository.findById(id);
+        System.out.println(event.get().getSpeakers());
         return event.orElseGet(event::get);
     }
 

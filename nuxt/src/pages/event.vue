@@ -47,7 +47,7 @@
                 <q-item-tile color="primary" icon="fa-calendar" />
               </q-item-side>
               <q-item-main>
-                <q-item-tile label>{{event.date.year}}.{{event.date.monthValue}}.{{event.date.dayOfMonth}} {{event.date.hour}}:{{event.date.minute}} {{event.date}}</q-item-tile>
+                <q-item-tile label>{{event.date}}</q-item-tile>
                 <q-item-tile sublabel>Időpont</q-item-tile>
               </q-item-main>
             </q-item>
@@ -77,17 +77,91 @@
                 <q-item-tile style="font-size: 30px;" class="text-center" label>Előadók</q-item-tile>
               </q-item-main>
             </q-item>
-            <q-item @click.native="$router.push('/felhasznalo/' + user.id)" class="shadow-1" v-for="user in event.speakers" :key="user.id">
-              <q-item-side image="statics/guy-avatar.png"></q-item-side>
-              <q-item-main>
-                <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
-                <q-item-tile sublabel>{{user.username}}</q-item-tile>
-                <q-item-tile sublabel>{{user.roles[0].role}}</q-item-tile>
-              </q-item-main>
-              <q-item-side right>
-                <q-item-tile icon="fa-edit"></q-item-tile>
-              </q-item-side>
-            </q-item>
+            <carousel-3d :inverse-scaling="1500" :space="800" :controls-visible="true">
+              <slide :index="0">
+                Slide 1 Content
+              </slide>
+              <slide :index="1">
+                Slide 2 Content
+              </slide>
+              <slide :index="2">
+                <figure>
+                  <img src="../statics/parallax2.jpg">
+                  <figcaption>
+                    <q-card inline class="q-ma-sm">
+                      <q-list>
+                        <q-item>
+                          <q-item-side>
+                            <q-item-tile color="primary" icon="local bar" />
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile label>Bar XYZ</q-item-tile>
+                            <q-item-tile sublabel>Have a drink.</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                        <q-item>
+                          <q-item-side>
+                            <q-item-tile color="red" icon="local gas station" />
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile label>Gas Station</q-item-tile>
+                            <q-item-tile sublabel>Fill your gas tank.</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                        <q-item>
+                          <q-item-side>
+                            <q-item-tile color="amber" icon="local movies" />
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile label>Cinema XYZ</q-item-tile>
+                            <q-item-tile sublabel>Watch a movie.</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                      </q-list>
+                    </q-card>
+                  </figcaption>
+                </figure>
+              </slide>
+              <slide :index="3">
+                Slide 3 Content
+              </slide>
+              <slide :index="4">
+                Slide 4 Content
+              </slide>
+              <slide :index="5">
+                Slide 5 Content
+              </slide>
+              <slide :index="6">
+                Slide 6 Content
+              </slide>
+              <slide :index="7">
+                Slide 7 Content
+              </slide>
+            </carousel-3d>
+            <!--<q-list class="text-center"-->
+                    <!--no-border-->
+                    <!--link-->
+                    <!--inset-delimiter-->
+            <!--&gt;-->
+              <!--<q-item @click.native="$router.push('/felhasznalo/' + user.id)" class="shadow-1" v-for="user in event.speakers" :key="user.id">-->
+                <!--<q-item-side image="statics/guy-avatar.png"></q-item-side>-->
+                <!--<q-item-main>-->
+                  <!--<q-item>-->
+                    <!--<q-item-side left style="width: 20%">-->
+                      <!--<q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>-->
+                      <!--<q-item-tile sublabel>{{user.username}}</q-item-tile>-->
+                      <!--<q-item-tile sublabel>{{user.roles[0].role}}</q-item-tile>-->
+                    <!--</q-item-side>-->
+                    <!--<q-item-main style="max-width: 50%">-->
+                      <!--{{user.description}}-->
+                    <!--</q-item-main>-->
+                  <!--</q-item>-->
+                <!--</q-item-main>-->
+                <!--<q-item-side right>-->
+                  <!--<q-item-tile icon="fa-edit"></q-item-tile>-->
+                <!--</q-item-side>-->
+              <!--</q-item>-->
+            <!--</q-list>-->
           </q-list>
         </q-page>
       </q-page-container>
@@ -117,5 +191,20 @@ export default {
 </script>
 
 <style scoped>
+.carousel-3d-container figure {
+  margin:0;
+}
 
+.carousel-3d-container figcaption {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  bottom: 0;
+  position: absolute;
+  bottom: 0;
+  padding: 15px;
+  font-size: 12px;
+  min-width: 100%;
+  box-sizing: border-box;
+}
 </style>
