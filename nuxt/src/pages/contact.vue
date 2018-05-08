@@ -5,9 +5,6 @@
     leave-active-class="animated zoomOut"
   >
     <q-layout>
-      <q-page>
-
-      </q-page>
       <q-page-container>
         <q-page padding style="width: 700px; max-width: 90vw;">
           <q-card inline class="q-ma-sm shadow-24" style="padding: 24px;">
