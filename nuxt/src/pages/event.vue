@@ -35,7 +35,7 @@
             </q-item>
             <q-item>
               <q-item-side>
-                <q-item-tile color="primary" icon="fa-address-book" />
+                <q-item-tile color="primary" icon="fa-map-marker" />
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.address}}</q-item-tile>
@@ -44,7 +44,7 @@
             </q-item>
             <q-item>
               <q-item-side>
-                <q-item-tile color="primary" icon="fa-calendar" />
+                <q-item-tile color="primary" icon="fa-clock" />
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.date}}</q-item-tile>
@@ -60,15 +60,27 @@
                 <q-item-tile sublabel>{{eventField.subText}}</q-item-tile>
               </q-item-main>
             </q-item>
+
+            <q-item v-for="field in event.fields" :key="field.id">
+              <q-item-side>
+                <q-item-tile color="primary" :icon="field.icon" />
+              </q-item-side>
+              <q-item-main>
+                <q-item-tile label>{{field.text}}</q-item-tile>
+                <q-item-tile sublabel>{{field.subText}}</q-item-tile>
+              </q-item-main>
+            </q-item>
+
             <q-item>
               <q-item-side>
-                <q-item-tile color="primary" icon="fa-address-book" />
+                <q-item-tile color="primary" icon="fa-book" />
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.description}}</q-item-tile>
                 <q-item-tile sublabel>Leírás</q-item-tile>
               </q-item-main>
             </q-item>
+
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
                 <q-item-tile style="font-size: 30px;" color="primary" icon="fa-microphone" />
@@ -77,6 +89,7 @@
                 <q-item-tile style="font-size: 30px;" class="text-center" label>Előadók</q-item-tile>
               </q-item-main>
             </q-item>
+
             <q-item class="flex flex-center">
               <q-card inline class="q-ma-sm" v-for="speaker in event.speakers" :key="speaker.id">
                 <q-btn style="width: 100%" icon-right="fa-external-link-alt" @click="$router.push('/felhasznalo/' + speaker.id)" color="info">Profil megnyitása</q-btn>

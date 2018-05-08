@@ -8,6 +8,9 @@ Role handling client side
 Refresh api/me fix
 Login/Register page to modal
 
+User upload profile pic
+Event img upload
+
 Admin Panel - delete user
 Edit user
 Proper About/Contact page

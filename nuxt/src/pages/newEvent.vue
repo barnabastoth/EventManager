@@ -85,7 +85,7 @@
               Mezők szerkesztése
             </q-btn>
             <q-card v-if="draggableFields === false">
-              <q-item class="shadow-2 bg-grey-1" v-for="(eventField, index) in event.eventFields" :key="eventField.subText" style="margin-bottom: 15px;">
+              <q-item class="shadow-2 bg-grey-1" v-for="(eventField, index) in event.fields" :key="eventField.subText" style="margin-bottom: 15px;">
                 <q-item-main>
                   <q-btn
                     color="info"
@@ -115,8 +115,8 @@
             </q-card>
 
             <q-card v-if="draggableFields">
-              <draggable v-model="event.eventFields">
-                <q-item class="shadow-2 bg-grey-1" v-for="(eventField, index) in event.eventFields" :key="eventField.subText" style="margin-bottom: 15px;">
+              <draggable v-model="event.fields">
+                <q-item class="shadow-2 bg-grey-1" v-for="(eventField, index) in event.fields" :key="eventField.subText" style="margin-bottom: 15px;">
                   <q-item-main>
                     <q-btn
                       color="info"
@@ -198,7 +198,6 @@
                 </q-item-main>
               </q-item>
             </q-card>
-            <p>{{event}}</p>
             <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="createNewEvent()" label="Esemény létrehozása" />
           </q-step>
 
@@ -271,7 +270,7 @@ export default {
           date: '',
           description: ''
         },
-        eventFields: [
+        fields: [
           {
             text: '',
             subText: 'Dresscode',
@@ -333,7 +332,7 @@ export default {
         })
     },
     addNewField () {
-      if (this.$data.event.eventFields.length > 0 && this.$data.event.eventFields[this.$data.event.eventFields.length - 1].subText === 'Új mező') {
+      if (this.$data.event.fields.length > 0 && this.$data.event.fields[this.$data.event.fields.length - 1].subText === 'Új mező') {
         Notify.create({
           type: 'info',
           color: 'info',
@@ -342,7 +341,7 @@ export default {
           message: 'Már kész van egy új mező, először szerkeszd azt, azután csinálhatsz többet.'
         })
       } else {
-        this.$data.event.eventFields.push({
+        this.$data.event.fields.push({
           text: '',
           subText: 'Új mező',
           active: '1',
@@ -351,8 +350,8 @@ export default {
       }
     },
     deleteField (index) {
-      let name = this.$data.event.eventFields[index].subText
-      this.$data.event.eventFields.splice(index, 1)
+      let name = this.$data.event.fields[index].subText
+      this.$data.event.fields.splice(index, 1)
       Notify.create({
         type: 'positive',
         color: 'positive',
