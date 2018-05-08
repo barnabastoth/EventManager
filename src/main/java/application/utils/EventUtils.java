@@ -2,7 +2,7 @@ package application.utils;
 
 import application.model.authentication.User;
 import application.model.event.Event;
-import application.model.event.Field;
+import application.model.event.EventField;
 import application.model.event.NewEvent;
 import application.repository.EventRepository;
 import application.repository.FieldRepository;
@@ -28,17 +28,17 @@ public class EventUtils {
 //        event.setDate(newEvent.getBasicInfo().get("date"));
         event.setDescription(newEvent.getBasicInfo().get("description"));
 
-        List<Field> fields = new ArrayList<>();
+        List<EventField> eventFields = new ArrayList<>();
         for (int i = 0; i < newEvent.getFields().size(); i++) {
-            Field field = new Field();
-            field.setActive(Integer.parseInt(newEvent.getFields().get(i).get("active")));
-            field.setEvent(event);
-            field.setIcon(newEvent.getFields().get(i).get("icon"));
-            field.setSubText(newEvent.getFields().get(i).get("subText"));
-            field.setText(newEvent.getFields().get(i).get("text"));
-            fields.add(field);
+            EventField eventField = new EventField();
+            eventField.setActive(Integer.parseInt(newEvent.getFields().get(i).get("active")));
+            eventField.setEvent(event);
+            eventField.setIcon(newEvent.getFields().get(i).get("icon"));
+            eventField.setSubText(newEvent.getFields().get(i).get("subText"));
+            eventField.setText(newEvent.getFields().get(i).get("text"));
+            eventFields.add(eventField);
         }
-        event.setFields(fields);
+        event.setFields(eventFields);
 
         Set<User> speakers = new HashSet<>();
         for (int i = 0; i < newEvent.getSpeakers().size(); i++) {

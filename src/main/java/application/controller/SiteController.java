@@ -3,10 +3,8 @@ package application.controller;
 import application.model.SiteSettings;
 import application.repository.SiteSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -23,5 +21,14 @@ public class SiteController {
             }
         }
         return null;
+    }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @PostMapping("/siteSettings/edit")
+    public void editSiteSettings(@RequestBody SiteSettings newSettings) {
+        SiteSettings oldSettings = siteSettingsRepository.getOne(newSettings.getId());
+        oldSettings.setLeftBarOpen(newSettings.getLeftBarOpen());
+        oldSettings.setRightBarOpen(newSettings.getRightBarOpen());
+        siteSettingsRepository.saveAndFlush(oldSettings);
     }
 }

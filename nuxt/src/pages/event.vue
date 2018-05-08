@@ -51,13 +51,13 @@
                 <q-item-tile sublabel>Időpont</q-item-tile>
               </q-item-main>
             </q-item>
-            <q-item v-for="field in event.fields" :key="field.subText">
+            <q-item v-for="eventField in event.eventFields" :key="eventField.subText">
               <q-item-side>
-                <q-item-tile color="primary" :icon="field.icon" />
+                <q-item-tile color="primary" :icon="eventField.icon" />
               </q-item-side>
               <q-item-main>
-                <q-item-tile label>{{field.text}}</q-item-tile>
-                <q-item-tile sublabel>{{field.subText}}</q-item-tile>
+                <q-item-tile label>{{eventField.text}}</q-item-tile>
+                <q-item-tile sublabel>{{eventField.subText}}</q-item-tile>
               </q-item-main>
             </q-item>
             <q-item>

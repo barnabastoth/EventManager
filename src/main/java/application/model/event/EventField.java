@@ -1,14 +1,13 @@
 package application.model.event;
 
-import application.model.event.Event;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Field")
-public class Field {
+@Table(name = "EventField")
+public class EventField {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,10 +25,10 @@ public class Field {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    public Field() {
+    public EventField() {
     }
 
-    public Field(String text, String subText, String icon, Integer active, Event event) {
+    public EventField(String text, String subText, String icon, Integer active, Event event) {
         this.text = text;
         this.subText = subText;
         this.icon = icon;

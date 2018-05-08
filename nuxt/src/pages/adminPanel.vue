@@ -80,28 +80,7 @@
               </q-tab-pane>
 
               <q-tab-pane name="Beállítások">
-                <q-list>
-                  <q-list class="text-center"
-                          no-border
-                          link
-                          inset-delimiter
-                  >
-                    <q-item-separator></q-item-separator>
-                    <q-list-header>Oldal Globális beállításai</q-list-header>
-                    <q-item-separator></q-item-separator>
-                    <q-item class="shadow-1" v-for="setting in settings" :key="user.id">
-                      <q-item-side image="statics/guy-avatar.png"></q-item-side>
-                      <q-item-main>
-                        <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
-                        <q-item-tile sublabel>{{user.username}}</q-item-tile>
-                        <q-item-tile sublabel>{{user.roles[0].role}}</q-item-tile>
-                      </q-item-main>
-                      <q-item-side right>
-                        <q-item-tile icon="fa-edit"></q-item-tile>
-                      </q-item-side>
-                    </q-item>
-                  </q-list>
-                </q-list>
+                <editSiteSettings></editSiteSettings>
               </q-tab-pane>
             </q-tabs>
           </q-card>
@@ -113,22 +92,16 @@
 
 <script>
 import AXIOS from 'axios'
+import editSiteSettings from '../components/editSiteSettings'
 export default {
   name: 'adminPanel',
-  beforeRouteUpdate (to, from, next) {
-    alert('asd')
-    if (!this.$store.state.isLoggedIn) {
-      console.log(next)
-      console.log(to)
-    } else {
-      to('bejelentkezes')
-    }
+  components: {
+    editSiteSettings
   },
   data: function () {
     return {
       events: [],
-      users: [],
-      settings: this.$store.state.siteSettings
+      users: []
     }
   },
   beforeCreate () {

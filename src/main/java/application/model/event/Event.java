@@ -25,7 +25,7 @@ public class Event {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
-    private List<Field> fields = new ArrayList<>();
+    private List<EventField> fields = new ArrayList<>();
 
     @ElementCollection
     private Map<String, String> settings = new HashMap<>();
@@ -84,12 +84,12 @@ public class Event {
         this.description = description;
     }
 
-    public List<Field> getFields() {
+    public List<EventField> getFields() {
         return fields;
     }
 
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
+    public void setFields(List<EventField> eventFields) {
+        this.fields = eventFields;
     }
 
     public Map<String, String> getSettings() {
