@@ -27,7 +27,7 @@
     <q-item @click.native="$store.dispatch('toggleEventBar')" class="cursor-pointer">
       <q-item-side icon="fa-chart-line" inverted color="green" />
       <q-item-main>
-        <q-item-tile label>Idővonal</q-item-tile>
+        <q-item-tile label>Eseménysáv</q-item-tile>
       </q-item-main>
       <q-item-side right icon="info" />
     </q-item>

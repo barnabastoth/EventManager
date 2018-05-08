@@ -5,8 +5,8 @@
     leave-active-class="animated zoomOut"
   >
     <q-page class="flex flex-center">
-      {{this.$store.state.siteSettings.eventBarOpen}}
-      <img alt="Quasar logo" src="../assets/quasar-logo-full.svg">
+      <eventBar></eventBar>
+      <p>{{this.$store.state.showAuthModal}}</p>
     </q-page>
   </transition>
 </template>
@@ -15,7 +15,11 @@
 </style>
 
 <script>
+import eventBar from '../components/eventBar'
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  components: {
+    eventBar
+  }
 }
 </script>

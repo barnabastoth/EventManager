@@ -7,20 +7,23 @@ import Carousel3d from 'vue-carousel-3d'
 Vue.use(Vuex)
 Vue.use(Carousel3d)
 
+const LOGIN_SUCCESS = 'LOGIN_S0UCCESS'
+const LOGOUT = 'LOGOUT'
+const SET_SITE_SETTINGS = 'SET_SITE_SETTINGS'
+
 const TOGGLE_LEFT_BAR = 'TOOGLE_LEFT_BAR'
 const TOGGLE_RIGHT_BAR = 'TOGGLE_RIGHT_BAR'
 const TOGGLE_EVENT_BAR = 'TOGGLE_EVENT_BAR'
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-const LOGOUT = 'LOGOUT'
-const SET_SITE_SETTINGS = 'SET_SITE_SETTINGS'
 const TOGGLE_SEND_ERROR_MODAL = 'TOGGLE_SEND_ERROR_MODAL'
+const TOGGLE_AUTH_MODAL = 'TOGGLE_AUTH_MODAL'
 
 const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem('token'),
     loggedInUser: [],
     siteSettings: [],
-    showSendErrorModal: false
+    showSendErrorModal: false,
+    showAuthModal: false
   },
   mutations: {
     [LOGIN_SUCCESS] (state, user) {
@@ -48,6 +51,9 @@ const store = new Vuex.Store({
     },
     [TOGGLE_SEND_ERROR_MODAL] (state) {
       state.showSendErrorModal = !state.showSendErrorModal
+    },
+    [TOGGLE_AUTH_MODAL] (state) {
+      state.showAuthModal = !state.showAuthModal
     }
   },
   actions: {
@@ -62,6 +68,9 @@ const store = new Vuex.Store({
     },
     toggleEventBar ({ commit }) {
       commit(TOGGLE_EVENT_BAR)
+    },
+    toggleAuthModal ({ commit }) {
+      commit(TOGGLE_AUTH_MODAL)
     },
     login ({ commit }, credentials) {
       return new Promise((resolve, reject) => {

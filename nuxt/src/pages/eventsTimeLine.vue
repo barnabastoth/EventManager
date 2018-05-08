@@ -19,7 +19,7 @@
             <q-timeline-entry
               v-for="event in events" :key="event.id"
               :title="event.name"
-              :subtitle="event.date.year + '.' + event.date.monthValue + '.' + event.date.dayOfMonth"
+              :subtitle="event.date"
               :side="event.side"
             >
               <div>{{event.description}}</div>

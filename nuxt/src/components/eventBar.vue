@@ -8,18 +8,18 @@
       v-if="$store.state.siteSettings.eventBarOpen"
       :disable3d="true" border="0"
       :inverse-scaling="1000"
-      :space="500"
+      :space="400"
       :controls-visible="true"
       height="500px"
       width="300"
       animation-speed="1000"
       :autoplay-timeout="3000"
       :autoplay="true"
-      start-index="2"
+      start-index="0"
       utoplayHoverPause="true"
     >
-      <slide style="background-color: white" :index="index" v-for="(event, index) in events" :key="event.id">
-        <q-card inline class="q-ma-sm" style="height:370px; width: 285px;">
+      <slide style="background-color: white" :index="index " v-for="(event, index) in events" :key="event.id">
+        <q-card inline class="q-ma-sm shadow-10" style="height:370px; width: 285px;">
           <q-btn style="width: 100%" icon-right="fa-external-link-alt" @click="$router.push('/esemeny/' + event.id)" color="primary">Esemény megnyitása</q-btn>
           <q-card-media>
             <img style="display: block;
@@ -61,7 +61,7 @@ export default {
       events: []
     }
   },
-  beforeCreate () {
+  beforeMount () {
     let self = this
     AXIOS.get('/api/event/')
       .then(response => {
