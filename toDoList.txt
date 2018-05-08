@@ -20,3 +20,6 @@ User own settings
 SendError implement server side, design improvement
 DATE management on the whole site
 RightBar improvements, notifications, incoming events, comments, messages
+
+REFACTOR SERVER AND CLIENT SIDE CODE!!!!!!!
+HOW TO DEPLOY!!!!!
