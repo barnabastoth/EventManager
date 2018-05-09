@@ -15,7 +15,10 @@ Admin Panel - delete user
 Edit user
 Proper About/Contact page
 About/Contact page edit on Admin Panel
-Upload Tanulmányok!!!
+
+TANULMÁNYOK IMPLEMENTATION!!
+NEWS IMPLEMENTATION
+
 User own settings
 SendError implement server side, design improvement
 DATE management on the whole site
