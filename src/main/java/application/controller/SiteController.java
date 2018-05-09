@@ -1,10 +1,12 @@
 package application.controller;
 
 import application.model.SiteSettings;
+import application.model.authentication.User;
 import application.model.system.ContactMessage;
 import application.model.system.NewContactMessage;
 import application.repository.ContactMessageRepository;
 import application.repository.SiteSettingsRepository;
+import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ public class SiteController {
 
     @Autowired SiteSettingsRepository siteSettingsRepository;
     @Autowired ContactMessageRepository contactMessageRepository;
+    @Autowired UserRepository userRepository;
 
     @GetMapping("/siteSettings")
     public SiteSettings serveSiteSettings() {
@@ -39,6 +42,7 @@ public class SiteController {
         SiteSettings oldSettings = siteSettingsRepository.getOne(newSettings.getId());
         oldSettings.setLeftBarOpen(newSettings.getLeftBarOpen());
         oldSettings.setRightBarOpen(newSettings.getRightBarOpen());
+        oldSettings.setContactPageText(newSettings.getContactPageText());
         siteSettingsRepository.saveAndFlush(oldSettings);
     }
 
@@ -57,9 +61,17 @@ public class SiteController {
 
     @PostMapping("/contact/message/new")
     public ResponseEntity<?> saveNewMessage(@RequestBody NewContactMessage newContactMessage) {
-        ContactMessage contactMessage = new ContactMessage()
-        contactMessageRepository.saveAndFlush(contactMessage);
-        System.out.println("CONTACT MESSAGE: " + contactMessage.getMessage());
+        ContactMessage contactMessage = new ContactMessage();
+        contactMessage.setEmail(newContactMessage.getEmail());
+        contactMessage.setMessage(newContactMessage.getMessage());
+        contactMessage.setTopic(newContactMessage.getTopic());
+        if(newContactMessage.getUserId().length() > 0 ) {
+            Optional<User> user = userRepository.findById(Long.parseLong(newContactMessage.getUserId()));
+            user.ifPresent(contactMessage::setSender);
+            user.get().getContactMessages().add(contactMessage);
+            userRepository.saveAndFlush(user.get());
+        }
+        System.out.println("CONTACT MESSAGE: " + newContactMessage.getMessage());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

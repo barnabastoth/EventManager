@@ -14,6 +14,7 @@ public class SiteSettings {
     private Boolean eventBarOpen;
     private String serverEmail;
     private String companyPhone;
+    private String contactPageText;
 
     public Long getId() {
         return id;
@@ -61,5 +62,13 @@ public class SiteSettings {
 
     public void setCompanyPhone(String companyPhone) {
         this.companyPhone = companyPhone;
+    }
+
+    public String getContactPageText() {
+        return contactPageText;
+    }
+
+    public void setContactPageText(String contactPageText) {
+        this.contactPageText = contactPageText;
     }
 }

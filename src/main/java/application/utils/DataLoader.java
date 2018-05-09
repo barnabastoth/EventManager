@@ -1,6 +1,7 @@
 package application.utils;
 
 
+import application.model.Constants;
 import application.model.SiteSettings;
 import application.model.authentication.Role;
 import application.model.authentication.User;
@@ -120,6 +121,9 @@ public class DataLoader implements CommandLineRunner {
         siteSettings.setLeftBarOpen(true);
         siteSettings.setRightBarOpen(true);
         siteSettings.setEventBarOpen(true);
+        siteSettings.setServerEmail(Constants.SERVER_EMAIL);
+        siteSettings.setCompanyPhone("0670555555");
+        siteSettings.setContactPageText("Ez a Ebben az életben sokféle tapasztalást kellett eddig megtanulnom (vagyis közel 33 év alatt). Sok tanulással és sok felemelkedéssel járó i");
         siteSettingsRepository.saveAndFlush(siteSettings);
     }
 

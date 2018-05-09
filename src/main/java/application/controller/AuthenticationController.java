@@ -72,6 +72,7 @@ public class AuthenticationController {
 
     @PostMapping("/me")
     public ResponseEntity<?> resourceServer(@RequestBody String token) {
+        System.out.println("TOKKEN" + token);
         if(token != null) {
             token = token.replace(TOKEN_PREFIX,"");
             User user = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));

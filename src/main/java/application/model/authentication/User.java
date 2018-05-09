@@ -92,6 +92,7 @@ public class User {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<ContactMessage> contactMessages = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)

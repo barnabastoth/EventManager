@@ -11,15 +11,15 @@
             <q-item>
               <q-item-side avatar="statics/guy-avatar.png" />
               <q-item-main>
-                <q-item-tile label>{{sender.lastName}} {{sender.name}}</q-item-tile>
-                <q-item-tile sublabel>{{sender.username}}</q-item-tile>
+                <q-item-tile label>{{user.lastName}} {{user.name}}</q-item-tile>
+                <q-item-tile sublabel>{{user.username}}</q-item-tile>
               </q-item-main>
             </q-item>
             <q-card-media>
               <img src="statics/parallax2.jpg">
             </q-card-media>
             <q-tabs color="primary" class="shadow-24" glossy align="justify">
-              <q-tab default name="Információk" slot="title" icon="fa-sender" label="Információk" />
+              <q-tab default name="Információk" slot="title" icon="fa-user" label="Információk" />
               <q-tab name="Kommentek" slot="title" icon="fa-comment-alt" label="Kommentek" />
               <q-tab name="Kommentek" slot="title" icon="fa-calendar" label="Események" />
 
@@ -36,7 +36,7 @@
                   </q-item>
                   <q-item>
                     <q-item-side>
-                      <q-item-tile color="primary" icon="fa-sender" />
+                      <q-item-tile color="primary" icon="fa-user" />
                     </q-item-side>
                     <q-item-main>
                       <q-item-tile label>{{this.$store.state.loggedInUser.profession}}</q-item-tile>
@@ -54,7 +54,7 @@
                   </q-item>
                   <q-item>
                     <q-item-side>
-                      <q-item-tile color="amber" icon="fa-sender-md" />
+                      <q-item-tile color="amber" icon="fa-user-md" />
                     </q-item-side>
                     <q-item-main>
                       <q-item-tile label>{{this.$store.state.loggedInUser.roles[0].role}}</q-item-tile>
@@ -91,15 +91,15 @@ export default {
   name: 'profile',
   data: function () {
     return {
-      sender: []
+      user: []
     }
   },
   props: ['username'],
   beforeMount () {
     let self = this
-    AXIOS.get('/api/sender/' + this.username)
+    AXIOS.get('/api/user/' + this.username)
       .then(response => {
-        self.sender = response.data
+        self.user = response.data
       })
   }
 }

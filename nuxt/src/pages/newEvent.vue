@@ -154,7 +154,7 @@
               <q-list>
                 <q-item>
                   <q-item-side>
-                    <q-item-tile color="primary" icon="fa-sender-md" />
+                    <q-item-tile color="primary" icon="fa-user-md" />
                   </q-item-side>
                   <q-item-main>
                     <q-item-tile label>{{speaker.profession}}</q-item-tile>
@@ -230,14 +230,14 @@
           <q-item-separator></q-item-separator>
           <q-list-header>Felhasználók</q-list-header>
           <q-item-separator></q-item-separator>
-          <q-item class="shadow-1" v-for="sender in users" :key="sender.id">
+          <q-item class="shadow-1" v-for="user in users" :key="user.id">
             <q-item-side avatar="statics/guy-avatar.png" />
             <q-item-main>
-              <q-item-tile label>{{sender.name}} {{sender.lastName}}</q-item-tile>
-              <q-item-tile sublabel>{{sender.username}}</q-item-tile>
+              <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
+              <q-item-tile sublabel>{{user.username}}</q-item-tile>
             </q-item-main>
             <q-item-side right>
-              <q-btn @click="addUserToSpeakers(sender)" icon="fa-plus" color="primary"></q-btn>
+              <q-btn @click="addUserToSpeakers(user)" icon="fa-plus" color="primary"></q-btn>
             </q-item-side>
           </q-item>
         </q-list>
@@ -373,22 +373,22 @@ export default {
     },
     openUsersModal () {
       let self = this
-      AXIOS.get('/api/sender')
+      AXIOS.get('/api/user')
         .then(response => {
           self.$data.users = response.data
           self.$data.usersModal = true
         })
     },
-    addUserToSpeakers (sender) {
-      let searchedUser = this.$data.event.speakers[sender.id]
+    addUserToSpeakers (user) {
+      let searchedUser = this.$data.event.speakers[user.id]
       if (searchedUser === undefined) {
         this.$data.event.speakers.push({
-          id: sender.id,
-          username: sender.username,
-          name: sender.name,
-          lastName: sender.lastName,
-          profession: sender.profession,
-          description: sender.description
+          id: user.id,
+          username: user.username,
+          name: user.name,
+          lastName: user.lastName,
+          profession: user.profession,
+          description: user.description
         })
         this.$data.usersModal = false
       } else {

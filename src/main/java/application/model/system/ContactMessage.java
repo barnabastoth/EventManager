@@ -3,6 +3,7 @@ package application.model.system;
 
 import application.model.authentication.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -18,18 +19,14 @@ public class ContactMessage {
 
     @ManyToOne()
     @JoinColumn(name = "user.id")
-    @JsonBackReference
+    @JsonManagedReference
     private User sender;
+
+    private String topic;
 
     private String message;
 
     public ContactMessage() { }
-
-    public ContactMessage(String email, User sender, String message) {
-        this.email = email;
-        this.sender = sender;
-        this.message = message;
-    }
 
     public Long getId() {
         return id;
@@ -57,5 +54,13 @@ public class ContactMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }
