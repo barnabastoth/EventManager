@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
     User findByEmail(String email);
-    User findLatestUser();
 
 //    @Query("select new application.model.authentication.UserNecessaryFields(u.username, u.profession, count (e.id)) " +
 //            "from User u join u.events e where u.username= :un")

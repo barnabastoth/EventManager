@@ -1,8 +1,10 @@
 package application.controller;
 
+import application.model.authentication.User;
 import application.model.event.Event;
 import application.model.event.NewEvent;
 import application.repository.EventRepository;
+import application.repository.UserRepository;
 import application.utils.EventUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +28,7 @@ public class EventController {
 
     @Autowired EventRepository eventRepository;
     @Autowired EventUtils eventUtils;
+    @Autowired UserRepository userRepository;
 
     @GetMapping("/")
     public List<Event> serveAllEvent() {
@@ -34,7 +38,6 @@ public class EventController {
     @GetMapping("/{id}")
     public Event serveEvent(@PathVariable("id") Long id) {
         Optional<Event> event = eventRepository.findById(id);
-        System.out.println(event.get().getSpeakers());
         return event.orElseGet(event::get);
     }
 
@@ -43,6 +46,20 @@ public class EventController {
     public int saveEvent(@RequestBody NewEvent newEvent) throws IOException {
         System.out.println("ASD" + newEvent.getFields());
         return eventUtils.createNewEvent(newEvent);
+    }
+
+    @GetMapping("/{id}/attend")
+    public void attendEvent(@PathVariable("id") Long id, Principal principal) {
+        if(principal != null) {
+            Optional<User> user = userRepository.findByUsername(principal.getName());
+            Optional<Event> event = eventRepository.findById(id);
+            if(user.isPresent() && event.isPresent()) {
+                event.get().getAttendees().add(user.get());
+                eventRepository.saveAndFlush(event.get());
+            }
+        }
+        System.out.println(principal != null ? principal.getName() : null);
+        System.out.println("ASDSADASDSADSA " + eventRepository.findById(id).get().getAttendees());
     }
 
 }

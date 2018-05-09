@@ -23,11 +23,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	private UserRepository userRepository;
 
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(userName);
-		if(user == null){
+		Optional<User> user = userRepository.findByUsername(userName);
+		if(!user.isPresent()){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), getAuthority());
 	}
 
 	private List<SimpleGrantedAuthority> getAuthority() {
@@ -41,23 +41,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public User getLatestUser() {
-		return userRepository.findLatestUser();
-	}
-
-	@Override
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
 	}
 
 	@Override
 	public User findByUsername(String username) {
-		return userRepository.findByUsername(username);
+		return userRepository.findByUsername(username).orElse(null);
 	}
 
 	@Override
-	public Optional<User> findById(Long id) {
-		return userRepository.findById(id);
+	public User findById(Long id) {
+		return userRepository.findById(id).orElse(null);
 	}
 
 	@Override

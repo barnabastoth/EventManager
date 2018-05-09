@@ -30,27 +30,28 @@ public class Event {
     @ElementCollection
     private Map<String, String> settings = new HashMap<>();
 
-    @JsonManagedReference
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_speakers"
-            , joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
+            , joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonManagedReference
+    @Column(name = "speakers")
     private Set<User> speakers = new HashSet<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "events", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+    @JsonManagedReference
+    @ManyToMany()
+    @JoinTable(name = "event_attendees"
+            , joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private Set<User> attendees = new HashSet<>();
 
     public Event() { }
-
-    public String getDateStr () {
-        return this.date.toString();
-    }
 
     public Long getId() {
         return id;
@@ -92,8 +93,8 @@ public class Event {
         return fields;
     }
 
-    public void setFields(List<EventField> eventFields) {
-        this.fields = eventFields;
+    public void setFields(List<EventField> fields) {
+        this.fields = fields;
     }
 
     public Map<String, String> getSettings() {
@@ -120,11 +121,11 @@ public class Event {
         this.comments = comments;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<User> getAttendees() {
+        return attendees;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setAttendees(Set<User> attendees) {
+        this.attendees = attendees;
     }
 }

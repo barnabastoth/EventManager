@@ -33,11 +33,11 @@ public class UserController {
     @GetMapping(value = "/user/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws IOException {
-        Optional<User> user = userService.findById(id);
+        User user = userService.findById(id);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-        if(user.isPresent()) {
-            if(user.get().getImage() != null) {
-                response.getOutputStream().write(user.get().getImage());
+        if(user != null) {
+            if(user.getImage() != null) {
+                response.getOutputStream().write(user.getImage());
             } else {
                 ClassLoader classLoader = getClass().getClassLoader();
                 File defaultProfilePic = new File(classLoader.getResource("images/user.png").getFile());

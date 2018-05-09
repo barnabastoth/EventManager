@@ -9,12 +9,40 @@
         <q-page padding style="width: 1000px; max-width: 90vw;">
           <q-list inline class="q-ma-sm shadow-24">
             <q-item>
-              <q-card-media overlay-position="top">
-                <img src="statics/parallax2.jpg">
-                <q-card-title slot="overlay">
-                  <h5>{{event.name}}</h5>
-                </q-card-title>
-              </q-card-media>
+              <q-card>
+                <q-card-media overlay-position="top">
+                  <img src="statics/parallax2.jpg">
+                  <q-card-title slot="overlay">
+                    <h5>{{event.name}}</h5>
+                  </q-card-title>
+                </q-card-media>
+              </q-card>
+            </q-item>
+            <q-item>
+              <q-card v-show="isUserAnAttendee === false" @click.native="attendEvent()" class="shadow-5 cursor-pointer">
+                <q-item>
+                  <q-item-side color="primary" icon="fa-user-plus" />
+                  <q-item-main>
+                    <q-item-tile label>Feliratkozás</q-item-tile>
+                  </q-item-main>
+                </q-item>
+              </q-card>
+              <q-card v-show="isUserAnAttendee" @click.native="unAttendEvent()" class="shadow-5 cursor-pointer">
+                <q-item>
+                  <q-item-side color="negative" icon="fa-user-times" />
+                  <q-item-main>
+                    <q-item-tile label>Leiratkozás</q-item-tile>
+                  </q-item-main>
+                </q-item>
+              </q-card>
+              <q-card @click.native="unAttendEvent()" class="shadow-5 cursor-pointer">
+                <q-item>
+                  <q-item-side color="info" icon="fa-users" />
+                  <q-item-main>
+                    <q-item-tile label>Feliratkozottak</q-item-tile>
+                  </q-item-main>
+                </q-item>
+              </q-card>
             </q-item>
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
@@ -129,6 +157,33 @@
               </q-item-main>
             </q-item>
           </q-list>
+          <q-modal v-model="usersModal">
+            <q-btn
+              icon="fa-times"
+              class="float-right"
+              color="info"
+              @click="usersModal = false"
+            />
+            <q-list class="text-center"
+                    no-border
+                    link
+                    inset-delimiter
+            >
+              <q-item-separator></q-item-separator>
+              <q-list-header>Felhasználók</q-list-header>
+              <q-item-separator></q-item-separator>
+              <q-item class="shadow-1" v-for="user in users" :key="user.id">
+                <q-item-side avatar="statics/guy-avatar.png" />
+                <q-item-main>
+                  <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
+                  <q-item-tile sublabel>{{user.username}}</q-item-tile>
+                </q-item-main>
+                <q-item-side right>
+                  <q-btn @click="addUserToSpeakers(user)" icon="fa-plus" color="primary"></q-btn>
+                </q-item-side>
+              </q-item>
+            </q-list>
+          </q-modal>
         </q-page>
       </q-page-container>
     </q-layout>
@@ -137,11 +192,14 @@
 
 <script>
 import AXIOS from 'axios'
+import { Notify } from 'quasar'
 export default {
   name: 'event',
   data: function () {
     return {
       event: [],
+      isUserAnAttendee: false,
+      showAttendeesModal: false,
       showMenu: []
     }
   },
@@ -152,6 +210,31 @@ export default {
       .then(response => {
         self.event = response.data
       })
+  },
+  methods: {
+    attendEvent () {
+      AXIOS.get('/api/event/' + this.$data.event.id + '/attend')
+        .then(() => {
+          this.$data.isUserAnAttendee = true
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            position: 'bottom',
+            timeout: 3000,
+            message: 'Sikeresen feliratkoztál az eseményre!'
+          })
+        })
+    },
+    unAttendEvent () {
+      this.$data.isUserAnAttendee = false
+      Notify.create({
+        type: 'info',
+        color: 'info',
+        position: 'bottom',
+        timeout: 2000,
+        message: 'Sikeresen leiratkoztál az eseményről!!'
+      })
+    }
   }
 }
 </script>

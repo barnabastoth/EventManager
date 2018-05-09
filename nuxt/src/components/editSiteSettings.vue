@@ -42,7 +42,8 @@
         <q-item-tile color="primary" icon="fa-eye" />
       </q-item-side>
       <q-item-main>
-        <q-input v-model="siteSettings.contactPageText" type="textarea" rows="2" float-label="Az itt lévő szöveg fog megjelenni a kapcsolat oldalon"></q-input>
+        <p>Az itt lévő szöveg fog megjelenni a kapcsolat oldalon</p>
+        <q-input v-model="siteSettings.contactPageText" type="textarea" rows="2"></q-input>
       </q-item-main>
     </q-item>
     <q-item style="margin-top: 10px"><q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="saveSiteSettings()" label="Beállítások elmentése" /></q-item>

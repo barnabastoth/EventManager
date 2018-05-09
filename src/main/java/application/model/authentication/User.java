@@ -13,10 +13,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
 
-
-@NamedQueries({
-        @NamedQuery(name = "User.findLatestUser", query = "SELECT e FROM User e WHERE id = (SELECT max(id) FROM User)")
-})
 @Entity
 @Table(name = "User")
 public class User {
@@ -75,16 +71,11 @@ public class User {
     @Column(name = "roles")
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_events"
-            , joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
+    @ManyToMany(mappedBy = "attendees")
     @JsonBackReference
-    private Set<Event> events = new HashSet<>();
+    private Set<Event> attendedEvents = new HashSet<>();
 
-    @ManyToMany(mappedBy = "speakers")
-    @JsonBackReference
+    @ManyToMany(mappedBy = "speakers") @JsonBackReference
     private Set<Event> speakerAt = new HashSet<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -93,59 +84,76 @@ public class User {
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
-    private List<ContactMessage> contactMessages = new ArrayList<>();
+    @OrderBy("id")
+    private Set<ContactMessage> contactMessages = new HashSet<>();
 
-//    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private List<Message> sentMessages = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "receiver", fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private List<Message> receivedMessages = new ArrayList<>();
-
-    public void addRole(Role role) {
-        roles.add(role);
+    public Long getId() {
+        return id;
     }
 
-    public boolean hasRole(String role) {
-        for (Role r : roles) {
-            if(r.getRole().equals(role)) {
-                return true;
-            }
-        }
-        return false;
+    public String getUsername() {
+        return username;
     }
 
-//    public List<Message> getSentMessages() { return sentMessages; }
-//    public void setSentMessages(List<Message> sentMessages) { this.sentMessages = sentMessages; }
-//    public List<Message> getReceivedMessages() { return receivedMessages; }
-//    public void setReceivedMessages(List<Message> receivedMessages) { this.receivedMessages = receivedMessages; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public Set<Event> getSpeakerAt() { return speakerAt; }
-    public void setSpeakerAt(Set<Event> speakerAt) { this.speakerAt = speakerAt; }
-    public void addEvent(Event event) {
-        events.add(event);
+    public void setUsername(String username) {
+        this.username = username;
     }
-    public byte[] getImage() { return image; }
-    public void setImage(byte[] image) { this.image = image; }
-    public Set<Event> getEvents() { return events; }
-    public void setEvents(Set<Event> events) { this.events = events; }
-    public Long getId() { return id; }
-    public String getWebsite() { return website; }
-    public void setWebsite(String website) { this.website = website; }
-    public String getProfession() { return profession; }
-    public void setProfession(String profession) { this.profession = profession; }
-    public List<Comment> getComments() { return comments; }
-    public void setComments(List<Comment> comments) { this.comments = comments; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Integer getActive() {
         return active;
@@ -155,18 +163,59 @@ public class User {
         this.active = active;
     }
 
-    public Set<Role> getRoles() { return roles; }
-    public void setRoles(Set<Role> roles) { this.roles = roles; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public LocalDateTime getMemberSince() { return memberSince; }
-    public void setMemberSince(LocalDateTime memberSince) { this.memberSince = memberSince; }
+    public LocalDateTime getMemberSince() {
+        return memberSince;
+    }
 
-    public List<ContactMessage> getContactMessages() {
+    public void setMemberSince(LocalDateTime memberSince) {
+        this.memberSince = memberSince;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Event> getAttendedEvents() {
+        return attendedEvents;
+    }
+
+    public void setAttendedEvents(Set<Event> attendedEvents) {
+        this.attendedEvents = attendedEvents;
+    }
+
+    public Set<Event> getSpeakerAt() {
+        return speakerAt;
+    }
+
+    public void setSpeakerAt(Set<Event> speakerAt) {
+        this.speakerAt = speakerAt;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<ContactMessage> getContactMessages() {
         return contactMessages;
     }
 
-    public void setContactMessages(List<ContactMessage> contactMessages) {
+    public void setContactMessages(Set<ContactMessage> contactMessages) {
         this.contactMessages = contactMessages;
     }
 }

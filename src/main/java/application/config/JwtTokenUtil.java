@@ -56,15 +56,18 @@ public class JwtTokenUtil implements Serializable {
     private String doGenerateToken(String subject) {
 
         Claims claims = Jwts.claims().setSubject(subject);
-        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+//        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+//
+//        User user = userRepository.findByUsername(subject);
+//        Iterator<Role> iterator = user.getRoles().iterator();
+//        List<SimpleGrantedAuthority> scopes = new ArrayList<>();
+//        while(iterator.hasNext()) {
+//            scopes.add(new SimpleGrantedAuthority(iterator.next().getRole()));
+//        }
 
-        User user = userRepository.findByUsername(subject);
-        Iterator<Role> iterator = user.getRoles().iterator();
+        Optional<User> user = userRepository.findByUsername(subject);
         List<SimpleGrantedAuthority> scopes = new ArrayList<>();
-        while(iterator.hasNext()) {
-            scopes.add(new SimpleGrantedAuthority(iterator.next().getRole()));
-        }
-
+        user.ifPresent(user1 -> user1.getRoles().forEach(role -> scopes.add(new SimpleGrantedAuthority(role.getRole()))));
         claims.put("scopes", scopes);
 
 
