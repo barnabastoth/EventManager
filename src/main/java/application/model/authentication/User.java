@@ -2,6 +2,7 @@ package application.model.authentication;
 
 import application.model.event.Comment;
 import application.model.event.Event;
+import application.model.system.ContactMessage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Email;
@@ -90,6 +91,9 @@ public class User {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ContactMessage> contactMessages = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER)
 //    @JsonManagedReference
 //    private List<Message> sentMessages = new ArrayList<>();
@@ -156,4 +160,14 @@ public class User {
     public void setDescription(String description) { this.description = description; }
     public LocalDateTime getMemberSince() { return memberSince; }
     public void setMemberSince(LocalDateTime memberSince) { this.memberSince = memberSince; }
+
+    public List<ContactMessage> getContactMessages() {
+        return contactMessages;
+    }
+
+    public void setContactMessages(List<ContactMessage> contactMessages) {
+        this.contactMessages = contactMessages;
+    }
 }
+
+

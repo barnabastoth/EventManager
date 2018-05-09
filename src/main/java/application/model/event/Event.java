@@ -48,6 +48,10 @@ public class Event {
 
     public Event() { }
 
+    public String getDateStr () {
+        return this.date.toString();
+    }
+
     public Long getId() {
         return id;
     }

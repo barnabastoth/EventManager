@@ -50,7 +50,7 @@
       </q-item-main>
     </q-item>
     <q-item v-show="$store.state.isLoggedIn" @click.native="$router.push('/admin')" class="cursor-pointer shadow-1 bg-grey-3">
-      <q-item-side icon="fa-user-secret" inverted color="primary" />
+      <q-item-side icon="fa-sender-secret" inverted color="primary" />
       <q-item-main>
         <q-item-tile label>Admin Panel</q-item-tile>
       </q-item-main>

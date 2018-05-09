@@ -11,8 +11,8 @@ Login/Register page to modal
 User upload profile pic
 Event img upload
 
-Admin Panel - delete user
-Edit user
+Admin Panel - delete sender
+Edit sender
 Proper About/Contact page
 About/Contact page edit on Admin Panel
 

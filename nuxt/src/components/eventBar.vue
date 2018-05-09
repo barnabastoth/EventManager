@@ -5,7 +5,6 @@
     leave-active-class="animated zoomOut"
   >
     <carousel-3d
-      v-if="$store.state.siteSettings.eventBarOpen"
       :disable3d="true" border="0"
       :inverse-scaling="1000"
       :space="400"
@@ -34,12 +33,12 @@
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.name}}</q-item-tile>
-                <q-item-tile sublabel>{{event.date}}</q-item-tile>
+                <!--<q-item-tile sublabel>{{event.date}}</q-item-tile>-->
               </q-item-main>
             </q-item>
             <q-item>
               <q-item-side>
-                <q-item-tile color="red" icon="fa-user-md" />
+                <q-item-tile color="red" icon="fa-sender-md" />
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.description}}</q-item-tile>

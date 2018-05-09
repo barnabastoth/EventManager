@@ -12,6 +12,8 @@ public class SiteSettings {
     private Boolean leftBarOpen;
     private Boolean rightBarOpen;
     private Boolean eventBarOpen;
+    private String serverEmail;
+    private String companyPhone;
 
     public Long getId() {
         return id;
@@ -43,5 +45,21 @@ public class SiteSettings {
 
     public void setEventBarOpen(Boolean eventBarOpen) {
         this.eventBarOpen = eventBarOpen;
+    }
+
+    public String getServerEmail() {
+        return serverEmail;
+    }
+
+    public void setServerEmail(String serverEmail) {
+        this.serverEmail = serverEmail;
+    }
+
+    public String getCompanyPhone() {
+        return companyPhone;
+    }
+
+    public void setCompanyPhone(String companyPhone) {
+        this.companyPhone = companyPhone;
     }
 }

@@ -81,7 +81,7 @@
                 </div>
               </q-collapsible>
 
-              <q-collapsible icon="fa-user-secret" label="Rólam">
+              <q-collapsible icon="fa-sender-secret" label="Rólam">
                 <div>
                   <img src="../statics/barnabas-toth.png" alt="Barnabás Tóth" class="responsive">
                 </div>

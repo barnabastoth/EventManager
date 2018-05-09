@@ -10,7 +10,7 @@
           <q-card inline class="q-ma-sm shadow-24" style="padding: 24px;width: 1000px; max-width: 90vw;">
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
-                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-user-secret" />
+                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-sender-secret" />
               </q-item-side>
               <q-item-main>
                 <q-item-tile style="font-size: 30px;" class="text-center" label>Admin Panel</q-item-tile>
@@ -18,7 +18,7 @@
             </q-item>
             <q-tabs color="primary" class="shadow-1" glossy>
               <q-tab default name="Események" slot="title" icon="fa-calendar" label="Események" />
-              <q-tab name="Felhasználók" slot="title" icon="fa-user" label="Felhasználók" />
+              <q-tab name="Felhasználók" slot="title" icon="fa-sender" label="Felhasználók" />
               <q-tab name="Oldalak" slot="title" icon="fa-link" label="Oldalak" />
               <q-tab name="Beállítások" slot="title" icon="fa-cog" label="Beállítások" />
 
@@ -61,12 +61,12 @@
                   <q-item-separator></q-item-separator>
                   <q-list-header>Felhasználók</q-list-header>
                   <q-item-separator></q-item-separator>
-                  <q-item @click.native="$router.push('/felhasznalo/' + user.id)" class="shadow-1" v-for="user in users" :key="user.id">
+                  <q-item @click.native="$router.push('/felhasznalo/' + sender.id)" class="shadow-1" v-for="sender in users" :key="sender.id">
                     <q-item-side image="statics/guy-avatar.png"></q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
-                      <q-item-tile sublabel>{{user.username}}</q-item-tile>
-                      <q-item-tile sublabel>{{user.roles[0].role}}</q-item-tile>
+                      <q-item-tile label>{{sender.name}} {{sender.lastName}}</q-item-tile>
+                      <q-item-tile sublabel>{{sender.username}}</q-item-tile>
+                      <q-item-tile sublabel>{{sender.roles[0].role}}</q-item-tile>
                     </q-item-main>
                     <q-item-side right>
                       <q-item-tile icon="fa-edit"></q-item-tile>
@@ -110,7 +110,7 @@ export default {
       .then(response => {
         self.$data.events = response.data
       })
-    AXIOS.get('/api/user')
+    AXIOS.get('/api/sender')
       .then(response => {
         self.$data.users = response.data
       })

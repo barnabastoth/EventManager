@@ -50,6 +50,8 @@ public class EventUtils {
         event.getSettings().put("Active", newEvent.getSettings().get("active"));
 
         event.setDate(ZonedDateTime.parse(newEvent.getBasicInfo().get("date")).toLocalDateTime());
+        System.out.println(event.getDate());
+        System.out.println(newEvent.getBasicInfo().get("date"));
 
         eventRepository.saveAndFlush(event);
 

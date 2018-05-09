@@ -7,48 +7,16 @@
     <q-layout>
       <q-page-container>
         <q-page padding style="width: 700px; max-width: 90vw;">
-          <q-card inline class="q-ma-sm shadow-24" style="padding: 24px;">
-            <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
-              <q-item-side left>
-                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-address-card" />
-              </q-item-side>
-              <q-item-main>
-                <q-item-tile style="font-size: 30px;" class="text-center" label>Kapcsolat</q-item-tile>
-              </q-item-main>
+          <q-list>
+            <q-list-header>Kapcsolat</q-list-header>
+            <q-item>
+              <q-input v-model="message" type="textarea" float-label="Ide ird az üzenetet" />
             </q-item>
-            <q-card-media>
-              <img src="../statics/contact.jpg" class="responsive">
-            </q-card-media>
-            <q-list>
-              <q-item>
-                <q-item-side>
-                  <q-item-tile color="red" icon="fa-envelope" />
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>{{this.$store.state.loggedInUser.email}}</q-item-tile>
-                  <q-item-tile sublabel>Email</q-item-tile>
-                </q-item-main>
-              </q-item>
-              <q-item>
-                <q-item-side>
-                  <q-item-tile color="red" icon="fa-skype" />
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>{{this.$store.state.loggedInUser.email}}</q-item-tile>
-                  <q-item-tile sublabel>Skype</q-item-tile>
-                </q-item-main>
-              </q-item>
-              <q-item>
-                <q-item-side>
-                  <q-item-tile color="red" icon="fa-discord" />
-                </q-item-side>
-                <q-item-main>
-                  <q-item-tile label>{{this.$store.state.loggedInUser.email}}</q-item-tile>
-                  <q-item-tile sublabel>Discord</q-item-tile>
-                </q-item-main>
-              </q-item>
-            </q-list>
-          </q-card>
+            <q-item>
+              <q-btn @click="sendSystemMessage()" color="primary" icon-right="fa-calendar" label="Üzenet küldése" />
+            </q-item>
+          </q-list>
+
         </q-page>
       </q-page-container>
     </q-layout>
@@ -56,8 +24,40 @@
 </template>
 
 <script>
+import AXIOS from 'axios'
+import { Notify } from 'quasar'
 export default {
-  name: 'contact'
+  name: 'contact',
+  data: function () {
+    return {
+      message: {
+        email: '',
+        message: '',
+        userId: ''
+      }
+    }
+  },
+  methods: {
+    sendSystemMessage () {
+      if(this.$data.message.sender === '') {
+        this.$data.message.userId = this.$store.state.loggedInUser.id
+      }
+      AXIOS.post('/api/contact/message/new', this.$data.message)
+        .then(response => {
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            position: 'bottom',
+            timeout: 2000,
+            message: 'Az üzenet sikeresen ellett küldve.!'
+          })
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
 }
 </script>
 
