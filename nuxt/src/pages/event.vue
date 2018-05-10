@@ -18,8 +18,8 @@
                 </q-card-media>
               </q-card>
             </q-item>
-            <q-item>
-              <q-card v-show="isUserAnAttendee === false" @click.native="attendEvent()" class="shadow-5 cursor-pointer">
+            <q-item class="flex">
+              <q-card style="margin: 5px;" v-show="isUserAnAttendee === false" @click.native="attendEvent()" class="shadow-5 cursor-pointer">
                 <q-item>
                   <q-item-side color="primary" icon="fa-user-plus" />
                   <q-item-main>
@@ -27,7 +27,7 @@
                   </q-item-main>
                 </q-item>
               </q-card>
-              <q-card v-show="isUserAnAttendee" @click.native="unAttendEvent()" class="shadow-5 cursor-pointer">
+              <q-card style="margin: 5px;" v-show="isUserAnAttendee" @click.native="unAttendEvent()" class="shadow-5 cursor-pointer">
                 <q-item>
                   <q-item-side color="negative" icon="fa-user-times" />
                   <q-item-main>
@@ -35,7 +35,7 @@
                   </q-item-main>
                 </q-item>
               </q-card>
-              <q-card @click.native="showAttendeesModal = true" class="shadow-5 cursor-pointer">
+              <q-card style="margin: 5px;" @click.native="showAttendeesModal = true" class="shadow-5 cursor-pointer">
                 <q-item>
                   <q-item-side color="info" icon="fa-users" />
                   <q-item-main>

@@ -91,12 +91,12 @@
                     color="info"
                     style="margin-bottom: 10px;"
                   >{{index + 1}}</q-btn>
-                  <q-eventField>
+                  <q-item-tile>
                     <q-input v-model="eventField.subText" float-label="A mező neve"></q-input>
                     <q-input :after="[{icon: eventField.icon}]" v-model="eventField.icon" float-label="A mező ikonja"></q-input>
                     <q-input type="textarea" rows="3" v-model="eventField.text" float-label="A mező szöveges tartalma"></q-input>
-                  </q-eventField>
-                  <q-eventField style="margin-top: 3px;">
+                  </q-item-tile>
+                  <q-item-tile>
                     <q-btn-toggle
                       v-model="eventField.active"
                       toggle-color="primary"
@@ -105,8 +105,8 @@
                             {label: 'Privát', value: '0'}
                           ]"
                     />
-                    <q-btn class="float-right" color="warning" icon="fa-trash-alt" @click="deleteField(index)"><q-tooltip>Mező törlése</q-tooltip></q-btn>
-                  </q-eventField>
+                    <q-btn color="warning" icon="fa-trash-alt" @click="deleteField(index)"><q-tooltip>Mező törlése</q-tooltip></q-btn>
+                  </q-item-tile>
                 </q-item-main>
               </q-item>
               <q-item>
@@ -383,8 +383,8 @@ export default {
         })
     },
     addUserToSpeakers (user) {
-      let searchedUser = this.$data.event.speakers[user.id]
-      if (searchedUser === undefined) {
+      let searchedUser = this.$data.event.speakers[120]
+      if (searchedUser !== undefined) {
         this.$data.event.speakers.push({
           id: user.id,
           username: user.username,
