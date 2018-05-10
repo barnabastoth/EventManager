@@ -67,7 +67,7 @@
                     <q-item-main>
                       <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
                       <q-item-tile sublabel>{{user.username}}</q-item-tile>
-                      <q-item-tile sublabel>{{user.roles[0].role}}</q-item-tile>
+                      <q-item-tile sublabel>{{user.roles}}</q-item-tile>
                     </q-item-main>
                     <q-item-side right>
                       <q-item-tile icon="fa-edit"></q-item-tile>
@@ -81,20 +81,99 @@
               </q-tab-pane>
 
               <q-tab-pane name="Oldal üzenetek">
-                <q-item class="shadow-2 bg-grey-1" v-for="contactMessage in contactMessages" :key="contactMessage.id" style="margin-bottom: 15px;">
-                  <q-item-main>
-                    <q-btn
-                      color="info"
-                      style="margin-bottom: 10px;"
-                    >{{contactMessage.id}}</q-btn>
-                    <q-eventField>
-                      <q-input v-model="contactMessage.sender.username" :after="[{icon: fa-user}]" readonly="true" float-label="Üzenet feladója"></q-input>
-                      <q-input v-model="contactMessage.topic" readonly="true" float-label="Üzenet témája"></q-input>
-                      <q-input v-model="contactMessage.email" :after="[{icon: fa-envelope}]" readonly="true" float-label="Feladó email címe"></q-input>
-                      <q-input type="textarea" rows="3" readonly="true" v-model="contactMessage.message" float-label="Üzenet szövege"></q-input>
-                    </q-eventField>
-                  </q-item-main>
-                </q-item>
+                <q-list class="text-center"
+                        no-border
+                        link
+                        inset-delimiter
+                >
+                  <q-item-separator></q-item-separator>
+                  <q-list-header>Oldal üzenetek</q-list-header>
+                  <q-item-separator></q-item-separator>
+                  <q-item v-for="contactMessage in contactMessages" :key="contactMessage.id">
+                    <q-item-main>
+                      <q-collapsible
+                        v-if="contactMessage.sender.username !== 'Vendég'"
+                        :label="contactMessage.sender.username"
+                        :sublabel="contactMessage.message"
+                        sublabel-lines="1"
+                        avatar="../statics/guy-avatar.png"
+                      >
+                        <q-item>
+                          <q-item-side right>
+                            <q-item-tile color="primary" icon="fa-map-signs"/>
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile sublabel>{{contactMessage.topic}}</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                        <q-item>
+                          <q-item-side right>
+                            <q-item-tile color="primary" icon="fa-envelope"/>
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile sublabel>{{contactMessage.message}}</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                      </q-collapsible>
+                      <q-collapsible
+                        v-if="contactMessage.sender.username === 'Vendég'"
+                        :label="contactMessage.email"
+                        :sublabel="contactMessage.message"
+                        sublabel-lines="1"
+                        avatar="../statics/guy-avatar.png"
+                      >
+                        <q-item>
+                          <q-item-side right>
+                            <q-item-tile color="primary" icon="fa-map-signs"/>
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile sublabel>{{contactMessage.topic}}</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                        <q-item>
+                          <q-item-side right>
+                            <q-item-tile color="primary" icon="fa-envelope"/>
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile sublabel>{{contactMessage.message}}</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                      </q-collapsible>
+                    </q-item-main>
+                    <q-item-side color="primary" right>
+                      <q-item>
+                        <q-item-main>
+                          <q-item-tile style="font-size: 1em;" icon="fa-map-signs">{{contactMessage.topic}}</q-item-tile>
+                        </q-item-main>
+                      </q-item>
+                      <q-item>
+                        <q-item-main>
+                          <q-item-tile style="font-size: 1em;" icon="fa-clock">{{contactMessage.date}}</q-item-tile>
+                        </q-item-main>
+                      </q-item>
+                    </q-item-side>
+                  </q-item>
+                </q-list>
+
+                <!--<q-item class="shadow-2 bg-grey-1" v-for="contactMessage in contactMessages" :key="contactMessage.id" style="margin-bottom: 15px;">-->
+                  <!--<q-item-main>-->
+                    <!--<q-btn-->
+                      <!--color="info"-->
+                      <!--style="margin-bottom: 10px;"-->
+                    <!--&gt;{{contactMessage.id}}</q-btn>-->
+                    <!--<q-btn-->
+                      <!--v-show="contactMessage.read"-->
+                      <!--color="info"-->
+                      <!--style="margin-bottom: 10px;"-->
+                    <!--&gt;</q-btn>-->
+                    <!--<q-eventField>-->
+                      <!--<q-input v-model="contactMessage.sender.username" :after="[{icon: fa-user}]" readonly="true" float-label="Üzenet feladója"></q-input>-->
+                      <!--<q-input v-model="contactMessage.topic" readonly="true" float-label="Üzenet témája"></q-input>-->
+                      <!--<q-input v-model="contactMessage.email" :after="[{icon: fa-envelope}]" readonly="true" float-label="Feladó email címe"></q-input>-->
+                      <!--<q-input type="textarea" rows="3" readonly="true" v-model="contactMessage.message" float-label="Üzenet szövege"></q-input>-->
+                    <!--</q-eventField>-->
+                  <!--</q-item-main>-->
+                <!--</q-item>-->
               </q-tab-pane>
 
               <q-tab-pane name="Beállítások">
@@ -123,7 +202,7 @@ export default {
       contactMessages: []
     }
   },
-  beforeCreate () {
+  beforeMount () {
     let self = this
     AXIOS.get('/api/event/')
       .then(response => {
@@ -136,6 +215,7 @@ export default {
     AXIOS.get('/api/contact/message')
       .then(response => {
         self.$data.contactMessages = response.data
+        console.log(self.$data.contactMessages)
       })
   }
 }

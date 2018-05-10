@@ -29,7 +29,7 @@
                 </q-item-tile>
               </q-card-main>
             </q-card>
-            <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
+            <q-item v-if="!$store.state.isLoggedIn" class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-at" color="primary"></q-item-side>
               <q-item-main>
                 <q-input v-model="contactMessage.email" float-label="Email címed. Ha azt szeretnéd, hogy válaszoljunk"></q-input>
@@ -66,7 +66,8 @@ export default {
         email: '',
         message: '',
         topic: '',
-        userId: ''
+        userId: null,
+        isRead: false
       }
     }
   },

@@ -8,17 +8,15 @@
         <q-item-tile color="primary" icon="fa-eye" />
       </q-item-side>
       <q-item-main>
-        <q-eventField>
-          <p>Az oldal megnyitásakor a bal oldali menü</p>
-          <q-btn-toggle
-            v-model="siteSettings.leftBarOpen"
-            toggle-color="primary"
-            :options="[
-                        {label: 'Legyen látható', value: true},
-                        {label: 'Ne legyen látható', value: false}
-                      ]"
-          />
-        </q-eventField>
+        <p>Az oldal megnyitásakor a bal oldali menü</p>
+        <q-btn-toggle
+          v-model="siteSettings.leftBarOpen"
+          toggle-color="primary"
+          :options="[
+                      {label: 'Legyen látható', value: true},
+                      {label: 'Ne legyen látható', value: false}
+                    ]"
+        />
       </q-item-main>
     </q-item>
     <q-item>

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,13 +66,28 @@ public class SiteController {
         contactMessage.setEmail(newContactMessage.getEmail());
         contactMessage.setMessage(newContactMessage.getMessage());
         contactMessage.setTopic(newContactMessage.getTopic());
-        if(newContactMessage.getUserId().length() > 0 ) {
+        contactMessage.setDate(LocalDateTime.now());
+        if(newContactMessage.getUserId() == null) {
+            Optional<User> user = userRepository.findByUsername("Vendég");
+            user.ifPresent(contactMessage::setSender);
+            user.get().getContactMessages().add(contactMessage);
+            userRepository.saveAndFlush(user.get());
+        } else {
             Optional<User> user = userRepository.findById(Long.parseLong(newContactMessage.getUserId()));
             user.ifPresent(contactMessage::setSender);
             user.get().getContactMessages().add(contactMessage);
             userRepository.saveAndFlush(user.get());
         }
+        System.out.println("CONTACT DATE" + contactMessage.getDate());
         System.out.println("CONTACT MESSAGE: " + newContactMessage.getMessage());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/contact/message/{id}/read")
+    public void seenMessage(@PathVariable("id") Long id) {
+        Optional<ContactMessage> contactMessage = contactMessageRepository.findById(id);
+        contactMessage.ifPresent(contactMessage1 -> contactMessage1.setRead(true));
+
+    }
+
 }

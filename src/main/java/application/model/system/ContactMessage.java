@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "contactMessage")
@@ -25,6 +26,10 @@ public class ContactMessage {
     private String topic;
 
     private String message;
+
+    private boolean isRead;
+
+    private LocalDateTime date;
 
     public ContactMessage() { }
 
@@ -62,5 +67,21 @@ public class ContactMessage {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }

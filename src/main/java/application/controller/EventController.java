@@ -45,7 +45,6 @@ public class EventController {
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/new")
     public int saveEvent(@RequestBody NewEvent newEvent) throws IOException {
-        System.out.println("ASD" + newEvent.getFields());
         return eventUtils.createNewEvent(newEvent);
     }
 

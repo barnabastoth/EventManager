@@ -6,6 +6,8 @@ public class NewContactMessage {
     private String message;
     private String topic;
     private String userId;
+    private Boolean isRead;
+
 
     public String getEmail() {
         return email;
@@ -37,5 +39,14 @@ public class NewContactMessage {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
     }
 }
