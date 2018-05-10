@@ -35,7 +35,7 @@
                   </q-item-main>
                 </q-item>
               </q-card>
-              <q-card @click.native="unAttendEvent()" class="shadow-5 cursor-pointer">
+              <q-card @click.native="showAttendeesModal = true" class="shadow-5 cursor-pointer">
                 <q-item>
                   <q-item-side color="info" icon="fa-users" />
                   <q-item-main>
@@ -157,32 +157,33 @@
               </q-item-main>
             </q-item>
           </q-list>
-          <q-modal v-model="usersModal">
-            <q-btn
-              icon="fa-times"
-              class="float-right"
-              color="info"
-              @click="usersModal = false"
-            />
-            <q-list class="text-center"
-                    no-border
-                    link
-                    inset-delimiter
-            >
-              <q-item-separator></q-item-separator>
-              <q-list-header>Felhasználók</q-list-header>
-              <q-item-separator></q-item-separator>
-              <q-item class="shadow-1" v-for="user in users" :key="user.id">
-                <q-item-side avatar="statics/guy-avatar.png" />
-                <q-item-main>
-                  <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
-                  <q-item-tile sublabel>{{user.username}}</q-item-tile>
-                </q-item-main>
-                <q-item-side right>
-                  <q-btn @click="addUserToSpeakers(user)" icon="fa-plus" color="primary"></q-btn>
-                </q-item-side>
-              </q-item>
-            </q-list>
+
+          <q-modal v-model="showAttendeesModal">
+            <q-card style="padding: 10px">
+              <q-list class="text-center"
+                      no-border
+                      link
+                      inset-delimiter
+              >
+                <q-btn
+                  icon="fa-times"
+                  class="float-right"
+                  color="info"
+                  @click="showAttendeesModal = false"
+                >
+                  <q-tooltip>Bezárás</q-tooltip>
+                </q-btn>
+                <q-list-header>Feliratkozott felhasználók</q-list-header>
+                <q-item-separator></q-item-separator>
+                <q-item @click.native="$router.push('/felhasznalo/' + user.username)" style="margin-bottom: 10px" class="shadow-1" v-for="user in event.attendees" :key="user.id">
+                  <q-item-side avatar="statics/guy-avatar.png" />
+                  <q-item-main>
+                    <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
+                    <q-item-tile sublabel>{{user.username}}</q-item-tile>
+                  </q-item-main>
+                </q-item>
+              </q-list>
+            </q-card>
           </q-modal>
         </q-page>
       </q-page-container>
@@ -213,9 +214,11 @@ export default {
   },
   methods: {
     attendEvent () {
+      let self = this
       AXIOS.get('/api/event/' + this.$data.event.id + '/attend')
-        .then(() => {
-          this.$data.isUserAnAttendee = true
+        .then(response => {
+          self.$data.isUserAnAttendee = true
+          self.$data.event.attendees = response.data
           Notify.create({
             type: 'positive',
             color: 'positive',

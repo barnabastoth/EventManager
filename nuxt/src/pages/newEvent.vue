@@ -216,31 +216,34 @@
       </q-card>
 
       <q-modal v-model="usersModal">
-        <q-btn
-          icon="fa-times"
-          class="float-right"
-          color="info"
-          @click="usersModal = false"
-        />
-        <q-list class="text-center"
-                no-border
-                link
-                inset-delimiter
-        >
-          <q-item-separator></q-item-separator>
-          <q-list-header>Felhasználók</q-list-header>
-          <q-item-separator></q-item-separator>
-          <q-item class="shadow-1" v-for="user in users" :key="user.id">
-            <q-item-side avatar="statics/guy-avatar.png" />
-            <q-item-main>
-              <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
-              <q-item-tile sublabel>{{user.username}}</q-item-tile>
-            </q-item-main>
-            <q-item-side right>
-              <q-btn @click="addUserToSpeakers(user)" icon="fa-plus" color="primary"></q-btn>
-            </q-item-side>
-          </q-item>
-        </q-list>
+        <q-card style="padding: 10px">
+          <q-list class="text-center"
+                  no-border
+                  link
+                  inset-delimiter
+          >
+            <q-btn
+              icon="fa-times"
+              class="float-right"
+              color="info"
+              @click="usersModal = false"
+            >
+              <q-tooltip>Bezárás</q-tooltip>
+            </q-btn>
+            <q-list-header>Felhasználók</q-list-header>
+            <q-item-separator></q-item-separator>
+            <q-item style="margin-bottom: 10px" class="shadow-1" v-for="user in users" :key="user.id">
+              <q-item-side avatar="statics/guy-avatar.png" />
+              <q-item-main>
+                <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
+                <q-item-tile sublabel>{{user.username}}</q-item-tile>
+              </q-item-main>
+              <q-item-side right>
+                <q-btn @click="addUserToSpeakers(user)" icon="fa-plus" color="primary"></q-btn>
+              </q-item-side>
+            </q-item>
+          </q-list>
+        </q-card>
       </q-modal>
     </q-page>
   </transition>

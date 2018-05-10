@@ -20,6 +20,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -49,17 +50,17 @@ public class EventController {
     }
 
     @GetMapping("/{id}/attend")
-    public void attendEvent(@PathVariable("id") Long id, Principal principal) {
+    public Set<User> attendEvent(@PathVariable("id") Long id, Principal principal) {
         if(principal != null) {
             Optional<User> user = userRepository.findByUsername(principal.getName());
             Optional<Event> event = eventRepository.findById(id);
             if(user.isPresent() && event.isPresent()) {
                 event.get().getAttendees().add(user.get());
                 eventRepository.saveAndFlush(event.get());
+                return event.get().getAttendees();
             }
         }
-        System.out.println(principal != null ? principal.getName() : null);
-        System.out.println("ASDSADASDSADSA " + eventRepository.findById(id).get().getAttendees());
+        return null;
     }
 
 }
