@@ -47,7 +47,7 @@ public class EventUtils {
         }
         event.setSpeakers(speakers);
 
-        event.getSettings().put("Active", newEvent.getSettings().get("active"));
+        event.getSettings().put("active", newEvent.getSettings().get("active"));
 
 
         System.out.println(event.getDate());

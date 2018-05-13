@@ -23,7 +23,7 @@
                 <q-item>
                   <q-item-side color="primary" icon="fa-user-plus" />
                   <q-item-main>
-                    <q-item-tile label>Feliratkozás</q-item-tile>
+                    <q-item-tile label>Feliratkozás <q-chip floating color="red">{{event.attendees.length}}</q-chip></q-item-tile>
                   </q-item-main>
                 </q-item>
               </q-card>
@@ -31,7 +31,7 @@
                 <q-item>
                   <q-item-side color="negative" icon="fa-user-times" />
                   <q-item-main>
-                    <q-item-tile label>Leiratkozás</q-item-tile>
+                    <q-item-tile label>Leiratkozás <q-chip floating color="red">{{event.attendees.length}}</q-chip></q-item-tile>
                   </q-item-main>
                 </q-item>
               </q-card>
@@ -40,7 +40,7 @@
                 <q-item>
                   <q-item-side color="info" icon="fa-users" />
                   <q-item-main>
-                    <q-item-tile label>Feliratkozottak</q-item-tile>
+                    <q-item-tile label>Feliratkozottak <q-chip floating color="red">{{event.attendees.length}}</q-chip></q-item-tile>
                   </q-item-main>
                 </q-item>
               </q-card>
@@ -300,64 +300,69 @@ export default {
         })
     },
     unAttendEvent () {
-      this.$data.isUserAnAttendee = false
-      Notify.create({
-        type: 'info',
-        color: 'info',
-        position: 'bottom',
-        timeout: 2000,
-        message: 'Sikeresen leiratkoztál az eseményről!!'
-      })
-    },
-    deleteEvent () {
       let self = this
-      this.$q.dialog({
-        title: 'Figyelem! Biztos véglegesen törölni akarod az eseményt?',
-        message: 'Írd be az esemény pontos nevét, hogy törölni tudd az eseményt. Az esemény neve: ' + self.$data.event.name,
-        color: 'primary',
-        ok: {
-          push: true,
-          color: 'warning',
-          label: 'Végleges törlés.'
-        },
-        cancel: {
-          push: true,
-          color: 'info',
-          label: 'Vissza'
-        },
-        preventClose: true,
-        noBackdropDismiss: false, // gets set to "true" automatically if preventClose is "true"
-        noEscDismiss: false, // gets set to "true" automatically if preventClose is "true"
-        position: 'bottom',
-        prompt: {
-          model: '',
-          type: 'text' // optional
-        }
-      })
-        .then(data => {
-          if (data === self.$data.event.name) {
-            AXIOS.get('/api/event/' + self.id + '/delete')
-              .then(() => {
-                self.$router.push('/')
-                Notify.create({
-                  type: 'info',
-                  color: 'info',
-                  position: 'bottom',
-                  timeout: 5000,
-                  message: 'Az esemény véglegesen törölve lett az adatbázisbol.'
-                })
-              })
-          } else {
-            Notify.create({
-              type: 'info',
-              color: 'info',
-              position: 'bottom',
-              timeout: 5000,
-              message: 'A beírt név nem helyes, biztos, hogy kiakarod törölni ezt az eseményt?'
-            })
-          }
+      AXIOS.get('/api/event/' + this.$data.event.id + '/unattend')
+        .then(response => {
+          self.$data.isUserAnAttendee = false
+          self.$data.event.attendees = response.data
+          Notify.create({
+            type: 'info',
+            color: 'info',
+            position: 'bottom',
+            timeout: 3000,
+            message: 'Leiratkoztál az eseményről.'
+          })
         })
     }
+  },
+  deleteEvent () {
+    let self = this
+    this.$q.dialog({
+      title: 'Figyelem! Biztos véglegesen törölni akarod az eseményt?',
+      message: 'Írd be az esemény pontos nevét, hogy törölni tudd az eseményt. Az esemény neve: ' + self.$data.event.name,
+      color: 'primary',
+      ok: {
+        push: true,
+        color: 'warning',
+        label: 'Végleges törlés.'
+      },
+      cancel: {
+        push: true,
+        color: 'info',
+        label: 'Vissza'
+      },
+      preventClose: true,
+      noBackdropDismiss: false, // gets set to "true" automatically if preventClose is "true"
+      noEscDismiss: false, // gets set to "true" automatically if preventClose is "true"
+      position: 'bottom',
+      prompt: {
+        model: null,
+        type: 'text' // optional
+      }
+    })
+      .then(data => {
+        if (data === self.$data.event.name) {
+          AXIOS.get('/api/event/' + self.id + '/delete')
+            .then(() => {
+              self.$router.push('/')
+              Notify.create({
+                type: 'info',
+                color: 'info',
+                position: 'bottom',
+                timeout: 5000,
+                message: 'Az esemény véglegesen törölve lett az adatbázisbol.'
+              })
+            })
+        } else {
+          Notify.create({
+            type: 'info',
+            color: 'info',
+            position: 'bottom',
+            timeout: 5000,
+            message: 'A beírt név nem helyes, biztos, hogy kiakarod törölni ezt az eseményt?'
+          })
+        }
+      })
   }
 }
 </script>

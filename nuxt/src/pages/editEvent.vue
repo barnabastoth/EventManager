@@ -186,6 +186,7 @@
                 </q-item-side>
                 <q-item-main>
                   <p>Maga az esemény:</p>
+                  <p>{{event.settings}}</p>
                   <q-btn-toggle
                     v-model="event.settings.active"
                     toggle-color="primary"

@@ -74,6 +74,20 @@ public class EventController {
         return null;
     }
 
+    @GetMapping("/{id}/unattend")
+    public Set<User> unAttendEvent(@PathVariable("id") Long id, Principal principal) {
+        if(principal != null) {
+            Optional<User> user = userRepository.findByUsername(principal.getName());
+            Optional<Event> event = eventRepository.findById(id);
+            if(user.isPresent() && event.isPresent()) {
+                event.get().getAttendees().remove(user.get());
+                eventRepository.saveAndFlush(event.get());
+                return event.get().getAttendees();
+            }
+        }
+        return null;
+    }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/comment/new")
     public void saveNewComment (@RequestBody NewComment newComment) {
