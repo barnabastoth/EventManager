@@ -1,3 +1,7 @@
+import store from '../store'
+import router from '../router'
+import { Notify } from 'quasar'
+
 export default [
   {
     path: '/',
@@ -9,7 +13,20 @@ export default [
       },
       {
         path: '/bejelentkezes',
-        component: () => import('pages/auth')
+        component: () => import('pages/auth'),
+        beforeEnter: (to, from, next) => {
+          if (store.state.isLoggedIn) {
+            router.push('/noAccess')
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 3000,
+              message: 'Már bevagy jelentkezve.!'
+            })
+          }
+          next()
+        }
       },
       {
         path: '/projekt',
@@ -39,8 +56,24 @@ export default [
       {
         path: '/admin',
         component: () => import('pages/adminPanel')
+        // beforeEnter: (to, from, next) => {
+        //   if (store.state.isLoggedIn) {
+        //     router.push('/noAccess')
+        //     Notify.create({
+        //       type: 'info',
+        //       color: 'info',
+        //       position: 'bottom',
+        //       timeout: 3000,
+        //       message: 'Már bevagy jelentkezve, !'
+        //     })
+        //   }
+        // }
       }
     ]
+  },
+  {
+    path: '/noAccess',
+    component: () => import('pages/noAccess')
   },
 
   { // Always leave this as last one
