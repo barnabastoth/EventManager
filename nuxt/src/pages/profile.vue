@@ -21,7 +21,7 @@
             <q-tabs color="primary" class="shadow-24" glossy>
               <q-tab default name="Információk" slot="title" icon="fa-user" label="Információk" />
               <q-tab name="Kommentek" slot="title" icon="fa-comment-alt" label="Kommentek" />
-              <q-tab name="Kommentek" slot="title" icon="fa-calendar" label="Események" />
+              <q-tab name="Események" slot="title" icon="fa-calendar" label="Események" />
 
               <q-tab-pane name="Információk">
                 <q-list>
@@ -75,6 +75,21 @@
 
               <q-tab-pane name="Kommentek">
 
+              </q-tab-pane>
+
+              <q-tab-pane name="Események">
+                {{this.$store.state.loggedInUser}}
+                <!--<q-item @click.native="$router.push('/esemeny/' + event.id)" class="shadow-1" v-for="event in this.$store.state.loggedInUser.speakerAt" :key="event.id">-->
+                  <!--<q-item-side image="statics/parallax2.jpg"></q-item-side>-->
+                  <!--<q-item-main>-->
+                    <!--<q-item-tile label>{{event.name}}</q-item-tile>-->
+                    <!--<q-item-tile sublabel>{{event.address}}</q-item-tile>-->
+                    <!--<q-item-tile sublabel>{{event.date}}</q-item-tile>-->
+                  <!--</q-item-main>-->
+                  <!--<q-item-side right>-->
+                    <!--<q-item-tile icon="fa-edit"></q-item-tile>-->
+                  <!--</q-item-side>-->
+                <!--</q-item>-->
               </q-tab-pane>
             </q-tabs>
           </q-card>

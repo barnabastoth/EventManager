@@ -14,6 +14,7 @@
             <q-item-tile style="font-size: 30px;" class="text-center" label>Új esemény létrehozása</q-item-tile>
           </q-item-main>
         </q-item>
+        <q-item>{{event.basicInfo}}</q-item>
         <q-stepper color="primary" ref="stepper" alternative-labels>
 
           <q-step default name="first" title="Alap információk">
@@ -253,7 +254,7 @@ import AXIOS from 'axios'
 import { Notify } from 'quasar'
 import draggable from 'vuedraggable'
 export default {
-  name: 'newEvent',
+  name: 'edit-event',
   components: {
     draggable
   },
@@ -305,13 +306,19 @@ export default {
       }
     }
   },
-  beforeMount () {
-    let self = this
-    AXIOS.get('/api/user')
-      .then(response => {
-        self.$data.users = response.data
-      })
-  },
+  props: ['id'],
+  // beforeMount () {
+  //   let self = this
+  //   AXIOS.get('/api/user')
+  //     .then(response => {
+  //       self.$data.users = response.data
+  //     })
+  //   AXIOS.get('/api/event/' + this.id)
+  //     .then(response => {
+  //       console.log(response.data)
+  //       self.$data.event = response.data
+  //     })
+  // },
   methods: {
     createNewEvent () {
       let self = this

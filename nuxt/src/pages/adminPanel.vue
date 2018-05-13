@@ -93,7 +93,7 @@
                     <q-item-main>
                       <q-collapsible
                         v-if="contactMessage.sender.username !== 'Vendég'"
-                        :label="contactMessage.sender.username"
+                        :label="'Feladó: ' + contactMessage.sender.username"
                         :sublabel="contactMessage.message"
                         sublabel-lines="1"
                         avatar="../statics/guy-avatar.png"
@@ -104,6 +104,14 @@
                           </q-item-side>
                           <q-item-main>
                             <q-item-tile sublabel>{{contactMessage.topic}}</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                        <q-item>
+                          <q-item-side right>
+                            <q-item-tile color="primary" icon="fa-clock"/>
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile sublabel>{{contactMessage.date}}</q-item-tile>
                           </q-item-main>
                         </q-item>
                         <q-item>
@@ -132,6 +140,14 @@
                         </q-item>
                         <q-item>
                           <q-item-side right>
+                            <q-item-tile color="primary" icon="fa-clock"/>
+                          </q-item-side>
+                          <q-item-main>
+                            <q-item-tile sublabel>{{contactMessage.date}}</q-item-tile>
+                          </q-item-main>
+                        </q-item>
+                        <q-item>
+                          <q-item-side right>
                             <q-item-tile color="primary" icon="fa-envelope"/>
                           </q-item-side>
                           <q-item-main>
@@ -140,18 +156,6 @@
                         </q-item>
                       </q-collapsible>
                     </q-item-main>
-                    <q-item-side color="primary" right>
-                      <q-item>
-                        <q-item-main>
-                          <q-item-tile style="font-size: 1em;" icon="fa-map-signs">{{contactMessage.topic}}</q-item-tile>
-                        </q-item-main>
-                      </q-item>
-                      <q-item>
-                        <q-item-main>
-                          <q-item-tile style="font-size: 1em;" icon="fa-clock">{{contactMessage.date}}</q-item-tile>
-                        </q-item-main>
-                      </q-item>
-                    </q-item-side>
                   </q-item>
                 </q-list>
 

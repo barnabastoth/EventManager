@@ -35,11 +35,21 @@
                   </q-item-main>
                 </q-item>
               </q-card>
-              <q-card style="margin: 5px;" @click.native="showAttendeesModal = true" class="shadow-5 cursor-pointer">
+              <q-card style="margin: 5px;" @click.native="showAttendeesModal = true" class="shadow-5 cursor-pointer"
+                      v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
                 <q-item>
                   <q-item-side color="info" icon="fa-users" />
                   <q-item-main>
                     <q-item-tile label>Feliratkozottak</q-item-tile>
+                  </q-item-main>
+                </q-item>
+              </q-card>
+              <q-card style="margin: 5px;" @click.native="$router.push('/esemeny/' + this.$data.event.id + '/szerkesztes')" class="shadow-5 cursor-pointer"
+                      v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
+                <q-item>
+                  <q-item-side color="info" icon="fa-edit" />
+                  <q-item-main>
+                    <q-item-tile label>Szerkesztés</q-item-tile>
                   </q-item-main>
                 </q-item>
               </q-card>
@@ -77,15 +87,6 @@
               <q-item-main>
                 <q-item-tile label>{{event.date}}</q-item-tile>
                 <q-item-tile sublabel>Időpont</q-item-tile>
-              </q-item-main>
-            </q-item>
-            <q-item v-for="eventField in event.eventFields" :key="eventField.subText">
-              <q-item-side>
-                <q-item-tile color="primary" :icon="eventField.icon" />
-              </q-item-side>
-              <q-item-main>
-                <q-item-tile label>{{eventField.text}}</q-item-tile>
-                <q-item-tile sublabel>{{eventField.subText}}</q-item-tile>
               </q-item-main>
             </q-item>
 
@@ -148,18 +149,56 @@
                 </q-list>
               </q-card>
             </q-item>
+
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
                 <q-item-tile style="font-size: 30px;" color="primary" icon="fa-comment-alt" />
               </q-item-side>
               <q-item-main>
-                <q-item-tile style="font-size: 30px;" class="text-center" label>Kommentek</q-item-tile>
+                <q-item-tile style="font-size: 30px;" class="text-center" label>Hozzászólások</q-item-tile>
               </q-item-main>
             </q-item>
+
+            <q-item>
+              <q-btn color="info" icon-right="fa-plus" @click="showNewCommentSection = !showNewCommentSection" label="Hozzászólás írása" />
+            </q-item>
+
+            <q-item class="shadow-24" style="margin: 10px" v-show="showNewCommentSection">
+              <q-item-side avatar="statics/guy-avatar.png" />
+              <q-item-main>
+                <q-item-tile>{{this.$store.state.loggedInUser.username}}</q-item-tile>
+                <q-item-tile><q-input v-model="newComment.message" float-label="Hozzzászólás szövege"></q-input></q-item-tile>
+                <q-item-tile class="float-right">
+                  <q-btn
+                  icon-right="fa-step-forward"
+                  color="primary"
+                  style="margin-top: 5px"
+                  @click="addNewComment()"
+                  >
+                    Hozzászólás küldése
+                  </q-btn>
+                </q-item-tile>
+              </q-item-main>
+            </q-item>
+
+            <q-item>
+              {{event.comments}}
+            </q-item>
+
+            <!--<q-item v-for="comment in event.comments" :key="comment.id">-->
+              <!--<q-item-side avatar="statics/guy-avatar.png" />-->
+              <!--<q-item-main>-->
+                <!--<q-item-tile>{{comment.username}}</q-item-tile>-->
+                <!--<q-item-tile>{{comment.user.lastName}} {{comment.user.name}}</q-item-tile>-->
+                <!--<q-item-tile>{{comment.date}}</q-item-tile>-->
+                <!--<q-item-tile>{{comment.message}}</q-item-tile>-->
+              <!--</q-item-main>-->
+            <!--</q-item>-->
+
           </q-list>
 
           <q-modal v-model="showAttendeesModal">
-            <q-card style="padding: 10px">
+            <q-card style="padding: 10px; width: 500px; max-width: 90vw">
               <q-list class="text-center"
                       no-border
                       link
@@ -185,6 +224,7 @@
               </q-list>
             </q-card>
           </q-modal>
+
         </q-page>
       </q-page-container>
     </q-layout>
@@ -199,9 +239,12 @@ export default {
   data: function () {
     return {
       event: [],
+      newComment: {
+        message: ''
+      },
       isUserAnAttendee: false,
       showAttendeesModal: false,
-      showMenu: []
+      showNewCommentSection: false
     }
   },
   props: ['id'],
@@ -213,6 +256,25 @@ export default {
       })
   },
   methods: {
+    addNewComment () {
+      console.log(this.$data.event.id)
+      console.log(this.$store.state.loggedInUser.id)
+      this.$data.newComment.userId = this.$store.state.loggedInUser.id
+      this.$data.newComment.eventId = this.$data.event.id
+      AXIOS.post('/api/event/comment/new', this.$data.newComment)
+        .then(() => {
+          this.$data.showNewCommentSection = false
+          this.$data.event.comments.push(this.$data.newComment)
+          this.$data.newComment = {message: ''}
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            position: 'bottom',
+            timeout: 2000,
+            message: 'A kommented hozzá lett adva az eseményhez.'
+          })
+        })
+    },
     attendEvent () {
       let self = this
       AXIOS.get('/api/event/' + this.$data.event.id + '/attend')

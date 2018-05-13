@@ -8,7 +8,7 @@
 import AXIOS from 'axios'
 export default {
   name: 'App',
-  beforeMount () {
+  beforeCreate () {
     AXIOS.defaults.baseURL = 'http://localhost:8089'
     this.$store.dispatch('logInUserWithToken').then(() => {
       this.$store.dispatch('loadSiteSettings')

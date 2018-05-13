@@ -54,20 +54,29 @@ export default [
         component: () => import('pages/event')
       },
       {
+        path: '/esemeny/:id/szerkesztes',
+        props: true,
+        component: () => import('pages/editEvent'),
+        beforeEnter: (to, from, next) => {
+          if (store.state.loggedInUser.role.role === 'Admin' ||
+            store.state.loggedInUser.role.role === 'Tulajdonos') {
+            next()
+          } else {
+            router.push('/noAccess')
+          }
+        }
+      },
+      {
         path: '/admin',
-        component: () => import('pages/adminPanel')
-        // beforeEnter: (to, from, next) => {
-        //   if (store.state.isLoggedIn) {
-        //     router.push('/noAccess')
-        //     Notify.create({
-        //       type: 'info',
-        //       color: 'info',
-        //       position: 'bottom',
-        //       timeout: 3000,
-        //       message: 'Már bevagy jelentkezve, !'
-        //     })
-        //   }
-        // }
+        component: () => import('pages/adminPanel'),
+        beforeEnter: (to, from, next) => {
+          if (store.state.loggedInUser.role.role === 'Admin' ||
+            store.state.loggedInUser.role.role === 'Tulajdonos') {
+            next()
+          } else {
+            router.push('/noAccess')
+          }
+        }
       }
     ]
   },

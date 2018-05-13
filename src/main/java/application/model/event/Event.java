@@ -30,17 +30,17 @@ public class Event {
     @ElementCollection
     private Map<String, String> settings = new HashMap<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @ManyToMany()
     @JoinTable(name = "user_speakers"
             , joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonManagedReference
     @Column(name = "speakers")
     private Set<User> speakers = new HashSet<>();
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 
     @JsonManagedReference

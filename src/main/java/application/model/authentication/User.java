@@ -70,11 +70,12 @@ public class User {
     @JsonBackReference
     private Set<Event> attendedEvents = new HashSet<>();
 
-    @ManyToMany(mappedBy = "speakers") @JsonBackReference
+    @ManyToMany(mappedBy = "speakers")
+    @JsonBackReference
     private Set<Event> speakerAt = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

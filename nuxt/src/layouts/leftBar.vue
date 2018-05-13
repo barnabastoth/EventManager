@@ -34,7 +34,7 @@
     <q-item @click.native="$router.push('/idovonal')" class="cursor-pointer">
       <q-item-side icon="fa-calendar" inverted color="amber" />
       <q-item-main>
-        <q-item-tile label>Idővonal</q-item-tile>
+        <q-item-tile label>Események</q-item-tile>
       </q-item-main>
     </q-item>
     <q-item @click.native="$router.push('/projekt')" class="cursor-pointer">

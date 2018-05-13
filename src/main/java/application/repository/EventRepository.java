@@ -12,7 +12,4 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-//
-//    @Query("select new application.model.event.Speaker(s.id, s.name, s.lastName, s.username, s.description) from user")
-//    Speaker getSpeaker(@Param("id") Long id);
 }

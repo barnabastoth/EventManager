@@ -1,8 +1,11 @@
 package application.controller;
 
 import application.model.authentication.User;
+import application.model.event.Comment;
 import application.model.event.Event;
+import application.model.event.NewComment;
 import application.model.event.NewEvent;
+import application.repository.CommentRepository;
 import application.repository.EventRepository;
 import application.repository.UserRepository;
 import application.utils.EventUtils;
@@ -30,6 +33,7 @@ public class EventController {
     @Autowired EventRepository eventRepository;
     @Autowired EventUtils eventUtils;
     @Autowired UserRepository userRepository;
+    @Autowired CommentRepository commentRepository;
 
     @GetMapping("/")
     public List<Event> serveAllEvent() {
@@ -44,8 +48,14 @@ public class EventController {
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/new")
-    public int saveEvent(@RequestBody NewEvent newEvent) throws IOException {
+    public int saveEvent(@RequestBody NewEvent newEvent) {
         return eventUtils.createNewEvent(newEvent);
+    }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @PostMapping("/edit")
+    public void editEvent(@RequestBody String event) {
+        System.out.println(event);
     }
 
     @GetMapping("/{id}/attend")
@@ -62,6 +72,20 @@ public class EventController {
         return null;
     }
 
-//    @PostMapping("/{id}/comment/new")
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/comment/new")
+    public void saveNewComment (@RequestBody NewComment newComment) {
+        Optional<User> user = userRepository.findById(newComment.getEventId());
+        Optional<Event> event = eventRepository.findById(newComment.getEventId());
+
+        Comment comment = new Comment();
+        comment.setDate(LocalDateTime.now());
+        comment.setMessage(newComment.getMessage());
+
+        user.ifPresent(comment::setUser);
+        event.ifPresent(comment::setEvent);
+
+        commentRepository.saveAndFlush(comment);
+    }
 
 }

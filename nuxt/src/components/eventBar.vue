@@ -14,8 +14,7 @@
       animation-speed="1000"
       :autoplay-timeout="3000"
       :autoplay="true"
-      start-index="0"
-      utoplayHoverPause="true"
+      start-index="10"
     >
       <slide style="background-color: white" :index="index " v-for="(event, index) in events" :key="event.id">
         <q-card inline class="q-ma-sm shadow-10" style="height:370px; width: 285px;">
