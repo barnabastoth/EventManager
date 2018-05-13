@@ -24,7 +24,7 @@ public class Event {
     @Column(length = 500) private String description;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER, orphanRemoval = true)
     private List<EventField> fields = new ArrayList<>();
 
     @ElementCollection

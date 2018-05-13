@@ -14,33 +14,35 @@
             <q-item-tile style="font-size: 30px;" class="text-center" label>Új esemény létrehozása</q-item-tile>
           </q-item-main>
         </q-item>
-        <q-item>{{event.basicInfo}}</q-item>
         <q-stepper color="primary" ref="stepper" alternative-labels>
 
           <q-step default name="first" title="Alap információk">
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-calendar" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.name" float-label="Az esemény neve"></q-input>
+                <q-input v-model="event.name" float-label="Az esemény neve"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.address" float-label="Helyszín"></q-input>
+                <q-input v-model="event.address" float-label="Helyszín"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-clock" color="primary"></q-item-side>
               <q-item-main>
-                <q-datetime stack-label="Az esemény időpontja" modal v-model="event.basicInfo.date" clearable format24h type="datetime" />
+                <q-datetime stack-label="Az esemény időpontja" modal v-model="event.date" clearable format24h type="datetime" />
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-book" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.description" float-label="Az esemény leírása"></q-input>
+                <q-input v-model="event.description" float-label="Az esemény leírása"></q-input>
               </q-item-main>
+            </q-item>
+            <q-item>
+              {{event.speakers}}
             </q-item>
           </q-step>
 
@@ -195,7 +197,7 @@
                 </q-item-main>
               </q-item>
             </q-card>
-            <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="createNewEvent()" label="Esemény létrehozása" />
+            <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="editEvent()" label="Esemény létrehozása" />
           </q-step>
 
           <q-stepper-navigation>
@@ -263,74 +265,38 @@ export default {
       usersModal: false,
       draggableFields: false,
       users: [],
-      event: {
-        basicInfo: {
-          name: '',
-          address: '',
-          date: '',
-          description: ''
-        },
-        fields: [
-          {
-            text: '',
-            subText: 'Dresscode',
-            active: '1',
-            icon: 'fa-suitcase'
-          },
-          {
-            text: '',
-            subText: 'Jegy ar',
-            active: '1',
-            icon: 'fa-ticket-alt'
-          },
-          {
-            text: '',
-            subText: 'Jegy link',
-            active: '1',
-            icon: 'fa-link'
-          }
-        ],
-        speakers: [
-          {
-            id: this.$store.state.loggedInUser.id,
-            username: this.$store.state.loggedInUser.username,
-            name: this.$store.state.loggedInUser.name,
-            lastName: this.$store.state.loggedInUser.lastName,
-            profession: this.$store.state.loggedInUser.profession,
-            description: this.$store.state.loggedInUser.description
-          }
-        ],
-        settings: {
-          active: '1'
-        }
-      }
+      event: {}
     }
   },
   props: ['id'],
-  // beforeMount () {
-  //   let self = this
-  //   AXIOS.get('/api/user')
-  //     .then(response => {
-  //       self.$data.users = response.data
-  //     })
-  //   AXIOS.get('/api/event/' + this.id)
-  //     .then(response => {
-  //       console.log(response.data)
-  //       self.$data.event = response.data
-  //     })
-  // },
+  beforeMount () {
+    let self = this
+    AXIOS.get('/api/user')
+      .then(response => {
+        self.$data.users = response.data
+      })
+    AXIOS.get('/api/event/' + this.id)
+      .then(response => {
+        console.log(response.data)
+        self.$data.event = response.data
+        console.log(self.$data.event)
+      })
+  },
   methods: {
-    createNewEvent () {
+    editEvent () {
       let self = this
-      AXIOS.post('/api/event/new', this.$data.event)
-        .then(response => {
-          self.$router.push('/esemeny/' + response.data)
+      for (let i = 0; i < self.$data.event.speakers.length; i++) {
+        self.$data.event.speakers[i].role = ''
+      }
+      AXIOS.post('/api/event/edit', this.$data.event)
+        .then(() => {
+          self.$router.push('/esemeny/' + this.id)
           Notify.create({
             type: 'positive',
             color: 'positive',
-            position: 'center',
+            position: 'bottom',
             timeout: 3000,
-            message: 'Az esemény sikeresen létre lett hozva. Át is irányítottunk az esemény oldalára.'
+            message: 'Az esemény szerkesztése sikeres volt.'
           })
         })
         .catch(error => {
@@ -339,8 +305,8 @@ export default {
             type: 'warning',
             color: 'warning',
             position: 'bottom',
-            timeout: 2000,
-            message: 'Valami hiba történt az esemény létrehozásakor.'
+            timeout: 3000,
+            message: 'Valami hiba történt az esemény szerkesztésekor.'
           })
         })
     },

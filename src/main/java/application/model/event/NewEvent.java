@@ -7,19 +7,55 @@ import java.util.Map;
 
 public class NewEvent {
 
-    private Map<String, String> basicInfo = new HashMap<>();
+    private Long id;
+    private String name;
+    private String address;
+    private String date;
+    private String description;
     private List<Map<String, String>> fields = new ArrayList<>();
     private List<Map<String, String>> speakers = new ArrayList<>();
     private Map<String, String> settings = new HashMap<>();
 
     public NewEvent() { }
 
-    public Map<String, String> getBasicInfo() {
-        return basicInfo;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBasicInfo(Map<String, String> basicInfo) {
-        this.basicInfo = basicInfo;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public List<Map<String, String>> getFields() {

@@ -54,9 +54,7 @@ public class EventController {
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/edit")
-    public void editEvent(@RequestBody String event) {
-        System.out.println(event);
-    }
+    public void editEvent(@RequestBody NewEvent newEvent) { eventUtils.saveEditedEvent(newEvent); }
 
     @GetMapping("/{id}/attend")
     public Set<User> attendEvent(@PathVariable("id") Long id, Principal principal) {
@@ -82,10 +80,17 @@ public class EventController {
         comment.setDate(LocalDateTime.now());
         comment.setMessage(newComment.getMessage());
 
-        user.ifPresent(comment::setUser);
-        event.ifPresent(comment::setEvent);
+        if(event.isPresent() && user.isPresent()) {
+            comment.setUser(user.get());
+            comment.setEvent(event.get());
+            user.get().getComments().add(comment);
+            event.get().getComments().add(comment);
+            userRepository.saveAndFlush(user.get());
+            commentRepository.saveAndFlush(comment);
+            eventRepository.saveAndFlush(event.get());
+        }
 
-        commentRepository.saveAndFlush(comment);
+
     }
 
 }

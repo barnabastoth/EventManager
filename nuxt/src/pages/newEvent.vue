@@ -20,25 +20,25 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-calendar" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.name" float-label="Az esemény neve"></q-input>
+                <q-input v-model="event.name" float-label="Az esemény neve"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.address" float-label="Helyszín"></q-input>
+                <q-input v-model="event.address" float-label="Helyszín"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-clock" color="primary"></q-item-side>
               <q-item-main>
-                <q-datetime stack-label="Az esemény időpontja" modal v-model="event.basicInfo.date" clearable format24h type="datetime" />
+                <q-datetime stack-label="Az esemény időpontja" modal v-model="event.date" clearable format24h type="datetime" />
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-book" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.basicInfo.description" float-label="Az esemény leírása"></q-input>
+                <q-input v-model="event.description" float-label="Az esemény leírása"></q-input>
               </q-item-main>
             </q-item>
           </q-step>
@@ -263,12 +263,10 @@ export default {
       draggableFields: false,
       users: [],
       event: {
-        basicInfo: {
-          name: '',
-          address: '',
-          date: '',
-          description: ''
-        },
+        name: '',
+        address: '',
+        date: '',
+        description: '',
         fields: [
           {
             text: '',

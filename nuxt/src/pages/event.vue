@@ -44,7 +44,7 @@
                   </q-item-main>
                 </q-item>
               </q-card>
-              <q-card style="margin: 5px;" @click.native="$router.push('/esemeny/' + this.$data.event.id + '/szerkesztes')" class="shadow-5 cursor-pointer"
+              <q-card style="margin: 5px;" @click.native="$router.push('/esemeny/' + $data.event.id + '/szerkesztes')" class="shadow-5 cursor-pointer"
                       v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
                 <q-item>
                   <q-item-side color="info" icon="fa-edit" />
