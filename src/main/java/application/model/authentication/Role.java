@@ -13,7 +13,9 @@ public class Role {
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="role_id") private Long id;
 	@Column(name="role") private String role;
-	@ManyToMany(mappedBy = "roles") @JsonBackReference
+
+	@OneToMany(mappedBy = "role")
+	@JsonBackReference
 	private Set<User> users = new HashSet<>();
 
 

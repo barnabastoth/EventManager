@@ -99,7 +99,7 @@ public class DataLoader implements CommandLineRunner {
         user.setDescription("I consider myself a calm, relaxed and driven person who is easy to get along with. I love building and designing systems, I enjoy being able to see through the depth of complexness, that is why I became a programmer.");
         user.setMemberSince(LocalDateTime.now());
         user.setWebsite("http://event-manager.com");
-        user.getRoles().add(ownerRole);
+        user.setRole(ownerRole);
         userService.save(user);
 
         User guest = new User();

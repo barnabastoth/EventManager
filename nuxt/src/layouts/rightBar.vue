@@ -30,7 +30,7 @@
             <q-item-tile color="amber" icon="fa-sender-md" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>{{this.$store.state.loggedInUser.roles[0].role}}</q-item-tile>
+            <q-item-tile label>{{this.$store.state.loggedInUser.role.role}}</q-item-tile>
             <q-item-tile sublabel>Jogosultságok</q-item-tile>
           </q-item-main>
         </q-item>
@@ -147,6 +147,7 @@ export default {
   methods: {
     logout () {
       this.$store.dispatch('logout')
+      this.$router.push('/bejelentkezes')
     }
   }
 }

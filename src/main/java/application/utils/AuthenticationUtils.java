@@ -26,7 +26,7 @@ public class AuthenticationUtils {
         user.setPassword(bCryptPasswordEncoder.encode(registerUser.getPassword()));
         user.setActive(1);
         user.setMemberSince(LocalDateTime.now());
-        user.getRoles().add(roleRepository.findByRole("Felhasználó"));
+        user.setRole(roleRepository.findByRole("Felhasználó"));
         userService.save(user);
     }
 }

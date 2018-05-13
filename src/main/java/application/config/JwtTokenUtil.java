@@ -67,7 +67,8 @@ public class JwtTokenUtil implements Serializable {
 
         Optional<User> user = userRepository.findByUsername(subject);
         List<SimpleGrantedAuthority> scopes = new ArrayList<>();
-        user.ifPresent(user1 -> user1.getRoles().forEach(role -> scopes.add(new SimpleGrantedAuthority(role.getRole()))));
+        user.ifPresent(user1 -> scopes.add(new SimpleGrantedAuthority(user1.getRole().getRole())));
+//        user.ifPresent(user1 -> user1.getRoles().forEach(role -> scopes.add(new SimpleGrantedAuthority(role.getRole()))));
         claims.put("scopes", scopes);
 
 

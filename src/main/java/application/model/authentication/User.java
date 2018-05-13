@@ -62,14 +62,9 @@ public class User {
     @Column(name = "image")
     private byte[] image;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role"
-            , joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+    @ManyToOne @JoinColumn(name = "role_id")
     @JsonManagedReference
-    @Column(name = "roles")
-    private Set<Role> roles = new HashSet<>();
+    private Role role;
 
     @ManyToMany(mappedBy = "attendees")
     @JsonBackReference
@@ -179,12 +174,12 @@ public class User {
         this.image = image;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Set<Event> getAttendedEvents() {

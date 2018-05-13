@@ -57,7 +57,7 @@
                       <q-item-tile color="amber" icon="fa-user-md" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.roles[0].role}}</q-item-tile>
+                      <q-item-tile label>{{this.$store.state.loggedInUser.role}}</q-item-tile>
                       <q-item-tile sublabel>Jogosultságok</q-item-tile>
                     </q-item-main>
                   </q-item>

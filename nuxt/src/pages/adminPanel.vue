@@ -67,7 +67,7 @@
                     <q-item-main>
                       <q-item-tile label>{{user.name}} {{user.lastName}}</q-item-tile>
                       <q-item-tile sublabel>{{user.username}}</q-item-tile>
-                      <q-item-tile sublabel>{{user.roles}}</q-item-tile>
+                      <q-item-tile sublabel>{{user.role}}</q-item-tile>
                     </q-item-main>
                     <q-item-side right>
                       <q-item-tile icon="fa-edit"></q-item-tile>
