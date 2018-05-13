@@ -56,6 +56,10 @@ public class EventController {
     @PostMapping("/edit")
     public void editEvent(@RequestBody NewEvent newEvent) { eventUtils.saveEditedEvent(newEvent); }
 
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @GetMapping("/{id}/delete")
+    public void deleteEvent(@PathVariable("id") Long id) { eventRepository.findById(id).ifPresent(event1 -> eventRepository.delete(event1)); }
+
     @GetMapping("/{id}/attend")
     public Set<User> attendEvent(@PathVariable("id") Long id, Principal principal) {
         if(principal != null) {

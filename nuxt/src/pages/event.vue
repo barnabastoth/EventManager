@@ -53,6 +53,15 @@
                   </q-item-main>
                 </q-item>
               </q-card>
+              <q-card style="margin: 5px;" @click.native="deleteEvent()" class="shadow-5 cursor-pointer"
+                      v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
+                <q-item>
+                  <q-item-side color="negative" icon="fa-trash-alt" />
+                  <q-item-main>
+                    <q-item-tile label>Esemény törlése</q-item-tile>
+                  </q-item-main>
+                </q-item>
+              </q-card>
             </q-item>
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
@@ -299,6 +308,55 @@ export default {
         timeout: 2000,
         message: 'Sikeresen leiratkoztál az eseményről!!'
       })
+    },
+    deleteEvent () {
+      let self = this
+      this.$q.dialog({
+        title: 'Figyelem! Biztos véglegesen törölni akarod az eseményt?',
+        message: 'Írd be az esemény pontos nevét, hogy törölni tudd az eseményt. Az esemény neve: ' + self.$data.event.name,
+        color: 'primary',
+        ok: {
+          push: true,
+          color: 'warning',
+          label: 'Végleges törlés.'
+        },
+        cancel: {
+          push: true,
+          color: 'info',
+          label: 'Vissza'
+        },
+        preventClose: true,
+        noBackdropDismiss: false, // gets set to "true" automatically if preventClose is "true"
+        noEscDismiss: false, // gets set to "true" automatically if preventClose is "true"
+        position: 'bottom',
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        }
+      })
+        .then(data => {
+          if (data === self.$data.event.name) {
+            AXIOS.get('/api/event/' + self.id + '/delete')
+              .then(() => {
+                self.$router.push('/')
+                Notify.create({
+                  type: 'info',
+                  color: 'info',
+                  position: 'bottom',
+                  timeout: 5000,
+                  message: 'Az esemény véglegesen törölve lett az adatbázisbol.'
+                })
+              })
+          } else {
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 5000,
+              message: 'A beírt név nem helyes, biztos, hogy kiakarod törölni ezt az eseményt?'
+            })
+          }
+        })
     }
   }
 }
