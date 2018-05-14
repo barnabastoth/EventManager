@@ -30,7 +30,7 @@
                       <q-item-tile color="red" icon="fa-envelope" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.email}}</q-item-tile>
+                      <q-item-tile label>{{user.email}}</q-item-tile>
                       <q-item-tile sublabel>Email</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -39,7 +39,7 @@
                       <q-item-tile color="primary" icon="fa-user" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.profession}}</q-item-tile>
+                      <q-item-tile label>{{user.profession}}</q-item-tile>
                       <q-item-tile sublabel>Foglalkozás</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -48,7 +48,7 @@
                       <q-item-tile color="primary" icon="fa-file-alt" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.description}}</q-item-tile>
+                      <q-item-tile label>{{user.description}}</q-item-tile>
                       <q-item-tile sublabel>Rólam</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -57,7 +57,7 @@
                       <q-item-tile color="amber" icon="fa-user-md" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.role.role}}</q-item-tile>
+                      <q-item-tile label>{{user.role.role}}</q-item-tile>
                       <q-item-tile sublabel>Jogosultságok</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -66,7 +66,7 @@
                       <q-item-tile color="amber" icon="fa-calendar" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.memberSince}}</q-item-tile>
+                      <q-item-tile label>{{user.memberSince}}</q-item-tile>
                       <q-item-tile sublabel>Csatlakozott</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -74,12 +74,12 @@
               </q-tab-pane>
 
               <q-tab-pane name="Kommentek">
-                {{this.$store.state.loggedInUser.comments}}
+                {{user.comments}}
               </q-tab-pane>
 
               <q-tab-pane name="Események">
-                {{this.$store.state.loggedInUser.attendedEvents}}
-                <!--<q-item @click.native="$router.push('/esemeny/' + event.id)" class="shadow-1" v-for="event in this.$store.state.loggedInUser.speakerAt" :key="event.id">-->
+                {{user.attendedEvents}}
+                <!--<q-item @click.native="$router.push('/esemeny/' + event.id)" class="shadow-1" v-for="event in user.speakerAt" :key="event.id">-->
                   <!--<q-item-side image="statics/parallax2.jpg"></q-item-side>-->
                   <!--<q-item-main>-->
                     <!--<q-item-tile label>{{event.name}}</q-item-tile>-->
