@@ -57,7 +57,7 @@
                       <q-item-tile color="amber" icon="fa-user-md" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.role}}</q-item-tile>
+                      <q-item-tile label>{{this.$store.state.loggedInUser.role.role}}</q-item-tile>
                       <q-item-tile sublabel>Jogosultságok</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -66,7 +66,7 @@
                       <q-item-tile color="amber" icon="fa-calendar" />
                     </q-item-side>
                     <q-item-main>
-                      <q-item-tile label>{{this.$store.state.loggedInUser.memberSince.year}}.{{$store.state.loggedInUser.memberSince.monthValue}}.{{$store.state.loggedInUser.memberSince.dayOfMonth}}</q-item-tile>
+                      <q-item-tile label>{{this.$store.state.loggedInUser.memberSince}}</q-item-tile>
                       <q-item-tile sublabel>Csatlakozott</q-item-tile>
                     </q-item-main>
                   </q-item>
@@ -74,11 +74,11 @@
               </q-tab-pane>
 
               <q-tab-pane name="Kommentek">
-
+                {{this.$store.state.loggedInUser.comments}}
               </q-tab-pane>
 
               <q-tab-pane name="Események">
-                {{this.$store.state.loggedInUser}}
+                {{this.$store.state.loggedInUser.attendedEvents}}
                 <!--<q-item @click.native="$router.push('/esemeny/' + event.id)" class="shadow-1" v-for="event in this.$store.state.loggedInUser.speakerAt" :key="event.id">-->
                   <!--<q-item-side image="statics/parallax2.jpg"></q-item-side>-->
                   <!--<q-item-main>-->

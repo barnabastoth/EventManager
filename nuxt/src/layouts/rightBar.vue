@@ -9,7 +9,7 @@
       <q-collapsible avatar="statics/guy-avatar.png" :label="this.$store.state.loggedInUser.username">
         <q-item>
           <q-item-side>
-            <q-item-tile color="primary" icon="fa-sender-md" />
+            <q-item-tile color="primary" icon="fa-user-md" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>{{this.$store.state.loggedInUser.profession}}</q-item-tile>
@@ -27,7 +27,7 @@
         </q-item>
         <q-item>
           <q-item-side>
-            <q-item-tile color="amber" icon="fa-sender-md" />
+            <q-item-tile color="amber" icon="fa-user-secret" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>{{this.$store.state.loggedInUser.role.role}}</q-item-tile>

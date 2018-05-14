@@ -95,6 +95,7 @@
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.date}}</q-item-tile>
+                <!--<q-item-tile sublabel><Countdown :end="event.date"></Countdown></q-item-tile>-->
                 <q-item-tile sublabel>Időpont</q-item-tile>
               </q-item-main>
             </q-item>
@@ -243,8 +244,12 @@
 <script>
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
+// import Countdown from 'vuejs-countdown'
 export default {
   name: 'event',
+  // components: {
+  //   Countdown
+  // },
   data: function () {
     return {
       event: [],
