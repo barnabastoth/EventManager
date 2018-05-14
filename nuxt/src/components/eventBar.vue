@@ -32,7 +32,7 @@
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.name}}</q-item-tile>
-                <!--<q-item-tile sublabel>{{event.date}}</q-item-tile>-->
+                <q-item-tile sublabel>{{event.date}}</q-item-tile>
               </q-item-main>
             </q-item>
             <q-item>

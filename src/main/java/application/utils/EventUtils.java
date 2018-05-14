@@ -27,6 +27,7 @@ public class EventUtils {
         event.setAddress(newEvent.getAddress());
         event.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
         event.setDescription(newEvent.getDescription());
+        event.setActive(newEvent.getActive());
 
         List<EventField> eventFields = new ArrayList<>();
         for (int i = 0; i < newEvent.getFields().size(); i++) {
@@ -47,12 +48,6 @@ public class EventUtils {
         }
         event.setSpeakers(speakers);
 
-        event.getSettings().put("active", newEvent.getSettings().get("active"));
-
-
-        System.out.println(event.getDate());
-        System.out.println(newEvent.getDate());
-
         eventRepository.saveAndFlush(event);
 
         return (int) (long) event.getId();
@@ -72,12 +67,18 @@ public class EventUtils {
 
             List<EventField> eventFields = event1.getFields();
             for (int i = 0; i < newEvent.getFields().size(); i++) {
-                EventField eventField = eventFieldRepository.getOne(Long.parseLong(newEvent.getFields().get(i).get("id")));
+                EventField eventField;
+                if(newEvent.getFields().get(i).get("id") != null) {
+                    eventField = eventFieldRepository.getOne(Long.parseLong(newEvent.getFields().get(i).get("id")));
+                } else {
+                    eventField = new EventField();
+                }
                 eventField.setActive(Integer.parseInt(newEvent.getFields().get(i).get("active")));
                 eventField.setIcon(newEvent.getFields().get(i).get("icon"));
                 eventField.setSubText(newEvent.getFields().get(i).get("subText"));
                 eventField.setText(newEvent.getFields().get(i).get("text"));
                 eventFields.add(eventField);
+
             }
             event1.setFields(eventFields);
 

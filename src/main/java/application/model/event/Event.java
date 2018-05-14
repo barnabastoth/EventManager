@@ -18,7 +18,8 @@ public class Event {
     private String address;
     private LocalDateTime date;
     private String active;
-    @Column(length = 500) private String description;
+    private byte[] image;
+    @Column(length = 1024) private String description;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
@@ -49,6 +50,14 @@ public class Event {
     private Set<User> attendees = new HashSet<>();
 
     public Event() { }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public Long getId() {
         return id;

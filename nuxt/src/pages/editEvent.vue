@@ -194,6 +194,17 @@
                 </q-item-main>
               </q-item>
             </q-card>
+            <q-card style="margin-bottom: 20px;">
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="primary" icon="fa-image" />
+                </q-item-side>
+                <q-item-main>
+                  <p>Esemény háttérképe:</p>
+                  <q-uploader auto-expand extensions=".gif, .jpg, .jpeg, .png" :url="'/api/event/' + event.id + '/uploadImg'" />
+                </q-item-main>
+              </q-item>
+            </q-card>
             <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="editEvent()" label="Változtatások mentése" />
           </q-step>
 

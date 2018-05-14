@@ -25,7 +25,7 @@
                 />
                 Információ
                 <q-item-tile>
-                  {{this.$store.state.siteSettings.contactPageText}}
+                  {{$store.state.siteSettings.contactPageText}}
                 </q-item-tile>
               </q-card-main>
             </q-card>

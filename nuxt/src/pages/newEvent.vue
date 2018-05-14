@@ -194,6 +194,22 @@
                 </q-item-main>
               </q-item>
             </q-card>
+            <q-card style="margin-bottom: 20px;">
+              <q-item>
+                <q-item-side>
+                  <q-item-tile color="primary" icon="fa-image" />
+                </q-item-side>
+                <q-item-main>
+                  <p>Esemény háttérképe:</p>
+                  <q-uploader
+                    auto-expand extensions=".gif, .jpg, .jpeg, .png"
+                    :url= uploadUrl
+                    :hide-upload-button = "true"
+                    ref="uploader"
+                  />
+                </q-item-main>
+              </q-item>
+            </q-card>
             <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="createNewEvent()" label="Esemény létrehozása" />
           </q-step>
 
@@ -261,6 +277,7 @@ export default {
     return {
       usersModal: false,
       draggableFields: false,
+      uploadUrl: '',
       users: [],
       event: {
         name: '',
@@ -312,9 +329,11 @@ export default {
   methods: {
     createNewEvent () {
       let self = this
-      AXIOS.post('/api/event/new', this.$data.event)
+      AXIOS.post('http://localhost:8089/api/event/new', this.$data.event)
         .then(response => {
-          self.$router.push('/esemeny/' + response.data)
+          self.$data.uploadUrl = '/api/event/' + response.data + '/uploadImg'
+          self.$refs.uploader.upload()
+          // self.$router.push('/esemeny/' + response.data)
           Notify.create({
             type: 'positive',
             color: 'positive',

@@ -37,21 +37,6 @@ public class EventController {
     @Autowired CommentRepository commentRepository;
     @Autowired AuthenticationUtils authenticationUtils;
 
-
-//    @GetMapping("/")
-//    public List<Event> serveAllEvent(Principal principal) {
-//        Boolean isUserAnAdminOrOwner = authenticationUtils.isUserAnAdminOrOwner(principal);
-//        System.out.println(isUserAnAdminOrOwner);
-//        return isUserAnAdminOrOwner ? eventRepository.findAll() : eventRepository.getActiveEvents();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Event serveEventById(@PathVariable("id") Long id, Principal principal) {
-//        Boolean isUserAnAdminOrOwner = authenticationUtils.isUserAnAdminOrOwner(principal);
-//        System.out.println(isUserAnAdminOrOwner);
-//        return isUserAnAdminOrOwner ? eventRepository.findById(id).orElse(null) : eventRepository.getActiveEventById(id).orElse(null);
-//    }
-
     @GetMapping("/")
     public List<Event> serveAllEvent(Principal principal) {
         if(principal != null) {
@@ -72,16 +57,17 @@ public class EventController {
             Optional<User> user = userRepository.findByUsername(principal.getName());
             if(user.isPresent()) {
                 if(user.get().getRole().getRole().equals("Tulajdonos") || user.get().getRole().getRole().equals("Admin")) {
-                    System.out.println("OWNER");
                     return eventRepository.findById(id).orElse(null);
                 }
-                System.out.println("NOPE");
                 return eventRepository.getActiveEventById(id).orElse(null);
             }
         }
-        System.out.println("NOPEE");
         return eventRepository.getActiveEventById(id).orElse(null);
     }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @PostMapping("/new")
+    public int saveNewEvent(@RequestBody NewEvent newEvent) { return eventUtils.createNewEvent(newEvent); }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/edit")
@@ -138,8 +124,15 @@ public class EventController {
             commentRepository.saveAndFlush(comment);
             eventRepository.saveAndFlush(event.get());
         }
-
-
     }
 
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @PostMapping("/{id}/uploadImg")
+    public void saveEventImage(@PathVariable("id") Long id, @RequestBody byte[] img) {
+        System.out.println("UPLOAD IMG");
+        eventRepository.findById(id).ifPresent(event -> {
+            event.setImage(img);
+        });
+
+    }
 }
