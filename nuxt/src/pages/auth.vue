@@ -8,7 +8,7 @@
       <q-page-container>
         <q-page padding style="width: 700px; max-width: 90vw;">
           <q-tabs color="primary" class="shadow-24" glossy align="justify">
-            <q-tab default name="Belépés" slot="title" icon="fa-sender" label="Belépés" />
+            <q-tab default name="Belépés" slot="title" icon="fa-user" label="Belépés" />
             <q-tab name="Regisztráció" slot="title" icon="fa-lock-open" label="Regisztriáció" />
 
             <q-tab-pane name="Belépés">

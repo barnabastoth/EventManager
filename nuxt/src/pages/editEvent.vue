@@ -11,7 +11,7 @@
             <q-item-tile style="font-size: 30px;" color="primary" icon="fa-calendar" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile style="font-size: 30px;" class="text-center" label>Új esemény létrehozása</q-item-tile>
+            <q-item-tile style="font-size: 30px;" class="text-center" label>{{event.name}} nevü esemény szerkesztése</q-item-tile>
           </q-item-main>
         </q-item>
         <q-stepper color="primary" ref="stepper" alternative-labels>
@@ -40,9 +40,6 @@
               <q-item-main>
                 <q-input v-model="event.description" float-label="Az esemény leírása"></q-input>
               </q-item-main>
-            </q-item>
-            <q-item>
-              {{event.speakers}}
             </q-item>
           </q-step>
 
@@ -186,9 +183,8 @@
                 </q-item-side>
                 <q-item-main>
                   <p>Maga az esemény:</p>
-                  <p>{{event.settings}}</p>
                   <q-btn-toggle
-                    v-model="event.settings.active"
+                    v-model="event.active"
                     toggle-color="primary"
                     :options="[
                           {label: 'Legyen látható', value: '1'},
@@ -198,7 +194,7 @@
                 </q-item-main>
               </q-item>
             </q-card>
-            <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="editEvent()" label="Esemény létrehozása" />
+            <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="editEvent()" label="Változtatások mentése" />
           </q-step>
 
           <q-stepper-navigation>

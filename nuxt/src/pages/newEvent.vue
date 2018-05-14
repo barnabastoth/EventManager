@@ -184,7 +184,7 @@
                 <q-item-main>
                   <p>Maga az esemény:</p>
                   <q-btn-toggle
-                    v-model="event.settings.active"
+                    v-model="event.active"
                     toggle-color="primary"
                     :options="[
                           {label: 'Legyen látható', value: '1'},
@@ -267,6 +267,7 @@ export default {
         address: '',
         date: '',
         description: '',
+        active: '1',
         fields: [
           {
             text: '',
@@ -297,9 +298,7 @@ export default {
             description: this.$store.state.loggedInUser.description
           }
         ],
-        settings: {
-          active: '1'
-        }
+        settings: {}
       }
     }
   },

@@ -12,11 +12,20 @@ public class NewEvent {
     private String address;
     private String date;
     private String description;
+    private String active;
     private List<Map<String, String>> fields = new ArrayList<>();
     private List<Map<String, String>> speakers = new ArrayList<>();
     private Map<String, String> settings = new HashMap<>();
 
     public NewEvent() { }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
 
     public String getDescription() {
         return description;

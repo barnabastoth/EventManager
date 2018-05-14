@@ -8,6 +8,7 @@ import application.model.event.NewEvent;
 import application.repository.CommentRepository;
 import application.repository.EventRepository;
 import application.repository.UserRepository;
+import application.utils.AuthenticationUtils;
 import application.utils.EventUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,22 +35,52 @@ public class EventController {
     @Autowired EventUtils eventUtils;
     @Autowired UserRepository userRepository;
     @Autowired CommentRepository commentRepository;
+    @Autowired AuthenticationUtils authenticationUtils;
+
+
+//    @GetMapping("/")
+//    public List<Event> serveAllEvent(Principal principal) {
+//        Boolean isUserAnAdminOrOwner = authenticationUtils.isUserAnAdminOrOwner(principal);
+//        System.out.println(isUserAnAdminOrOwner);
+//        return isUserAnAdminOrOwner ? eventRepository.findAll() : eventRepository.getActiveEvents();
+//    }
+//
+//    @GetMapping("/{id}")
+//    public Event serveEventById(@PathVariable("id") Long id, Principal principal) {
+//        Boolean isUserAnAdminOrOwner = authenticationUtils.isUserAnAdminOrOwner(principal);
+//        System.out.println(isUserAnAdminOrOwner);
+//        return isUserAnAdminOrOwner ? eventRepository.findById(id).orElse(null) : eventRepository.getActiveEventById(id).orElse(null);
+//    }
 
     @GetMapping("/")
-    public List<Event> serveAllEvent() {
-        return eventRepository.findAll();
+    public List<Event> serveAllEvent(Principal principal) {
+        if(principal != null) {
+            Optional<User> user = userRepository.findByUsername(principal.getName());
+            if(user.isPresent()) {
+                if(user.get().getRole().getRole().equals("Tulajdonos") || user.get().getRole().getRole().equals("Admin")) {
+                    return eventRepository.findAll();
+                }
+                return eventRepository.getActiveEvents();
+            }
+        }
+        return eventRepository.getActiveEvents();
     }
 
     @GetMapping("/{id}")
-    public Event serveEvent(@PathVariable("id") Long id) {
-        Optional<Event> event = eventRepository.findById(id);
-        return event.orElseGet(event::get);
-    }
-
-    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
-    @PostMapping("/new")
-    public int saveEvent(@RequestBody NewEvent newEvent) {
-        return eventUtils.createNewEvent(newEvent);
+    public Event serveEventById(@PathVariable("id") Long id, Principal principal) {
+        if(principal != null) {
+            Optional<User> user = userRepository.findByUsername(principal.getName());
+            if(user.isPresent()) {
+                if(user.get().getRole().getRole().equals("Tulajdonos") || user.get().getRole().getRole().equals("Admin")) {
+                    System.out.println("OWNER");
+                    return eventRepository.findById(id).orElse(null);
+                }
+                System.out.println("NOPE");
+                return eventRepository.getActiveEventById(id).orElse(null);
+            }
+        }
+        System.out.println("NOPEE");
+        return eventRepository.getActiveEventById(id).orElse(null);
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")

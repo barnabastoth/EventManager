@@ -8,10 +8,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-
-@NamedQueries({
-        @NamedQuery(name = "Event.getLatestEvent", query = "SELECT e FROM Event e WHERE id = (SELECT max(id) FROM Event)")
-})
 @Entity
 @Table(name = "event")
 public class Event {
@@ -21,6 +17,7 @@ public class Event {
     private String name;
     private String address;
     private LocalDateTime date;
+    private String active;
     @Column(length = 500) private String description;
 
     @JsonManagedReference
@@ -127,5 +124,13 @@ public class Event {
 
     public void setAttendees(Set<User> attendees) {
         this.attendees = attendees;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
     }
 }

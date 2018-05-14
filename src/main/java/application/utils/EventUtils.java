@@ -65,6 +65,7 @@ public class EventUtils {
             event1.setAddress(newEvent.getAddress());
             event1.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
             event1.setDescription(newEvent.getDescription());
+            event1.setActive(newEvent.getActive());
 
             event1.getFields().clear();
             event1.getSpeakers().clear();
@@ -87,8 +88,6 @@ public class EventUtils {
             }
             event1.setSpeakers(speakers);
 
-            event1.getSettings().put("Active", newEvent.getSettings().get("active"));
-            System.out.println(event1.getFields());
             eventRepository.saveAndFlush(event1);
         });
     }
