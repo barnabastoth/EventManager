@@ -6,7 +6,7 @@
         style="width:30vw;max-width:150px;"
       >
     </p>
-    <p class="text-faded">Sajnos ezt az oldalt nem engedhetem, hogy megnyisd. Nincs jogosultságod hozzá.<strong>(404)</strong></p>
+    <p class="text-faded">Sajnos ezt az oldalt nem engedhetem, hogy megnyisd. Nincs jogosultságod hozzá.</p>
     <q-btn
       color="primary"
       style="width:200px;"

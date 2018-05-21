@@ -68,16 +68,18 @@ public class SiteController {
         contactMessage.setTopic(newContactMessage.getTopic());
         contactMessage.setDate(LocalDateTime.now());
         if(newContactMessage.getUserId() == null) {
-            Optional<User> user = userRepository.findByUsername("Vendég");
-            user.ifPresent(contactMessage::setSender);
-            user.get().getContactMessages().add(contactMessage);
-            userRepository.saveAndFlush(user.get());
+            contactMessageRepository.saveAndFlush(contactMessage);
+//            Optional<User> user = userRepository.findByUsername("Vendég");
+//            user.ifPresent(contactMessage::setSender);
+//            user.get().getContactMessages().add(contactMessage);
+//            userRepository.saveAndFlush(user.get());
         } else {
             Optional<User> user = userRepository.findById(Long.parseLong(newContactMessage.getUserId()));
             user.ifPresent(contactMessage::setSender);
             user.get().getContactMessages().add(contactMessage);
             userRepository.saveAndFlush(user.get());
         }
+
         System.out.println("CONTACT DATE" + contactMessage.getDate());
         System.out.println("CONTACT MESSAGE: " + newContactMessage.getMessage());
         return new ResponseEntity<>(HttpStatus.OK);

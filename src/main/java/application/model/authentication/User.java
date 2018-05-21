@@ -5,6 +5,8 @@ import application.model.event.Event;
 import application.model.system.ContactMessage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -80,6 +82,7 @@ public class User {
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
+    @NotFound(action= NotFoundAction.IGNORE)
     @OrderBy("id")
     private Set<ContactMessage> contactMessages = new HashSet<>();
 

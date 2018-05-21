@@ -5,16 +5,16 @@ import application.model.authentication.EditUserPojo;
 import application.model.authentication.User;
 import application.repository.UserRepository;
 import application.service.UserService;
-import application.utils.DataExtractionUtils;
 import application.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,6 +46,36 @@ public class UserController {
     public ResponseEntity<?> saveUserEdit(@RequestBody EditUserPojo editUserPojo) {
         userUtils.saveUserEdit(editUserPojo);
         return null;
+    }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @GetMapping("/{username}/addAdmin")
+    public ResponseEntity<?> addAdmin(@PathVariable("username") String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isPresent()) {
+            if(user.get().getRole().getRole().equals("Tulajdonos")) {
+                return new ResponseEntity<>(username + " nevü felhasználó Tulajdonos az oldalon, ezért nincs jogod megváltoztatni a jogosultságait", HttpStatus.BAD_REQUEST);
+            } else {
+                user.get().getRole().setRole("Admin");
+                return new ResponseEntity<>(username + " nevü felhasználó mostantól Admin jogosultságokkal rendelkezik az oldalon.", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(username + " nevü felhasználó nem található az adatbázisban.", HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @GetMapping("/{username}/removeAdmin")
+    public ResponseEntity<?> removeAdmin(@PathVariable("username") String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isPresent()) {
+            if(user.get().getRole().getRole().equals("Tulajdonos")) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else {
+                user.get().getRole().setRole("Felhasználó");
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
