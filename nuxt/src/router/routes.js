@@ -45,6 +45,11 @@ export default [
         props: true,
         component: () => import('pages/profile')
       },
+      {
+        path: '/felhasznalo/:username/szerkesztes',
+        props: true,
+        component: () => import('pages/editProfile')
+      },
       { path: '/esemeny/uj',
         component: () => import('pages/newEvent')
       },

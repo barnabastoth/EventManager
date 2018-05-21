@@ -14,6 +14,7 @@ public class SiteSettings {
     private Boolean eventBarOpen;
     private String serverEmail;
     private String companyPhone;
+    @Column(length = 1024)
     private String contactPageText;
 
     public Long getId() {

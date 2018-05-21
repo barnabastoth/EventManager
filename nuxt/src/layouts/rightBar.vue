@@ -37,19 +37,19 @@
       </q-collapsible>
       <q-item class="main-color">
         <q-item-side>
-          <q-btn @click="$router.push('/felhasznalo/' + $store.state.loggedInUser.username)" icon="perm identity">
+          <q-btn push @click="$router.push('/felhasznalo/' + $store.state.loggedInUser.username)" icon="perm identity">
             <q-tooltip>Profil</q-tooltip>
           </q-btn>
-          <q-btn @click="logout()" icon="lock">
+          <q-btn push @click="logout()" icon="lock">
             <q-tooltip>Kijelentkezés</q-tooltip>
           </q-btn>
-          <q-btn icon="settings">
+          <q-btn push icon="settings">
             <q-tooltip>Beállítások</q-tooltip>
           </q-btn>
-          <q-btn icon="fa-info-circle">
+          <q-btn push icon="fa-info-circle">
             <q-tooltip>Segítség</q-tooltip>
           </q-btn>
-          <q-btn icon="fa-bug" @click="$store.dispatch('toggleSendErrorModal')">
+          <q-btn push icon="fa-bug" @click="$store.dispatch('toggleSendErrorModal')">
             <q-tooltip>Hiba jelentés</q-tooltip>
           </q-btn>
         </q-item-side>

@@ -128,11 +128,12 @@ public class EventController {
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/{id}/uploadImg")
-    public void saveEventImage(@PathVariable("id") Long id, @RequestBody byte[] img) {
+    public void saveEventImage(@PathVariable("id") Long id, @RequestBody String img) {
         System.out.println("UPLOAD IMG");
-        eventRepository.findById(id).ifPresent(event -> {
-            event.setImage(img);
-        });
+        System.out.println(img);
+//        eventRepository.findById(id).ifPresent(event -> {
+//            event.setImage(img);
+//        });
 
     }
 }

@@ -204,8 +204,6 @@
                   <q-uploader
                     auto-expand extensions=".gif, .jpg, .jpeg, .png"
                     :url= uploadUrl
-                    :hide-upload-button = "true"
-                    ref="uploader"
                   />
                 </q-item-main>
               </q-item>
@@ -331,7 +329,7 @@ export default {
       let self = this
       AXIOS.post('http://localhost:8089/api/event/new', this.$data.event)
         .then(response => {
-          self.$data.uploadUrl = '/api/event/' + response.data + '/uploadImg'
+          self.$data.uploadUrl = 'http://localhost:8089/api/event/' + response.data + '/uploadImg'
           self.$refs.uploader.upload()
           // self.$router.push('/esemeny/' + response.data)
           Notify.create({

@@ -5,6 +5,7 @@
         color="dark"
       >
         <q-btn
+          push
           @click="$store.dispatch('toggleLeftBar')"
           aria-label="Menu"
         >
@@ -21,6 +22,7 @@
             <q-item-main>{{$store.state.loggedInUser.username}}</q-item-main>
             <q-item-side right>
               <q-btn
+                push
                 aria-label="Menu"
               >
                 <q-icon v-if="$store.state.siteSettings.rightBarOpen === false" title="Felhasználói Panel" name="fa-angle-left">

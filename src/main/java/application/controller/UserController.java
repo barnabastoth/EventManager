@@ -1,14 +1,20 @@
 package application.controller;
 
+import application.model.authentication.EditUser;
+import application.model.authentication.EditUserPojo;
 import application.model.authentication.User;
+import application.repository.UserRepository;
 import application.service.UserService;
 import application.utils.DataExtractionUtils;
+import application.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,19 +24,31 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired private UserService userService;
-    @Autowired private DataExtractionUtils dataExtractionUtils;
+    @Autowired private UserRepository userRepository;
+    @Autowired private UserUtils userUtils;
 
-    @RequestMapping(value="/user", method = RequestMethod.GET)
+    @RequestMapping(value="/", method = RequestMethod.GET)
     public List<User> listUser(){ return userService.findAll(); }
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public User getOne(@PathVariable(value = "username") String username){ return userService.findByUsername(username); }
 
-    @GetMapping(value = "/user/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping("/{username}/edit")
+    public EditUser serveEditUser(@PathVariable("username") String username) {
+        return userRepository.getEditUserByUsername(username);
+    }
+
+    @PostMapping("/{username}/edit")
+    public ResponseEntity<?> saveUserEdit(@RequestBody EditUserPojo editUserPojo) {
+        userUtils.saveUserEdit(editUserPojo);
+        return null;
+    }
+
+    @GetMapping(value = "/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws IOException {
         User user = userService.findById(id);

@@ -5,7 +5,7 @@
   >
     <q-item>
       <q-item-side>
-        <q-item-tile color="primary" icon="fa-eye" />
+        <q-item-tile color="primary" icon="fa-chevron-left" />
       </q-item-side>
       <q-item-main>
         <p>Az oldal megnyitásakor a bal oldali menü</p>
@@ -21,7 +21,7 @@
     </q-item>
     <q-item>
       <q-item-side>
-        <q-item-tile color="primary" icon="fa-eye" />
+        <q-item-tile color="primary" icon="fa-chevron-right" />
       </q-item-side>
       <q-item-main>
         <p>Az oldal megnyitásakor a jobb oldali felhasználói panel</p>
@@ -37,7 +37,7 @@
     </q-item>
     <q-item>
       <q-item-side>
-        <q-item-tile color="primary" icon="fa-eye" />
+        <q-item-tile color="primary" icon="fa-at" />
       </q-item-side>
       <q-item-main>
         <p>Az itt lévő szöveg fog megjelenni a kapcsolat oldalon</p>
@@ -67,7 +67,7 @@ export default {
             color: 'positive',
             position: 'bottom',
             timeout: 2000,
-            message: 'Az oldal beállításai elmentődtek, mostantól minden új látogató ezeket fogja használni.!'
+            message: 'Az oldal beállításai elmentődtek, mostantól minden új látogató ezeket fogja használni.'
           })
         })
     }

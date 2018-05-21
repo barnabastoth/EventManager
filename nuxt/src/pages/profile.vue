@@ -14,6 +14,12 @@
                 <q-item-tile label>{{user.lastName}} {{user.name}}</q-item-tile>
                 <q-item-tile sublabel>{{user.username}}</q-item-tile>
               </q-item-main>
+              <q-item-side right
+              >
+                <q-btn icon-right="fa-edit" color="primary" push @click="$router.push('/felhasznalo/' + getProfileUsername + '/szerkesztes')">
+                  Szerkesztés
+                </q-btn>
+              </q-item-side>
             </q-item>
             <q-card-media>
               <img src="statics/parallax2.jpg">
@@ -116,6 +122,11 @@ export default {
       .then(response => {
         self.user = response.data
       })
+  },
+  computed: {
+    getProfileUsername: function () {
+      return this.username
+    }
   }
 }
 </script>

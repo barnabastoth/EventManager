@@ -1,8 +1,7 @@
 package application.repository;
 
+import application.model.authentication.EditUser;
 import application.model.authentication.User;
-import application.model.authentication.UserNecessaryFields;
-import application.model.event.Speaker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,8 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    @Query("select new application.model.event.Speaker(u.id, u.name, u.lastName, u.username, u.description) from User u")
 //    Speaker getSpeakers(@Param("id") Long id);
 
-//    @Query("select new application.model.authentication.UserNecessaryFields(u.username, u.profession, count (e.id)) " +
-//            "from User u join u.events e where u.username= :un")
-//    UserNecessaryFields findUNFByUsername(@Param("un") String un);
-//    LOMBOK
+    @Query("select new application.model.authentication.EditUser(u.id, u.name, u.lastName, u.username, u.email, u.profession, u.description) FROM User u where u.username = :username")
+    EditUser getEditUserByUsername(@Param("username") String username);
 }
