@@ -3,9 +3,11 @@ import Vuex from 'vuex'
 import { Notify } from 'quasar'
 import AXIOS from 'axios'
 import Carousel3d from 'vue-carousel-3d'
+import Vuelidate from 'vuelidate'
 
 Vue.use(Vuex)
 Vue.use(Carousel3d)
+Vue.use(Vuelidate)
 
 const LOGIN_SUCCESS = 'LOGIN_S0UCCESS'
 const LOGOUT = 'LOGOUT'

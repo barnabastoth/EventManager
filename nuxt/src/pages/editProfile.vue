@@ -43,7 +43,7 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-calendar" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="user.email" float-label="Email"></q-input>
+                <q-input :error="$v.form.email.$error" v-model="user.email" float-label="Email"></q-input>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -112,10 +112,14 @@
 import store from '../store'
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   name: 'edit-profile',
   data: function () {
     return {
+      form: {
+        email: ''
+      },
       user: [],
       oldPassword1: '',
       oldPassword2: '',
@@ -140,23 +144,38 @@ export default {
       this.$router.push('/noAccess')
     }
   },
+  validations: {
+    form: {
+      email: { required, email }
+    }
+  },
   methods: {
     saveProfileChanges () {
       let self = this
-      AXIOS.post('/api/user/' + this.username + '/edit', this.$data.user)
-        .then(() => {
-          self.$router.push('/felhasznalo/' + self.username)
-          Notify.create({
-            type: 'positive',
-            color: 'positive',
-            position: 'bottom',
-            timeout: 3000,
-            message: 'A változtatásaid sikeresen ellettek mentve.'
+      if (this.$v.form.$error) {
+        Notify.create({
+          type: 'info',
+          color: 'info',
+          position: 'bottom',
+          timeout: 3000,
+          message: 'Egy vagy több hiva van a mezőkkel. Ellenőrizd újra őket.'
+        })
+      } else {
+        AXIOS.post('/api/user/' + this.username + '/edit', this.$data.user)
+          .then(() => {
+            self.$router.push('/felhasznalo/' + self.username)
+            Notify.create({
+              type: 'positive',
+              color: 'positive',
+              position: 'bottom',
+              timeout: 3000,
+              message: 'A változtatásaid sikeresen ellettek mentve.'
+            })
           })
-        })
-        .catch(error => {
-          console.log(error)
-        })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     }
   }
 }
