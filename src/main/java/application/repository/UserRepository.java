@@ -1,5 +1,6 @@
 package application.repository;
 
+import application.model.authentication.BasicUser;
 import application.model.authentication.EditUser;
 import application.model.authentication.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select new application.model.authentication.EditUser(u.id, u.name, u.lastName, u.username, u.email, u.profession, u.description) FROM User u where u.username = :username")
     EditUser getEditUserByUsername(@Param("username") String username);
+
 }

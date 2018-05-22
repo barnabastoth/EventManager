@@ -15,40 +15,48 @@
         <q-item-tile sublabel>{{user.role}}</q-item-tile>
       </q-item-main>
       <q-item-side right>
-        <q-item-tile icon="fa-edit"></q-item-tile>
+        <q-item-tile v-if="user.active === 1" color="primary" icon="fa-eye"></q-item-tile>
+        <q-item-tile v-if="user.active === 0" color="red" icon="fa-eye-slash"></q-item-tile>
       </q-item-side>
     </q-item>
     <q-action-sheet
       v-model="actionSheet"
-      :title="clickedUser.username + ' nevü felhasználó'"
+      :title="clickedUser.username + ' nevü felhasználó kezelése'"
       :actions="[
       {
-        label: 'Megnyitása',
+        label: 'Megnyitás',
         icon: 'fa-link',
         color: 'primary',
         handler: openUserProfile
       },
       {
-        label: 'Szerkesztése',
+        label: 'Szerkesztés',
         icon: 'fa-edit',
         color: 'primary',
         handler: openUserEdit
       },
+      {},
       {
-        label: 'Kitiltása',
+        label: 'Tiltás',
         icon: 'fa-ban',
-        color: 'red',
-        handler: bannUser
+        color: 'warning',
+        handler: banUser
+      },
+      {
+        label: 'Tiltás levétele',
+        icon: 'fa-check',
+        color: 'info',
+        handler: unBanUser
       },
       {},
       {
-        label: 'Admin adása',
+        label: 'Admin adás',
         icon: 'fa-plus-circle',
         color: 'info',
         handler: addAdmin
       },
       {
-        label: 'Admin elvétele',
+        label: 'Admin elvétel',
         icon: 'fa-minus-circle',
         color: 'warning',
         handler: removeAdmin
@@ -106,21 +114,28 @@ export default {
         message: 'Megnyitottam az ' + self.$data.clickedUser.username + ' nevü felhasználó profiljának szerkesztő felületét.'
       })
     },
-    bannUser () {
-      console.log('asd')
-    },
     addAdmin () {
       let self = this
       AXIOS.get('/api/user/' + this.$data.clickedUser.username + '/addAdmin')
         .then(response => {
-          self.$data.users[self.$data.clickedUserIndex].role = response.data['User'].role
-          Notify.create({
-            type: 'positive',
-            color: 'positive',
-            position: 'bottom',
-            timeout: 2000,
-            message: response.data['Message']
-          })
+          if (response.data['Role'] !== undefined) {
+            self.$data.users[self.$data.clickedUserIndex].role = response.data['Role']
+            Notify.create({
+              type: 'positive',
+              color: 'positive',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          } else {
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          }
         })
         .catch(error => {
           console.log(error)
@@ -129,7 +144,7 @@ export default {
             color: 'info',
             position: 'bottom',
             timeout: 2000,
-            message: error.data
+            message: self.$data.clickedUser.username + ' nevü felhasználó nem található a rendszerben.'
           })
         })
     },
@@ -137,15 +152,24 @@ export default {
       let self = this
       AXIOS.get('/api/user/' + this.$data.clickedUser.username + '/removeAdmin')
         .then(response => {
-          console.log(self.$data.users[self.$data.clickedUserIndex])
-          self.$data.users[self.$data.clickedUserIndex].role = response.data['User'].role
-          Notify.create({
-            type: 'positive',
-            color: 'positive',
-            position: 'bottom',
-            timeout: 2000,
-            message: response.data['Message']
-          })
+          if (response.data['Role'] !== undefined) {
+            self.$data.users[self.$data.clickedUserIndex].role = response.data['Role']
+            Notify.create({
+              type: 'positive',
+              color: 'positive',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          } else {
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          }
         })
         .catch(error => {
           console.log(error)
@@ -154,7 +178,75 @@ export default {
             color: 'info',
             position: 'bottom',
             timeout: 2000,
-            message: self.$data.clickedUser.username + ' tulajdonos az oldalon, ezért nincs jogod megváltoztatni az ő jogait.'
+            message: self.$data.clickedUser.username + ' nevü felhasználó nem található a rendszerben.'
+          })
+        })
+    },
+    banUser () {
+      let self = this
+      AXIOS.get('/api/user/' + this.$data.clickedUser.username + '/ban')
+        .then(response => {
+          if (response.data['Active'] !== undefined) {
+            self.$data.users[self.$data.clickedUserIndex].active = response.data['Active']
+            Notify.create({
+              type: 'positive',
+              color: 'positive',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          } else {
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          Notify.create({
+            type: 'info',
+            color: 'info',
+            position: 'bottom',
+            timeout: 2000,
+            message: self.$data.clickedUser.username + ' nevü felhasználó nem található a rendszerben.'
+          })
+        })
+    },
+    unBanUser () {
+      let self = this
+      AXIOS.get('/api/user/' + this.$data.clickedUser.username + '/unban')
+        .then(response => {
+          if (response.data['Active'] !== undefined) {
+            self.$data.users[self.$data.clickedUserIndex].active = response.data['Active']
+            Notify.create({
+              type: 'positive',
+              color: 'positive',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          } else {
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 2000,
+              message: response.data['Message']
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          Notify.create({
+            type: 'info',
+            color: 'info',
+            position: 'bottom',
+            timeout: 2000,
+            message: self.$data.clickedUser.username + ' nevü felhasználó nem található a rendszerben.'
           })
         })
     }

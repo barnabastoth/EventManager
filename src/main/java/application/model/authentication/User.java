@@ -72,19 +72,19 @@ public class User {
     @JsonManagedReference
     private Role role;
 
-    @ManyToMany(mappedBy = "attendees")
+    @ManyToMany(mappedBy = "attendees", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Event> attendedEvents = new HashSet<>();
 
-    @ManyToMany(mappedBy = "speakers")
+    @ManyToMany(mappedBy = "speakers", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Event> speakerAt = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     @NotFound(action= NotFoundAction.IGNORE)
     @OrderBy("id")

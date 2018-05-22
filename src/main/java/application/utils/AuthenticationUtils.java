@@ -7,6 +7,7 @@ import application.repository.RoleRepository;
 import application.repository.UserRepository;
 import application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +35,12 @@ public class AuthenticationUtils {
         userService.save(user);
     }
 
-    public Boolean isUserAnAdminOrOwner(Principal principal) {
+    public Boolean isUserAnOwner() {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
         if(principal != null) {
             Optional<User> user = userRepository.findByUsername(principal.getName());
             if(user.isPresent()) {
-                return user.get().getRole().getRole().equals("Tulajdonos") || user.get().getRole().getRole().equals("Admin");
+                return user.get().getRole().getRole().equals("Tulajdonos");
             }
         }
         return false;

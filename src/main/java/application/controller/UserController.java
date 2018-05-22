@@ -1,13 +1,16 @@
 package application.controller;
 
 import application.model.authentication.EditUser;
-import application.model.authentication.EditUserPojo;
+import application.model.authentication.NewEditSure;
+import application.model.authentication.Role;
 import application.model.authentication.User;
 import application.repository.RoleRepository;
 import application.repository.UserRepository;
 import application.service.UserService;
+import application.utils.AuthenticationUtils;
 import application.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +37,7 @@ public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private UserUtils userUtils;
     @Autowired private RoleRepository roleRepository;
+    @Autowired private AuthenticationUtils authenticationUtils;
 
     @RequestMapping(value="/", method = RequestMethod.GET)
     public List<User> listUser(){ return userService.findAll(); }
@@ -47,8 +51,8 @@ public class UserController {
     }
 
     @PostMapping("/{username}/edit")
-    public ResponseEntity<?> saveUserEdit(@RequestBody EditUserPojo editUserPojo) {
-        userUtils.saveUserEdit(editUserPojo);
+    public ResponseEntity<?> saveUserEdit(@RequestBody NewEditSure newEditSure) {
+        userUtils.saveUserEdit(newEditSure);
         return null;
     }
 
@@ -57,19 +61,24 @@ public class UserController {
     public ResponseEntity<?> addAdmin(@PathVariable("username") String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isPresent()) {
-            if(user.get().getRole().getRole().equals("Tulajdonos")) {
-                return new ResponseEntity<>(username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod." ,HttpStatus.BAD_REQUEST);
-            } else {
-                Map<String, Object> response = new HashMap<>();
-                user.get().setRole(roleRepository.findByRole("Admin"));
-                userRepository.saveAndFlush(user.get());
-
-                response.put("User", user.get());
-                response.put("Message", username +  " nevü felhasználó mostantól Admin jogosultságokkal rendelkezik az oldalon.");
-                return new ResponseEntity<>(response, HttpStatus.OK);
+            Map<String, Object> response = new HashMap<>();
+            switch (user.get().getRole().getRole()) {
+                case "Felhasználó":
+                    Role newRole = roleRepository.findByRole("Admin");
+                    user.get().setRole(newRole);
+                    userRepository.saveAndFlush(user.get());
+                    response.put("Message", username + " nevü felhasználó mostantól Admin jogosultságokkal rendelkezik az oldalon.");
+                    response.put("Role", newRole.getRole());
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Admin":
+                    response.put("Message", username + " nevü felhasználó már Admin jogosultságokkal rendelkezik az oldalon.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Tulajdonos":
+                    response.put("Message", username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(username + " nevü felhasználó nem található az adatbázisban.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
@@ -77,19 +86,80 @@ public class UserController {
     public ResponseEntity<?> removeAdmin(@PathVariable("username") String username) {
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isPresent()) {
-            if(user.get().getRole().getRole().equals("Tulajdonos")) {
-                return new ResponseEntity<>(username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod." ,HttpStatus.BAD_REQUEST);
-            } else {
-                Map<String, Object> response = new HashMap<>();
-                user.get().setRole(roleRepository.findByRole("Felhasználó"));
-                userRepository.saveAndFlush(user.get());
-
-                response.put("User", user.get());
-                response.put("Message", username +  " nevü felhasználó mostantól Felhasználói jogosultságokkal rendelkezik az oldalon.");
-                return new ResponseEntity<>(response, HttpStatus.OK);
+            Map<String, Object> response = new HashMap<>();
+            switch (user.get().getRole().getRole()) {
+                case "Felhasználó":
+                    response.put("Message", username + " nevü felhasználó már igyis csak Felhasználói jogosultságokkal rendelkezik.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Admin":
+                    Role newRole = roleRepository.findByRole("Felhasználó");
+                    response.put("Role", newRole.getRole());
+                    response.put("Message", username + " nevü felhasználó mostantól csak Felhasználói jogosultságokkal rendelkezik..");
+                    user.get().setRole(newRole);
+                    userRepository.saveAndFlush(user.get());
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Tulajdonos":
+                    response.put("Message", username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(username + " nevü felhasználó nem található az adatbázisban.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @GetMapping("/{username}/ban")
+    public ResponseEntity<?> banUser(@PathVariable("username") String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isPresent()) {
+            Map<String, Object> response = new HashMap<>();
+            switch (user.get().getRole().getRole()) {
+                case "Felhasználó":
+                    if(user.get().getActive() == 0) {
+                        response.put("Message", username + " nevü felhasználó már ki van tiltva az oldalról.");
+                        return new ResponseEntity<>(response, HttpStatus.OK);
+                    }
+                    user.get().setActive(0);
+                    userRepository.saveAndFlush(user.get());
+                    response.put("Message", username + " nevü felhasználó mostantól ki van tiltva, nem fog tudni többet bejelentkezni.");
+                    response.put("Active", user.get().getActive());
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Admin":
+                    response.put("Message", username + " nevü felhasználó Admin az oldalon. Ehez a müvelethez nincs jogod.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Tulajdonos":
+                    response.put("Message", username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
+    @GetMapping("/{username}/unban")
+    public ResponseEntity<?> unBanUser(@PathVariable("username") String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isPresent()) {
+            Map<String, Object> response = new HashMap<>();
+            switch (user.get().getRole().getRole()) {
+                case "Felhasználó":
+                    if (user.get().getActive() == 1) {
+                        response.put("Message", username + " nevü felhasználó nincs kitiltva az oldalról.");
+                        return new ResponseEntity<>(response, HttpStatus.OK);
+                    }
+                    user.get().setActive(1);
+                    userRepository.saveAndFlush(user.get());
+                    response.put("Message", username + " nevü felhasználó mostantól nincs kitiltva az oldalról.");
+                    response.put("Active", user.get().getActive());
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Admin":
+                    response.put("Message", username + " nevü felhasználó Admin az oldalon. Ehez a müvelethez nincs jogod.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                case "Tulajdonos":
+                    response.put("Message", username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod.");
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)

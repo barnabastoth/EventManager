@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EditUserPojo {
+public class NewEditSure {
     private String id;
     private String name;
     private String lastName;
