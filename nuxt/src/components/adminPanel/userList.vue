@@ -60,6 +60,13 @@
         icon: 'fa-minus-circle',
         color: 'warning',
         handler: removeAdmin
+      },
+      {},
+      {
+        label: 'Törlés véglegesen',
+        icon: 'fa-trash',
+        color: 'red',
+        handler: deleteUser
       }
     ]"
     />
@@ -248,6 +255,64 @@ export default {
             timeout: 2000,
             message: self.$data.clickedUser.username + ' nevü felhasználó nem található a rendszerben.'
           })
+        })
+    },
+    deleteUser () {
+      let self = this
+      this.$q.dialog({
+        title: 'Figyelem! Biztos véglegesen törölni akarod ezt a felhasználót?',
+        message: 'Írd be a felhasználó pontos Felhasználói nevét, hogy törölhesd. A felhasználói neve: ' + self.$data.clickedUser.username,
+        color: 'primary',
+        ok: {
+          push: true,
+          color: 'warning',
+          label: 'Végleges törlés.'
+        },
+        cancel: {
+          push: true,
+          color: 'info',
+          label: 'Vissza'
+        },
+        preventClose: true,
+        noBackdropDismiss: false, // gets set to "true" automatically if preventClose is "true"
+        noEscDismiss: false, // gets set to "true" automatically if preventClose is "true"
+        position: 'bottom',
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        }
+      })
+        .then(data => {
+          if (data.trim().toUpperCase() === self.$data.clickedUser.username.toUpperCase()) {
+            AXIOS.get('/api/user/' + this.$data.clickedUser.username + '/delete')
+              .then(() => {
+                self.$data.users.splice(self.$data.clickedUserIndex, 1)
+                Notify.create({
+                  type: 'positive',
+                  color: 'positive',
+                  position: 'bottom',
+                  timeout: 2000,
+                  message: self.$data.clickedUser.username + ' nevü felhasználó törölve lett az adatbázisból.'
+                })
+              })
+              .catch(() => {
+                Notify.create({
+                  type: 'info',
+                  color: 'info',
+                  position: 'bottom',
+                  timeout: 2000,
+                  message: 'Ehez a művelethez Tulajdonosi jogosultság szükséges.'
+                })
+              })
+          } else {
+            Notify.create({
+              type: 'info',
+              color: 'info',
+              position: 'bottom',
+              timeout: 3000,
+              message: 'A beírt név nem helyes, biztos, hogy kiakarod törölni ezt a felhasználót?'
+            })
+          }
         })
     }
   }

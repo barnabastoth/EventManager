@@ -13,12 +13,6 @@
             <q-item-tile label>Üdvözöllek újra köztünk, itt tudsz belépni.</q-item-tile>
           </q-item-main>
         </q-item>
-        <q-item v-show="login.hasErrors">
-          <q-item-side icon="fa-danger" inverted color="green" />
-          <q-item-main>
-            <q-item-tile label>{{login.errors}}</q-item-tile>
-          </q-item-main>
-        </q-item>
         <br>
         <q-input float-label="Felhasználónév" v-model="login.username" inverted color="primary" type="text" :before="[{icon: 'fa-address-card', handler () {}}]"/>
         <br>
@@ -32,13 +26,13 @@
         <q-item>
           <q-item-side icon="fa-info" inverted color="green" />
           <q-item-main>
-            <q-item-tile label>Kérlek valós adatokat adj meg a regisztráció során</q-item-tile>
+            <q-item-tile label>Kérlek valós adatokat adj meg a regisztráció során.</q-item-tile>
           </q-item-main>
         </q-item>
         <q-item v-show="register.hasErrors">
           <q-item-side icon="fa-exclamation-triangle" inverted color="red" />
           <q-item-main>
-            <q-item-tile label>{{register.errors}}</q-item-tile>
+            <q-item-tile v-for="error in register.errors" :key="error" label>{{error}}</q-item-tile>
           </q-item-main>
         </q-item>
         <br>
@@ -67,9 +61,7 @@ export default {
     return {
       login: {
         username: '',
-        password: '',
-        errors: {},
-        hasErrors: false
+        password: ''
       },
       register: {
         username: '',
@@ -88,15 +80,7 @@ export default {
       this.$data.register.errors = ['asd']
     },
     performLogin () {
-      let self = this
-      this.$store.dispatch('login', {'username': this.$data.login.username, 'password': this.$data.login.password})
-        .then(() => {
-          self.$router.push('/')
-        })
-        .catch((error) => {
-          self.login.errors = error.response.data
-          self.login.hasErrors = true
-        })
+      this.$store.dispatch('login', this.$data.login)
     },
     performRegistration () {
       let self = this

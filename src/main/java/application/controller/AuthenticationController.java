@@ -70,7 +70,7 @@ public class AuthenticationController {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>("Ez a felhasználónév vagy email-cím már foglalt", HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new ArrayList<>(Collections.singletonList("Ez a felhasználónév vagy email cím már foglalt")), HttpStatus.CONFLICT);
     }
 
     @PostMapping("/me")

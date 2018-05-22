@@ -244,12 +244,8 @@
 <script>
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
-// import Countdown from 'vuejs-countdown'
 export default {
   name: 'event',
-  // components: {
-  //   Countdown
-  // },
   data: function () {
     return {
       event: [],

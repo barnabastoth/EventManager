@@ -162,6 +162,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasAuthority('Tulajdonos')")
+    @GetMapping("/{username}/delete")
+    public void deleteUser(@PathVariable("username") String username) {
+        userRepository.deleteByUsername(username);
+    }
+
     @GetMapping(value = "/profilepic/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void serveProfileImage(@PathVariable("id") Long id, HttpServletResponse response)
             throws IOException {

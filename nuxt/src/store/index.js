@@ -76,32 +76,28 @@ const store = new Vuex.Store({
       commit(TOGGLE_AUTH_MODAL)
     },
     login ({ commit }, credentials) {
-      return new Promise((resolve, reject) => {
-        AXIOS.post('/api/login', credentials)
-          .then(response => {
-            console.log(response.data)
-            localStorage.setItem('token', 'Bearer' + response.data[0].token)
-            commit(LOGIN_SUCCESS, response.data[1])
-            Notify.create({
-              type: 'positive',
-              color: 'positive',
-              position: 'bottom',
-              timeout: 2000,
-              message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
-            })
-            resolve()
-          }).catch(error => {
-            console.log(error)
-            Notify.create({
-              type: 'info',
-              color: 'info',
-              position: 'bottom',
-              timeout: 3000,
-              message: 'Sajnos a bejelentkezés sikertelen volt, ellenőrizd le újra a felhasználóneved és jelszavad.'
-            })
-            reject(error)
+      AXIOS.post('/api/login', credentials)
+        .then(response => {
+          console.log(response.data)
+          localStorage.setItem('token', 'Bearer' + response.data[0].token)
+          commit(LOGIN_SUCCESS, response.data[1])
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            position: 'bottom',
+            timeout: 2000,
+            message: 'Sikeresen bejelentkeztél, üdv újra köztünk!'
           })
-      })
+        }).catch(error => {
+          console.log(error)
+          Notify.create({
+            type: 'info',
+            color: 'info',
+            position: 'bottom',
+            timeout: 4000,
+            message: 'Sajnos a bejelentkezés sikertelen volt, ellenőrizd le újra a felhasználóneved és a jelszavad.'
+          })
+        })
     },
     logInUserWithToken ({ commit }) {
       let token = localStorage.getItem('token')
