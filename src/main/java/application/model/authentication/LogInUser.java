@@ -1,7 +1,12 @@
 package application.model.authentication;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Size;
 
+@Getter
+@Setter
 public class LogInUser {
 
     @Size(min = 6, max = 20, message = "A jelszavadnak legalább {min} és legfeljebb {max} karakterből kell állnia.")
@@ -10,11 +15,4 @@ public class LogInUser {
     @Size(min = 6, max = 20, message = "A jelszavadnak legalább {min} és legfeljebb {max} karakterből kell állnia.")
     private String password;
 
-    public String getUsername() { return username; }
-
-    public void setUsername(String username) { this.username = username; }
-
-    public String getPassword() { return password; }
-
-    public void setPassword(String password) { this.password = password; }
 }

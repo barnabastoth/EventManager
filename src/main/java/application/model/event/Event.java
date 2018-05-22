@@ -3,11 +3,15 @@ package application.model.event;
 import application.model.authentication.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "event")
 public class Event {
@@ -49,97 +53,4 @@ public class Event {
     )
     private Set<User> attendees = new HashSet<>();
 
-    public Event() { }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<EventField> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<EventField> fields) {
-        this.fields = fields;
-    }
-
-    public Map<String, String> getSettings() {
-        return settings;
-    }
-
-    public void setSettings(Map<String, String> settings) {
-        this.settings = settings;
-    }
-
-    public Set<User> getSpeakers() {
-        return speakers;
-    }
-
-    public void setSpeakers(Set<User> speakers) {
-        this.speakers = speakers;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<User> getAttendees() {
-        return attendees;
-    }
-
-    public void setAttendees(Set<User> attendees) {
-        this.attendees = attendees;
-    }
-
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
-    }
 }

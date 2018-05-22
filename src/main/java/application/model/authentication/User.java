@@ -5,6 +5,8 @@ import application.model.event.Event;
 import application.model.system.ContactMessage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -15,6 +17,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "User")
 public class User {
@@ -86,137 +90,6 @@ public class User {
     @OrderBy("id")
     private Set<ContactMessage> contactMessages = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getProfession() {
-        return profession;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
-    }
-
-    public LocalDateTime getMemberSince() {
-        return memberSince;
-    }
-
-    public void setMemberSince(LocalDateTime memberSince) {
-        this.memberSince = memberSince;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Set<Event> getAttendedEvents() {
-        return attendedEvents;
-    }
-
-    public void setAttendedEvents(Set<Event> attendedEvents) {
-        this.attendedEvents = attendedEvents;
-    }
-
-    public Set<Event> getSpeakerAt() {
-        return speakerAt;
-    }
-
-    public void setSpeakerAt(Set<Event> speakerAt) {
-        this.speakerAt = speakerAt;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<ContactMessage> getContactMessages() {
-        return contactMessages;
-    }
-
-    public void setContactMessages(Set<ContactMessage> contactMessages) {
-        this.contactMessages = contactMessages;
-    }
 }
 
 

@@ -1,12 +1,15 @@
 package application.model.authentication;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "role")
 public class Role {
@@ -17,28 +20,5 @@ public class Role {
 	@OneToMany(mappedBy = "role")
 	@JsonBackReference
 	private Set<User> users = new HashSet<>();
-
-
-	public Role() {
-	}
-	public Role(String role) {
-		this.role = role;
-	}
-	public Set<User> getUsers() {
-		return users;
-	}
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-	public Long getId() {
-		return id;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	
 	
 }
