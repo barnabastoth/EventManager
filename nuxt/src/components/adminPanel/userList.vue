@@ -39,13 +39,13 @@
       {
         label: 'Tiltás',
         icon: 'fa-ban',
-        color: 'warning',
+        color: 'red',
         handler: banUser
       },
       {
         label: 'Tiltás levétele',
         icon: 'fa-check',
-        color: 'info',
+        color: 'green',
         handler: unBanUser
       },
       {},

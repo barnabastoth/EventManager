@@ -319,7 +319,7 @@ export default {
   },
   beforeMount () {
     let self = this
-    AXIOS.get('/api/user')
+    AXIOS.get('/api/user/')
       .then(response => {
         self.$data.users = response.data
       })

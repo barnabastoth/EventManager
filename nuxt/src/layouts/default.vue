@@ -6,6 +6,7 @@
     <q-page-container>
       <router-view></router-view>
     </q-page-container>
+    <authentication></authentication>
   </q-layout>
 </template>
 
@@ -13,13 +14,15 @@
 import leftBar from './leftBar'
 import rightBar from './rightBar'
 import topBar from './topBar'
+import authentication from '../components/authentication'
 
 export default {
   name: 'LayoutDefault',
   components: {
     leftBar,
     rightBar,
-    topBar
+    topBar,
+    authentication
   }
 }
 </script>

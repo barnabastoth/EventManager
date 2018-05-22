@@ -35,15 +35,13 @@
             </q-item-side>
           </q-item>
         </div>
-        <div class="cursor-pointer" @click="$router.push('/bejelentkezes')" v-if="$store.state.isLoggedIn === false">
-          <q-item>
-            <q-item-side icon="lock open" inverted color="green" />
-            <q-item-main>
-              <q-item-tile label>Belépés</q-item-tile>
-              <q-item-tile sublabel>Regisztráció</q-item-tile>
-            </q-item-main>
-          </q-item>
-        </div>
+        <q-item class="cursor-pointer" @click.native="$store.dispatch('toggleAuthModal')" v-if="$store.state.isLoggedIn === false">
+          <q-item-side icon="lock open" inverted color="green" />
+          <q-item-main>
+            <q-item-tile label>Belépés</q-item-tile>
+            <q-item-tile sublabel>Regisztráció</q-item-tile>
+          </q-item-main>
+        </q-item>
       </q-toolbar>
     </q-layout-header>
   </div>

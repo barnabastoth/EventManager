@@ -33,6 +33,7 @@ const store = new Vuex.Store({
       state.loggedInUser = user
       state.rightBarOpen = true
       state.leftBarOpen = true
+      state.showAuthModal = false
       AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     },
     [LOGOUT] (state) {

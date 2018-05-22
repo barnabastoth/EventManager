@@ -48,6 +48,9 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final User user = userService.findByUsername(logInUser.getUsername());
         if(user != null) {
+            if(user.getActive() == 0) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             List<Object> entities = new ArrayList<>();
             final String token = jwtTokenUtil.generateToken(user);
             entities.add(new AuthToken(token));
@@ -72,7 +75,6 @@ public class AuthenticationController {
 
     @PostMapping("/me")
     public ResponseEntity<?> resourceServer(@RequestBody String token) {
-        System.out.println("TOKKEN" + token);
         if(token != null) {
             token = token.replace(TOKEN_PREFIX,"");
             User user = userService.findByUsername(jwtTokenUtil.getUsernameFromToken(token));
