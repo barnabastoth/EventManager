@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -25,7 +27,8 @@ public class Event {
     private byte[] image;
     private double latitude;
     private double longitude;
-    @Column(length = 1024) private String description;
+    @Lob @Type(type = "text")private String description;
+    @Lob @Type(type = "text")private String shortDescription;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)

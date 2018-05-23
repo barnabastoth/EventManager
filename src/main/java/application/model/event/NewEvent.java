@@ -16,6 +16,7 @@ public class NewEvent {
     private String address;
     private String date;
     private String description;
+    private String shortDescription;
     private String active;
     private double latitude;
     private double longitude;

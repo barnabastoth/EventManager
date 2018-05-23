@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -55,7 +56,8 @@ public class User {
     @Size(min = 6, max = 100, message = "A weboldalad címének legalább {min} és legfeljebb {max} karakterből kell állnia.")
     private String website;
 
-    @Column(name = "description", columnDefinition="text", length = 1024)
+    @Lob @Type(type = "text")
+    @Column(name = "description", columnDefinition="text")
     @Size(min = 20, max = 420, message = "A bemutatkozódnak legalább {min} és legfeljebb {max} karakterből kell állnia.")
     private String description;
 

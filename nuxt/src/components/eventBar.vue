@@ -28,7 +28,7 @@
           <q-list>
             <q-item>
               <q-item-side>
-                <q-item-tile color="primary" icon="local bar" />
+                <q-item-tile color="primary" icon="fa-globe" />
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.name}}</q-item-tile>
@@ -37,10 +37,18 @@
             </q-item>
             <q-item>
               <q-item-side>
-                <q-item-tile color="red" icon="fa-sender-md" />
+                <q-item-tile color="primary" icon="fa-map-marker" />
               </q-item-side>
               <q-item-main>
-                <q-item-tile label>{{event.description}}</q-item-tile>
+                <q-item-tile label>{{event.address}}</q-item-tile>
+              </q-item-main>
+            </q-item>
+            <q-item>
+              <q-item-side>
+                <q-item-tile color="red" icon="fa-book" />
+              </q-item-side>
+              <q-item-main>
+                <q-item-tile label>{{event.shortDescription}}</q-item-tile>
               </q-item-main>
             </q-item>
           </q-list>

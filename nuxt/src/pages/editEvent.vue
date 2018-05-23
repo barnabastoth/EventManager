@@ -25,7 +25,6 @@
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
-              {{event.longitude}}
               <q-item-main>
                 <vue-google-autocomplete
                   style="width: 100%"
@@ -49,7 +48,13 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-book" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.description" float-label="Az esemény leírása"></q-input>
+                <q-input v-model="event.shortDescription" float-label="Az esemény rövid leírása. Ez fog megjelenni ott ahol nem fér ki a hosszú."></q-input>
+              </q-item-main>
+            </q-item>
+            <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
+              <q-item-side icon="fa-book" color="primary"></q-item-side>
+              <q-item-main>
+                <q-input v-model="event.description" float-label="Az esemény részletes leírása"></q-input>
               </q-item-main>
             </q-item>
           </q-step>

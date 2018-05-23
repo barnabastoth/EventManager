@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Lob @Type(type = "text")
     private String message;
 
     private LocalDateTime date;
