@@ -36,7 +36,7 @@
                 </q-item>
               </q-card>
               <q-card style="margin: 5px;" @click.native="showAttendeesModal = true" class="shadow-5 cursor-pointer"
-                      v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
+                      v-show="$store.getters.isUserAnAdminOrOwner">
                 <q-item>
                   <q-item-side color="info" icon="fa-users" />
                   <q-item-main>
@@ -45,7 +45,7 @@
                 </q-item>
               </q-card>
               <q-card style="margin: 5px;" @click.native="$router.push('/esemeny/' + $data.event.id + '/szerkesztes')" class="shadow-5 cursor-pointer"
-                      v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
+                      v-show="$store.getters.isUserAnAdminOrOwner">
                 <q-item>
                   <q-item-side color="info" icon="fa-edit" />
                   <q-item-main>
@@ -54,7 +54,7 @@
                 </q-item>
               </q-card>
               <q-card style="margin: 5px;" @click.native="deleteEvent()" class="shadow-5 cursor-pointer"
-                      v-if="$store.state.loggedInUser.role.role === 'Admin' || $store.state.loggedInUser.role.role === 'Tulajdonos'">
+                      v-show="$store.getters.isUserAnAdminOrOwner">
                 <q-item>
                   <q-item-side color="negative" icon="fa-trash-alt" />
                   <q-item-main>
@@ -95,7 +95,11 @@
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.date}}</q-item-tile>
-                <!--<q-item-tile sublabel><Countdown :end="event.date"></Countdown></q-item-tile>-->
+                <q-item-tile>
+                  <vue-countdown @time-expire="handleTimeExpire" :date="event.date" :message="event.name" :start="countDownStart"
+                  >
+                  </vue-countdown>
+                </q-item-tile>
                 <q-item-tile sublabel>Időpont</q-item-tile>
               </q-item-main>
             </q-item>
@@ -244,8 +248,13 @@
 <script>
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
+import VueCountdown from '@dmaksimovic/vue-countdown'
+
 export default {
   name: 'event',
+  components: {
+    VueCountdown
+  },
   data: function () {
     return {
       event: [],
@@ -254,7 +263,8 @@ export default {
       },
       isUserAnAttendee: false,
       showAttendeesModal: false,
-      showNewCommentSection: false
+      showNewCommentSection: false,
+      countDownStart: true
     }
   },
   props: ['id'],
@@ -272,6 +282,9 @@ export default {
       })
   },
   methods: {
+    handleTimeExpire () {
+      alert('ANYAD')
+    },
     addNewComment () {
       console.log(this.$data.event.id)
       console.log(this.$store.state.loggedInUser.id)

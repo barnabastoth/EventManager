@@ -9,7 +9,9 @@ import application.repository.EventFieldRepository;
 import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.security.jca.GetInstance;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -58,7 +60,7 @@ public class EventUtils {
         event.ifPresent(event1 -> {
             event1.setName(newEvent.getName());
             event1.setAddress(newEvent.getAddress());
-            event1.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
+            event1.setDate(LocalDateTime.parse(newEvent.getDate()));
             event1.setDescription(newEvent.getDescription());
             event1.setActive(newEvent.getActive());
 

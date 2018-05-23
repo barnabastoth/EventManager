@@ -326,7 +326,7 @@ export default {
   },
   methods: {
     createNewEvent () {
-      // let self = this
+      let self = this
       AXIOS.post('http://localhost:8089/api/event/new', this.$data.event)
         .then(response => {
           // self.$data.uploadUrl = 'http://localhost:8089/api/event/' + response.data + '/uploadImg'

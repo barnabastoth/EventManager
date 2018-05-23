@@ -137,6 +137,14 @@ const store = new Vuex.Store({
           commit(SET_SITE_SETTINGS, response.data)
         })
     }
+  },
+  getters: {
+    isUserAnAdminOrOwner: state => {
+      if (state.isLoggedIn) {
+        return state.loggedInUser.role.role === 'Admin' || state.loggedInUser.role.role === 'Tulajdonos'
+      }
+      return false
+    }
   }
 })
 

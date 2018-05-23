@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.model.authentication.EditUser;
-import application.model.authentication.NewEditSure;
+import application.model.authentication.NewEditUser;
 import application.model.authentication.Role;
 import application.model.authentication.User;
 import application.repository.RoleRepository;
@@ -10,7 +10,6 @@ import application.service.UserService;
 import application.utils.AuthenticationUtils;
 import application.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +50,8 @@ public class UserController {
     }
 
     @PostMapping("/{username}/edit")
-    public ResponseEntity<?> saveUserEdit(@RequestBody NewEditSure newEditSure) {
-        userUtils.saveUserEdit(newEditSure);
-        return null;
+    public ResponseEntity<?> saveUserEdit(@RequestBody NewEditUser newEditUser) {
+        return userUtils.saveUserEdit(newEditUser);
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
