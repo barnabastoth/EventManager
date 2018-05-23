@@ -131,7 +131,7 @@ export default {
       })
   },
   beforeRouteEnter: (to, from, next) => {
-    if (store.getters.isUserAnAdminOrOwner() ||
+    if (store.getters.isUserAnAdminOrOwner ||
         store.state.isLoggedInUser.username === this.username) {
       next()
     } else {

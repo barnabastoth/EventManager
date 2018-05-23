@@ -11,7 +11,7 @@
             <q-item-tile style="font-size: 30px;" color="primary" icon="fa-calendar" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile style="font-size: 30px;" class="text-center" label>{{event.name}} nevü esemény szerkesztése</q-item-tile>
+            <q-item-tile style="font-size: 30px;" class="text-center" label>{{event.name}}</q-item-tile>
           </q-item-main>
         </q-item>
         <q-stepper color="primary" ref="stepper" alternative-labels>
@@ -25,8 +25,19 @@
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
+              {{event.longitude}}
               <q-item-main>
-                <q-input v-model="event.address" float-label="Helyszín"></q-input>
+                <vue-google-autocomplete
+                  style="width: 100%"
+                  ref="event.address"
+                  id="map"
+                  classname="form-control"
+                  placeholder="Írd be az esemény címét."
+                  v-on:placechanged="getAddressData"
+                  country="hu"
+                >
+                </vue-google-autocomplete>
+                <!--<q-input v-model="event.address" float-label="Helyszín"></q-input>-->
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -263,10 +274,13 @@
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
 import draggable from 'vuedraggable'
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
+
 export default {
-  name: 'edit-event',
+  name: 'newEvent',
   components: {
-    draggable
+    draggable,
+    VueGoogleAutocomplete
   },
   data: function () {
     return {
@@ -279,7 +293,7 @@ export default {
   props: ['id'],
   beforeMount () {
     let self = this
-    AXIOS.get('/api/user')
+    AXIOS.get('/api/user/')
       .then(response => {
         self.$data.users = response.data
       })
@@ -403,6 +417,11 @@ export default {
           message: 'Az elemekek most már cserélhető módban vannak'
         })
       }
+    },
+    getAddressData: function (addressData, placeResultData, id) {
+      this.event.latitude = addressData.latitude
+      this.event.longitude = addressData.longitude
+      this.event.address = placeResultData.formatted_address
     }
   }
 }

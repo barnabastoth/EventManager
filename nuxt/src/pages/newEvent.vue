@@ -26,7 +26,17 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-map-marker" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.address" float-label="Helyszín"></q-input>
+                <vue-google-autocomplete
+                  style="width: 100%"
+                  ref="event.address"
+                  id="map"
+                  classname="form-control"
+                  placeholder="Írd be az esemény címét."
+                  v-on:placechanged="getAddressData"
+                  country="hu"
+                >
+                </vue-google-autocomplete>
+                <!--<q-input v-model="event.address" float-label="Helyszín"></q-input>-->
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -266,10 +276,13 @@
 import AXIOS from 'axios'
 import { Notify } from 'quasar'
 import draggable from 'vuedraggable'
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
+
 export default {
   name: 'newEvent',
   components: {
-    draggable
+    draggable,
+    VueGoogleAutocomplete
   },
   data: function () {
     return {
@@ -280,6 +293,8 @@ export default {
       event: {
         name: '',
         address: '',
+        latitude: '',
+        longitude: '',
         date: '',
         description: '',
         active: '1',
@@ -436,6 +451,11 @@ export default {
           message: 'Az elemekek most már cserélhető módban vannak'
         })
       }
+    },
+    getAddressData: function (addressData, placeResultData, id) {
+      this.event.latitude = addressData.latitude
+      this.event.longitude = addressData.longitude
+      this.event.address = placeResultData.formatted_address
     }
   }
 }

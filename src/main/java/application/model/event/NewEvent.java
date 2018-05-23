@@ -17,6 +17,8 @@ public class NewEvent {
     private String date;
     private String description;
     private String active;
+    private double latitude;
+    private double longitude;
     private List<Map<String, String>> fields = new ArrayList<>();
     private List<Map<String, String>> speakers = new ArrayList<>();
     private Map<String, String> settings = new HashMap<>();

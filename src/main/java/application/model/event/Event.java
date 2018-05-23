@@ -23,6 +23,8 @@ public class Event {
     private LocalDateTime date;
     private String active;
     private byte[] image;
+    private double latitude;
+    private double longitude;
     @Column(length = 1024) private String description;
 
     @JsonManagedReference

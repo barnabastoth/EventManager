@@ -3,11 +3,16 @@ import Vuex from 'vuex'
 import { Notify } from 'quasar'
 import AXIOS from 'axios'
 import Carousel3d from 'vue-carousel-3d'
-import Vuelidate from 'vuelidate'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyCe1zyX1h4yxTgc2qnXlRngTof0k9fyMEY',
+    libraries: 'places'
+  }
+})
 Vue.use(Vuex)
 Vue.use(Carousel3d)
-Vue.use(Vuelidate)
 
 const LOGIN_SUCCESS = 'LOGIN_S0UCCESS'
 const LOGOUT = 'LOGOUT'

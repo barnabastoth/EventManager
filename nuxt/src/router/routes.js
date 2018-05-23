@@ -34,7 +34,15 @@ export default [
         component: () => import('pages/editProfile')
       },
       { path: '/esemeny/uj',
-        component: () => import('pages/newEvent')
+        component: () => import('pages/newEvent'),
+        beforeEnter: (to, from, next) => {
+          if (store.state.loggedInUser.role.role === 'Admin' ||
+            store.state.loggedInUser.role.role === 'Tulajdonos') {
+            next()
+          } else {
+            router.push('/noAccess')
+          }
+        }
       },
       {
         path: '/esemeny/:id',

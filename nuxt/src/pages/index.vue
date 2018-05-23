@@ -6,7 +6,6 @@
   >
     <q-page class="flex flex-center">
       <eventBar></eventBar>
-      <p>{{this.$store.state.showAuthModal}}</p>
     </q-page>
   </transition>
 </template>

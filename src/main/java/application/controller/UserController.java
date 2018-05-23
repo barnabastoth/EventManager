@@ -151,7 +151,14 @@ public class UserController {
                     response.put("Active", user.get().getActive());
                     return new ResponseEntity<>(response, HttpStatus.OK);
                 case "Admin":
-                    response.put("Message", username + " nevü felhasználó Admin az oldalon. Ehez a müvelethez nincs jogod.");
+                    if (user.get().getActive() == 1) {
+                        response.put("Message", username + " nevü felhasználó nincs kitiltva az oldalról.");
+                        return new ResponseEntity<>(response, HttpStatus.OK);
+                    }
+                    user.get().setActive(1);
+                    userRepository.saveAndFlush(user.get());
+                    response.put("Message", username + " nevü felhasználó mostantól nincs kitiltva az oldalról.");
+                    response.put("Active", user.get().getActive());
                     return new ResponseEntity<>(response, HttpStatus.OK);
                 case "Tulajdonos":
                     response.put("Message", username + " nevü felhasználó Tulajdonos az oldalon. Ehez a müvelethez nincs jogod.");

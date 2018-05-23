@@ -27,9 +27,15 @@ public class EventUtils {
         eventRepository.saveAndFlush(event);
         event.setName(newEvent.getName());
         event.setAddress(newEvent.getAddress());
-        event.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
+        if(newEvent.getDate().length() > 0) {
+            event.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
+        } else {
+            event.setDate(LocalDateTime.of(2080, 0, 0, 0, 0));
+        }
         event.setDescription(newEvent.getDescription());
         event.setActive(newEvent.getActive());
+        event.setLatitude(newEvent.getLatitude());
+        event.setLongitude(newEvent.getLongitude());
 
         List<EventField> eventFields = new ArrayList<>();
         for (int i = 0; i < newEvent.getFields().size(); i++) {
@@ -60,10 +66,15 @@ public class EventUtils {
         event.ifPresent(event1 -> {
             event1.setName(newEvent.getName());
             event1.setAddress(newEvent.getAddress());
-            event1.setDate(LocalDateTime.parse(newEvent.getDate()));
+            if(newEvent.getDate().length() > 0) {
+                event1.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
+            } else {
+                event1.setDate(LocalDateTime.of(2080, 0, 0, 0, 0));
+            }
             event1.setDescription(newEvent.getDescription());
             event1.setActive(newEvent.getActive());
-
+            event1.setLatitude(newEvent.getLatitude());
+            event1.setLongitude(newEvent.getLongitude());
             event1.getFields().clear();
             event1.getSpeakers().clear();
 

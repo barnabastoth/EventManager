@@ -13,7 +13,7 @@
                 <q-card-media overlay-position="top">
                   <img src="statics/parallax2.jpg">
                   <q-card-title slot="overlay">
-                    <h5>{{event.name}}</h5>
+                    <h5 style="font-size: 25px" class="text-center">{{event.name}}</h5>
                   </q-card-title>
                 </q-card-media>
               </q-card>
@@ -164,6 +164,32 @@
               </q-card>
             </q-item>
 
+            <q-item class="shadow-1 bg-grey-2">
+              <q-item-side left>
+                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-map-marker" />
+              </q-item-side>
+              <q-item-main>
+                <q-item-tile style="font-size: 30px;" class="text-center" label>Térkép</q-item-tile>
+                <q-item-tile class="text-center" sublabel>{{event.address}}</q-item-tile>
+              </q-item-main>
+            </q-item>
+
+            <q-item class="shadow-1 bg-grey-2">
+              <GmapMap
+                v-if="event.latitude.length != 0"
+                :center="{lat:event.latitude, lng:event.longitude}"
+                :zoom="15"
+                map-type-id="terrain"
+                style="width: 100%; height: 300px"
+              >
+                <GmapMarker
+                  :position="{lat:event.latitude, lng:event.longitude}"
+                  :clickable="true"
+                  :draggable="true"
+                />
+              </GmapMap>
+            </q-item>
+
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
                 <q-item-tile style="font-size: 30px;" color="primary" icon="fa-comment-alt" />
@@ -273,7 +299,7 @@ export default {
     AXIOS.get('/api/event/' + this.id)
       .then(response => {
         self.$data.event = response.data
-        for (let i = 0; i < self.$data.event.speakers.length; i++) {
+        for (let i = 0; i < self.$data.event.attendees.length; i++) {
           if (self.$data.event.attendees[i].id === self.$store.state.loggedInUser.id) {
             self.$data.isUserAnAttendee = true
             break
