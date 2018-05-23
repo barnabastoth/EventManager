@@ -51,7 +51,8 @@ public class UserController {
 
     @PostMapping("/{username}/edit")
     public ResponseEntity<?> saveUserEdit(@RequestBody NewEditUser newEditUser) {
-        return userUtils.saveUserEdit(newEditUser);
+        userUtils.saveUserEdit(newEditUser);
+        return null;
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")

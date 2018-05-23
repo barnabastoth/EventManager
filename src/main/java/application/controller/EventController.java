@@ -43,12 +43,12 @@ public class EventController {
             Optional<User> user = userRepository.findByUsername(principal.getName());
             if(user.isPresent()) {
                 if(user.get().getRole().getRole().equals("Tulajdonos") || user.get().getRole().getRole().equals("Admin")) {
-                    return eventRepository.findAll();
+                    return eventRepository.findAllByDate();
                 }
-                return eventRepository.getActiveEvents();
+                return eventRepository.findAllActiveByDate();
             }
         }
-        return eventRepository.getActiveEvents();
+        return eventRepository.findAllActiveByDate();
     }
 
     @GetMapping("/{id}")

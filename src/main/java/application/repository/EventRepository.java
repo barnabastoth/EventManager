@@ -18,7 +18,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("select e from Event e where e.active = '1' AND e.id = ?1")
     Optional<Event> getActiveEventById(@Param("id") Long id);
 
-    @Query("select e from Event e where e.active = '1'")
-    List<Event> getActiveEvents();
+    @Query("select e from Event e order by e.date desc")
+    List<Event> findAllByDate();
+
+    @Query("select e from Event e where e.active = '1' order by e.date desc")
+    List<Event> findAllActiveByDate();
 
 }
