@@ -48,48 +48,58 @@ public class SiteController {
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
-    @GetMapping("/contact/message/{id}")
+    @GetMapping("/contactMessage/{id}")
     public ContactMessage serveContactMessageById(@PathVariable Long id) {
         Optional<ContactMessage> contactMessage = contactMessageRepository.findById(id);
         return contactMessage.orElse(null);
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
-    @GetMapping("/contact/message")
+    @GetMapping("/contactMessage")
     public List<ContactMessage> serveAllContactMessage() {
         return contactMessageRepository.findAll();
     }
 
-    @PostMapping("/contact/message/new")
+    @PostMapping("/contactMessage/new")
     public ResponseEntity<?> saveNewMessage(@RequestBody NewContactMessage newContactMessage) {
         ContactMessage contactMessage = new ContactMessage();
         contactMessage.setEmail(newContactMessage.getEmail());
         contactMessage.setMessage(newContactMessage.getMessage());
         contactMessage.setTopic(newContactMessage.getTopic());
         contactMessage.setDate(LocalDateTime.now());
+        contactMessage.setIsRead(false);
         if(newContactMessage.getUserId() == null) {
             contactMessageRepository.saveAndFlush(contactMessage);
-//            Optional<User> user = userRepository.findByUsername("Vendég");
-//            user.ifPresent(contactMessage::setSender);
-//            user.get().getContactMessages().add(contactMessage);
-//            userRepository.saveAndFlush(user.get());
         } else {
             Optional<User> user = userRepository.findById(Long.parseLong(newContactMessage.getUserId()));
             user.ifPresent(contactMessage::setSender);
             user.get().getContactMessages().add(contactMessage);
             userRepository.saveAndFlush(user.get());
         }
-
-        System.out.println("CONTACT DATE" + contactMessage.getDate());
-        System.out.println("CONTACT MESSAGE: " + newContactMessage.getMessage());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/contact/message/{id}/read")
-    public void seenMessage(@PathVariable("id") Long id) {
+    @GetMapping("/contactMessage/{id}/read")
+    public void readMessage(@PathVariable("id") Long id) {
         Optional<ContactMessage> contactMessage = contactMessageRepository.findById(id);
-        contactMessage.ifPresent(contactMessage1 -> contactMessage1.setRead(true));
+        contactMessage.ifPresent(contactMessage1 -> {
+            contactMessage1.setIsRead(true);
+            contactMessageRepository.saveAndFlush(contactMessage1);
+        });
+    }
 
+    @GetMapping("/contactMessage/{id}/unRead")
+    public void unreadMessage(@PathVariable("id") Long id) {
+        Optional<ContactMessage> contactMessage = contactMessageRepository.findById(id);
+        contactMessage.ifPresent(contactMessage1 -> {
+            contactMessage1.setIsRead(false);
+            contactMessageRepository.saveAndFlush(contactMessage1);
+        });
+    }
+
+    @GetMapping("/contactMessage/unReadCount")
+    public Long getUnreadContactMessageCount() {
+        return contactMessageRepository.getUnReadMessageCount();
     }
 
 }

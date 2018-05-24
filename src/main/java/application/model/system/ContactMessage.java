@@ -30,10 +30,9 @@ public class ContactMessage {
 
     private String topic;
 
-    @Lob @Type(type = "text")
-    private String message;
+    @Lob @Type(type = "text")private String message;
 
-    private boolean isRead;
+    private Boolean isRead;
 
     private LocalDateTime date;
 }

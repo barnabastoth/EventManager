@@ -102,10 +102,6 @@ public class DataLoader implements CommandLineRunner {
 //        user.setRole(ownerRole);
 //        userService.save(user);
 //
-//        User guest = new User();
-//        guest.setUsername("Vendég");
-//        guest.setEmail("vendeg@gmail.com");
-//        userService.save(guest);
 //
 ////
 ////        Comment comment = new Comment();

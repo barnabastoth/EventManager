@@ -20,7 +20,7 @@
               <q-tab default name="Események" slot="title" icon="fa-calendar" label="Események" />
               <q-tab name="Felhasználók" slot="title" icon="fa-user" label="Felhasználók" />
               <q-tab name="Oldalak" slot="title" icon="fa-link" label="Oldalak" />
-              <q-tab name="Oldal üzenetek" slot="title" icon="fa-envelope" label="Oldal üzenetek" />
+              <q-tab name="Oldal üzenetek" slot="title" icon="fa-envelope" :label="'Oldal üzenetek (' + unReadContactMessageCount + ')'" />
               <q-tab name="Beállítások" slot="title" icon="fa-cog" label="Beállítások" />
 
               <q-tab-pane name="Események">
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import AXIOS from 'axios'
 import editSiteSettings from '../components/adminPanel/editSiteSettings'
 import contactMessage from '../components/adminPanel/contactMessage'
 import userList from '../components/adminPanel/userList'
@@ -63,6 +64,18 @@ export default {
     contactMessage,
     userList,
     eventList
+  },
+  data: function () {
+    return {
+      unReadContactMessageCount: null
+    }
+  },
+  beforeMount () {
+    let self = this
+    AXIOS.get('/api/contactMessage/unReadCount')
+      .then(response => {
+        self.$data.unReadContactMessageCount = response.data
+      })
   }
 }
 </script>

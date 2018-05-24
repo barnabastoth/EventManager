@@ -77,7 +77,7 @@ export default {
       if (this.$store.state.isLoggedIn) {
         this.$data.contactMessage.userId = this.$store.state.loggedInUser.id
       }
-      AXIOS.post('/api/contact/message/new', this.$data.contactMessage)
+      AXIOS.post('/api/contactMessage/new', this.$data.contactMessage)
         .then(response => {
           Notify.create({
             type: 'positive',
