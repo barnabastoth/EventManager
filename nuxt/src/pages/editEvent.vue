@@ -381,8 +381,14 @@ export default {
       this.$data.usersModal = true
     },
     addUserToSpeakers (user) {
-      let searchedUser = this.$data.event.speakers[120]
-      if (searchedUser !== undefined) {
+      let self = this
+      let isUserDuplicated = false
+      for (let i = 0; i < this.$data.event.speakers.length; i++) {
+        if (self.$data.event.speakers[i].id === user.id) {
+          isUserDuplicated = true
+        }
+      }
+      if (isUserDuplicated === false) {
         this.$data.event.speakers.push({
           id: user.id,
           username: user.username,

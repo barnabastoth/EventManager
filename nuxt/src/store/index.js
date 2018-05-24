@@ -20,7 +20,6 @@ AXIOS.interceptors.response.use((response) => { // intercept the global error
 }, function (error) {
   if (error.response.status === 401) {
     store.dispatch('logout')
-    alert('A LOGOUT MUKODIK')
   }
 })
 
@@ -46,8 +45,8 @@ const store = new Vuex.Store({
     [LOGIN_SUCCESS] (state, user) {
       state.isLoggedIn = true
       state.loggedInUser = user
-      state.rightBarOpen = true
-      state.leftBarOpen = true
+      state.siteSettings.rightBarOpen = true
+      state.siteSettings.leftBarOpen = true
       state.showAuthModal = false
       AXIOS.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     },
