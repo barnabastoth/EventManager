@@ -13,6 +13,14 @@ Vue.use(VueGoogleMaps, {
 })
 Vue.use(Vuex)
 Vue.use(Carousel3d)
+AXIOS.interceptors.response.use((response) => { // intercept the global error
+  return response
+}, function (error) {
+  if (error.response.status === 401) {
+    store.dispatch('logout')
+    alert('A LOGOUT MUKODIK')
+  }
+})
 
 const LOGIN_SUCCESS = 'LOGIN_S0UCCESS'
 const LOGOUT = 'LOGOUT'
