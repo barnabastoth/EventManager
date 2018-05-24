@@ -4,8 +4,13 @@ import application.model.system.ContactMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface ContactMessageRepository extends JpaRepository<ContactMessage, Long> {
 
     @Query("select count(c) FROM ContactMessage c where isRead = false ")
     Long getUnReadMessageCount();
+
+    @Query("select c from ContactMessage c order by c.date desc")
+    List<ContactMessage> findAllByDateDesc();
 }

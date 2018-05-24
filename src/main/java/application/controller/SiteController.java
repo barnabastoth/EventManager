@@ -57,7 +57,7 @@ public class SiteController {
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @GetMapping("/contactMessage")
     public List<ContactMessage> serveAllContactMessage() {
-        return contactMessageRepository.findAll();
+        return contactMessageRepository.findAllByDateDesc();
     }
 
     @PostMapping("/contactMessage/new")

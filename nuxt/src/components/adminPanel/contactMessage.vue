@@ -6,9 +6,10 @@
     <q-item-separator></q-item-separator>
     <q-list-header>Oldal üzenetek</q-list-header>
     <q-item-separator></q-item-separator>
-    <q-item class="shadow-1" v-for="(contactMessage, index) in contactMessages" :key="contactMessage.id">
+    <q-item v-for="(contactMessage, index) in contactMessages" :key="contactMessage.id">
       <q-item-main>
         <q-collapsible
+          popup
           v-if="contactMessage.sender !== null && contactMessage.isRead === true"
           :label="'Feladó: ' + contactMessage.sender.username"
           :sublabel="'Üzenet:  ' + contactMessage.message"
@@ -42,6 +43,7 @@
           </q-item>
           <q-item>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === false"
               color="primary"
               icon-right="fa-eye"
@@ -50,6 +52,7 @@
             >
               Olvasottnak jelölés</q-btn>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === true"
               color="info"
               icon-right="fa-eye-slash"
@@ -57,10 +60,19 @@
               @click="unReadMessage(contactMessage.id, index)"
             >
               Olvasatlannak jelölés</q-btn>
+            <q-btn
+              style="margin-right: 5px"
+              color="positive"
+              icon-right="fa-user"
+              push
+              @click="$router.push('/felhasznalo/' + contactMessage.sender.username)"
+            >
+              Profil megnyitása</q-btn>
           </q-item>
         </q-collapsible>
 
         <q-collapsible
+          popup
           v-if="contactMessage.sender !== null && contactMessage.isRead === false"
           :label="'Feladó: ' + contactMessage.sender.username"
           :sublabel="'Üzenet:  ' + contactMessage.message"
@@ -94,6 +106,7 @@
           </q-item>
           <q-item>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === false"
               color="primary"
               icon-right="fa-eye"
@@ -102,6 +115,7 @@
             >
               Olvasottnak jelölés</q-btn>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === true"
               color="info"
               icon-right="fa-eye-slash"
@@ -109,10 +123,19 @@
               @click="unReadMessage(contactMessage.id, index)"
             >
               Olvasatlannak jelölés</q-btn>
+            <q-btn
+              style="margin-right: 5px"
+              color="positive"
+              icon-right="fa-user"
+              push
+              @click="$router.push('/felhasznalo/' + contactMessage.sender.username)"
+            >
+              Profil megnyitása</q-btn>
           </q-item>
         </q-collapsible>
 
         <q-collapsible
+          popup
           v-if="contactMessage.sender === null && contactMessage.isRead === true"
           :label="'Feladó: ' + contactMessage.email"
           :sublabel="'Üzenet:  ' + contactMessage.message"
@@ -146,6 +169,7 @@
           </q-item>
           <q-item>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === false"
               color="primary"
               icon-right="fa-eye"
@@ -154,6 +178,7 @@
             >
               Olvasottnak jelölés</q-btn>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === true"
               color="info"
               icon-right="fa-eye-slash"
@@ -165,6 +190,7 @@
         </q-collapsible>
 
         <q-collapsible
+          popup
           v-if="contactMessage.sender === null && contactMessage.isRead === false"
           :label="'Feladó: ' + contactMessage.email"
           :sublabel="'Üzenet:  ' + contactMessage.message"
@@ -198,6 +224,7 @@
           </q-item>
           <q-item>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === false"
               color="primary"
               icon-right="fa-eye"
@@ -206,6 +233,7 @@
             >
               Olvasottnak jelölés</q-btn>
             <q-btn
+              style="margin-right: 5px"
               v-if="contactMessage.isRead === true"
               color="info"
               icon-right="fa-eye-slash"
