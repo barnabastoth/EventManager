@@ -30,7 +30,7 @@ public class ContactMessage {
 
     private String topic;
 
-    @Lob @Type(type = "text")private String message;
+    @Column(columnDefinition="text") private String message;
 
     private Boolean isRead;
 

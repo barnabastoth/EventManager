@@ -7,7 +7,7 @@
     <q-layout>
       <q-page-container>
         <q-page padding style="width: 1000px; max-width: 90vw;">
-          <q-card inline class="q-ma-sm shadow-24" style="padding: 24px;width: 1000px; max-width: 90vw;">
+          <q-card inline class="q-ma-sm shadow-24" style="padding: 24px; max-width: 100%">
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>
                 <q-item-tile style="font-size: 30px;" color="primary" icon="fa-user-secret" />

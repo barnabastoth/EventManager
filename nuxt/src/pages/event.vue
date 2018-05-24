@@ -13,9 +13,49 @@
                 <q-card-media overlay-position="top">
                   <img src="statics/parallax2.jpg">
                   <q-card-title slot="overlay">
-                    <h5 style="font-size: 25px" class="text-center">{{event.name}}</h5>
+                    <h5 style="font-size: 25px">{{event.name}}</h5>
                   </q-card-title>
                 </q-card-media>
+                <q-item overlay-position="bottom">
+                  <social-sharing :url="'http://event-manager.hu/esemeny/' + event.id"
+                                  :title="event.title"
+                                  :quote="event.shortDescription"
+                                  hashtags="EventManager"
+                                  twitter-user="EventManager"
+                                  inline-template>
+                    <div>
+                      Megosztás <q-icon color="info" name="fa-share-alt"></q-icon>
+                      <network network="facebook">
+                        <q-btn
+                          color="info"
+                          flat
+                        >
+                          Facebook</q-btn>
+                      </network>
+                      <network network="twitter">
+                        <q-btn
+                          color="info"
+                          flat
+                        >
+                          Twitter</q-btn>
+                      </network>
+                      <network network="googleplus">
+                        <q-btn
+                          color="info"
+                          flat
+                        >
+                          Google+</q-btn>
+                      </network>
+                      <network network="linkedin">
+                        <q-btn
+                          color="info"
+                          flat
+                        >
+                          LinkedIn</q-btn>
+                      </network>
+                    </div>
+                  </social-sharing>
+                </q-item>
               </q-card>
             </q-item>
             <q-item class="flex">

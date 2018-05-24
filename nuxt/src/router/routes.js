@@ -1,6 +1,5 @@
 import store from '../store'
 import router from '../router'
-// import { Notify } from 'quasar'
 
 export default [
   {

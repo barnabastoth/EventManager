@@ -6,7 +6,7 @@
   >
     <q-layout>
       <q-page-container>
-        <q-page padding style="width: 700px; max-width: 90vw;">
+        <q-page padding style="width: 1000px; max-width: 90vw;">
           <q-card inline class="q-ma-sm shadow-24" style="padding: 24px;">
             <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
               <q-item-side left>

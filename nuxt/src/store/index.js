@@ -13,6 +13,8 @@ Vue.use(VueGoogleMaps, {
 })
 Vue.use(Vuex)
 Vue.use(Carousel3d)
+var SocialSharing = require('vue-social-sharing')
+Vue.use(SocialSharing)
 AXIOS.interceptors.response.use((response) => { // intercept the global error
   return response
 }, function (error) {

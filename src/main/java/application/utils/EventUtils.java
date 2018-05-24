@@ -28,14 +28,15 @@ public class EventUtils {
         event.setName(newEvent.getName());
         event.setAddress(newEvent.getAddress());
         if(newEvent.getDate().length() > 0) {
-            event.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
+            event.setDate(LocalDateTime.parse(newEvent.getDate()));
         } else {
-            event.setDate(LocalDateTime.of(2080, 0, 0, 0, 0));
+            event.setDate(LocalDateTime.of(2080, 4, 20, 1, 30));
         }
         event.setDescription(newEvent.getDescription());
         event.setActive(newEvent.getActive());
         event.setLatitude(newEvent.getLatitude());
         event.setLongitude(newEvent.getLongitude());
+        event.setShortDescription(newEvent.getShortDescription());
 
         List<EventField> eventFields = new ArrayList<>();
         for (int i = 0; i < newEvent.getFields().size(); i++) {
@@ -66,15 +67,22 @@ public class EventUtils {
         event.ifPresent(event1 -> {
             event1.setName(newEvent.getName());
             event1.setAddress(newEvent.getAddress());
-            if(newEvent.getDate().length() > 0) {
-                event1.setDate(ZonedDateTime.parse(newEvent.getDate()).toLocalDateTime());
+            if(newEvent.getDate() != null) {
+                event1.setDate(LocalDateTime.parse(newEvent.getDate()));
             } else {
-                event1.setDate(LocalDateTime.of(2080, 0, 0, 0, 0));
+                event1.setDate(LocalDateTime.of(2080, 4, 20, 3, 15));
             }
             event1.setDescription(newEvent.getDescription());
-            event1.setActive(newEvent.getActive());
+
+            if(event1.getActive() == null) {
+                event1.setActive("0");
+            } else {
+                event1.setActive(newEvent.getActive());
+            }
+
             event1.setLatitude(newEvent.getLatitude());
             event1.setLongitude(newEvent.getLongitude());
+            event1.setShortDescription(newEvent.getShortDescription());
             event1.getFields().clear();
             event1.getSpeakers().clear();
 
@@ -90,6 +98,7 @@ public class EventUtils {
                 eventField.setIcon(newEvent.getFields().get(i).get("icon"));
                 eventField.setSubText(newEvent.getFields().get(i).get("subText"));
                 eventField.setText(newEvent.getFields().get(i).get("text"));
+                eventField.setEvent(event1);
                 eventFields.add(eventField);
 
             }

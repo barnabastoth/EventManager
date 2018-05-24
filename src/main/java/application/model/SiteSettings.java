@@ -21,6 +21,6 @@ public class SiteSettings {
     private String serverEmail;
     private String companyPhone;
 
-    @Column(length = 1024)
+    @Column(columnDefinition = "TEXT")
     private String contactPageText;
 }
