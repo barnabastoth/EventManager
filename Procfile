@@ -1,1 +1,1 @@
-web: java -jar target/backend-3.0.jar
+web: java -jar target/Event-Manager-1.0.0-SNAPSHOT-jar-with-dependencies.jar
