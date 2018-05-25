@@ -1,1 +1,1 @@
-web: java -jar target/Event-Manager-1.0.0-SNAPSHOT.jar
+web: java -jar -Dserver.port=$PORT target/Event-Manager-1.0.0-SNAPSHOT.jar
