@@ -9,6 +9,7 @@ import application.utils.DataExtractionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ public class AuthenticationController {
     @Autowired AuthenticationUtils authenticationUtils;
     @Autowired DataExtractionUtils dataExtractionUtils;
 
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LogInUser logInUser, BindingResult bindingResult) throws AuthenticationException {
         final Authentication authentication = authenticationManager.authenticate(
@@ -60,6 +62,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUser registerUser, BindingResult bindingResult) {
         if(userService.findByUsername(registerUser.getUsername()) == null && userService.findByEmail(registerUser.getEmail()) == null) {
@@ -73,6 +76,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(new ArrayList<>(Collections.singletonList("Ez a felhasználónév vagy email cím már foglalt")), HttpStatus.CONFLICT);
     }
 
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/me")
     public ResponseEntity<?> resourceServer(@RequestBody String token) {
         if(token != null) {

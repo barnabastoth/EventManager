@@ -38,7 +38,7 @@ public class Event {
     private Map<String, String> settings = new HashMap<>();
 
     @JsonManagedReference
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_speakers"
             , joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
@@ -46,7 +46,7 @@ public class Event {
     @Column(name = "speakers")
     private Set<User> speakers = new HashSet<>();
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 

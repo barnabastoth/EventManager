@@ -108,7 +108,7 @@ public class EventController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/comment/new")
     public void saveNewComment (@RequestBody NewComment newComment) {
-        Optional<User> user = userRepository.findById(newComment.getEventId());
+        Optional<User> user = userRepository.findById(newComment.getUserId());
         Optional<Event> event = eventRepository.findById(newComment.getEventId());
 
         Comment comment = new Comment();
@@ -120,11 +120,13 @@ public class EventController {
             comment.setEvent(event.get());
             user.get().getComments().add(comment);
             event.get().getComments().add(comment);
-            userRepository.saveAndFlush(user.get());
             commentRepository.saveAndFlush(comment);
-            eventRepository.saveAndFlush(event.get());
+            System.out.println("success");
         }
     }
+
+//    @PreAuthorize("isAuthenticated()")
+//    @GetMapping("/comment/{id}/delete")
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/{id}/uploadImg")

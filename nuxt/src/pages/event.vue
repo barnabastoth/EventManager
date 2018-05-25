@@ -135,11 +135,6 @@
               </q-item-side>
               <q-item-main>
                 <q-item-tile label>{{event.date}}</q-item-tile>
-                <q-item-tile>
-                  <vue-countdown @time-expire="handleTimeExpire" :date="event.date" :message="event.name" :start="countDownStart"
-                  >
-                  </vue-countdown>
-                </q-item-tile>
                 <q-item-tile sublabel>Időpont</q-item-tile>
               </q-item-main>
             </q-item>
@@ -240,14 +235,16 @@
             </q-item>
 
             <q-item>
-              <q-btn color="info" icon-right="fa-plus" @click="showNewCommentSection = !showNewCommentSection" label="Hozzászólás írása" />
+              <q-btn style="width: 100%" color="info" icon-right="fa-comment" @click="showNewCommentSection = true" label="Hozzászólás írása" />
             </q-item>
 
             <q-item class="shadow-24" style="margin: 10px" v-show="showNewCommentSection">
               <q-item-side avatar="statics/guy-avatar.png" />
               <q-item-main>
                 <q-item-tile>{{this.$store.state.loggedInUser.username}}</q-item-tile>
-                <q-item-tile><q-input v-model="newComment.message" float-label="Hozzzászólás szövege"></q-input></q-item-tile>
+                <q-item-tile>
+                  <q-input v-model="newComment.message" float-label="Hozzzászólás szövege"></q-input>
+                </q-item-tile>
                 <q-item-tile class="float-right">
                   <q-btn
                   icon-right="fa-step-forward"
@@ -257,23 +254,43 @@
                   >
                     Hozzászólás küldése
                   </q-btn>
+                  <q-btn
+                    icon-right="fa-step-forward"
+                    color="primary"
+                    style="margin-top: 5px"
+                    @click="showNewCommentSection = false"
+                  >
+                    Bezárás
+                  </q-btn>
                 </q-item-tile>
               </q-item-main>
             </q-item>
 
-            <q-item>
-              {{event.comments}}
+            <q-item class="shadow-2" style="margin: 10px" v-for="comment in event.comments" :key="comment.id">
+              <q-item-main>
+                <q-item-tile>
+                  <q-item>
+                    <q-item-side avatar="statics/guy-avatar.png" />
+                    <q-item-main>
+                      <q-item-tile label>{{comment.user.username}}</q-item-tile>
+                      <q-item-tile label>{{comment.user.lastName}} {{comment.user.name}}</q-item-tile>
+                      <q-item-tile sublabel>{{comment.date}}</q-item-tile>
+                    </q-item-main>
+                  </q-item>
+                </q-item-tile>
+                <q-item-tile class="shadow-1" style="padding: 5px">
+                  <p>{{comment.message}}</p>
+                </q-item-tile>
+              </q-item-main>
+              <q-item-side v-if="$store.getters.isUserAnAdminOrOwner || $store.state.loggedInUser.id === comment.user.id">
+                <q-item-tile>
+                  <q-btn style="width: 60px;" icon="fa-edit" color="info"><q-tooltip>Szerkesztés</q-tooltip></q-btn>
+                </q-item-tile>
+                <q-item-tile>
+                  <q-btn style="width: 60px;" icon="fa-trash" color="warning"><q-tooltip>Törlés</q-tooltip></q-btn>
+                </q-item-tile>
+              </q-item-side>
             </q-item>
-
-            <!--<q-item v-for="comment in event.comments" :key="comment.id">-->
-              <!--<q-item-side avatar="statics/guy-avatar.png" />-->
-              <!--<q-item-main>-->
-                <!--<q-item-tile>{{comment.username}}</q-item-tile>-->
-                <!--<q-item-tile>{{comment.user.lastName}} {{comment.user.name}}</q-item-tile>-->
-                <!--<q-item-tile>{{comment.date}}</q-item-tile>-->
-                <!--<q-item-tile>{{comment.message}}</q-item-tile>-->
-              <!--</q-item-main>-->
-            <!--</q-item>-->
 
           </q-list>
 
@@ -348,17 +365,12 @@ export default {
       })
   },
   methods: {
-    handleTimeExpire () {
-      alert('ANYAD')
-    },
     addNewComment () {
-      console.log(this.$data.event.id)
-      console.log(this.$store.state.loggedInUser.id)
       this.$data.newComment.userId = this.$store.state.loggedInUser.id
       this.$data.newComment.eventId = this.$data.event.id
+      this.$data.showNewCommentSection = false
       AXIOS.post('/api/event/comment/new', this.$data.newComment)
         .then(() => {
-          this.$data.showNewCommentSection = false
           this.$data.event.comments.push(this.$data.newComment)
           this.$data.newComment = {message: ''}
           Notify.create({
