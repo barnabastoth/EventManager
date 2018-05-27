@@ -23,22 +23,18 @@ public class ResearchController {
 
 
     @GetMapping("/")
-    private List<Research> serveAllResearch() {
-        System.out.println("ANYADALL");
+    public List<Research> serveAllResearch() {
         return researchRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    private Research serveResearchById(@PathVariable("id") Long id) {
-        System.out.println("ANYADID");
-        Optional<Research> optionalResearch = researchRepository.findById(id);
-        return optionalResearch.orElse(null);
+    public Research serveResearchById(@PathVariable("id") Long id) {
+        return researchRepository.findById(id).orElse(null);
     }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/new")
-    private Long handleNewResearch(@RequestBody NewResearch newResearch) {
-        System.out.println("ANYAD");
+    public Long handleNewResearch(@RequestBody NewResearch newResearch) {
         return researchService.handleNewResearchCreation(newResearch);
     }
 }

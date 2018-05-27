@@ -2,12 +2,14 @@ package application.utils;
 
 
 import application.model.Constants;
+import application.model.Research.Research;
 import application.model.SiteSettings;
 import application.model.authentication.Role;
 import application.model.authentication.User;
 import application.model.event.Comment;
 import application.repository.*;
 import application.service.UserService;
+import com.sun.deploy.model.LocalApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,9 +28,17 @@ public class DataLoader implements CommandLineRunner {
     @Autowired RoleRepository roleRepository;
     @Autowired CommentRepository commentRepository;
     @Autowired SiteSettingsRepository siteSettingsRepository;
+    @Autowired ResearchRepository researchRepository;
 
     @Override
     public void run(String[] args) {
+        Research research = new Research();
+        research.setDate(LocalDateTime.now());
+        research.setContent("ANYAD CONTENT");
+        research.setName("ANYADNAME");
+        research.setActive(1);
+        research.setDescription("ANYADDESCRIPTION");
+        researchRepository.saveAndFlush(research);
 //        Role userRole = new Role("Felhasználó");
 //        Role adminRole = new Role("Admin");
 //        Role ownerRole = new Role("Tulajdonos");

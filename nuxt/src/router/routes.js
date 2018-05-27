@@ -92,6 +92,19 @@ export default [
         path: '/tanulmany/:id',
         component: () => import('pages/research'),
         props: true
+      },
+      {
+        path: '/tanulmany/:id/szerkeszto',
+        component: () => import('pages/researchEditor'),
+        props: true,
+        beforeEnter: (to, from, next) => {
+          if (store.state.loggedInUser.role.role === 'Admin' ||
+            store.state.loggedInUser.role.role === 'Tulajdonos') {
+            next()
+          } else {
+            router.push('/noAccess')
+          }
+        }
       }
     ]
   },

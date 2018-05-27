@@ -15,5 +15,7 @@ public class NewResearch {
     private String name;
     private String content;
     private String date;
+    private String description;
+    private Integer active;
     private List<Map<String, String>> categories = new ArrayList<>();
 }

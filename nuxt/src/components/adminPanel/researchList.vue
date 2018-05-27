@@ -22,6 +22,7 @@
         <q-item-tile sublabel>{{research.date}}</q-item-tile>
       </q-item-main>
       <q-item-side right>
+        {{research.active}}
         <q-item-tile v-if="research.active === 1" color="primary" icon="fa-eye"></q-item-tile>
         <q-item-tile v-if="research.active === 0" color="red" icon="fa-eye-slash"></q-item-tile>
       </q-item-side>

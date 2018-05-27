@@ -23,11 +23,12 @@ public class ResearchService {
     @Autowired UserRepository userRepository;
     
     public Long handleNewResearchCreation(NewResearch newResearch) {
-        System.out.println("ANYAD" + newResearch.getName());
         Research research = new Research();
         research.setName(newResearch.getName());
         research.setContent(newResearch.getContent());
         research.setDate(LocalDateTime.now());
+        research.setDescription(newResearch.getDescription());
+        research.setActive(newResearch.getActive());
         if(newResearch.getDate().length() > 0) {
             research.setDate(LocalDateTime.parse(newResearch.getDate()));
         } else {
@@ -42,6 +43,7 @@ public class ResearchService {
         research.setCategories(categories);
 
         researchRepository.saveAndFlush(research);
+        System.out.println(research.getId());
         return research.getId();
     }
 }

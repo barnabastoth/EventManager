@@ -91,7 +91,8 @@ module.exports = function (ctx) {
         'QStepperNavigation',
         'QDatetime',
         'QUploader',
-        'QActionSheet'
+        'QActionSheet',
+        'QEditor'
       ],
       directives: [
         'Ripple',

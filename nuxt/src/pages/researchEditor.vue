@@ -6,42 +6,14 @@
   >
     <q-layout>
       <q-page-container>
-        <q-page padding style="width: 1000px; max-width: 90vw;">
-          <q-card inline class="q-ma-sm shadow-24" style="width: 1000px; max-width: 90vw; padding: 24px;">
-            <q-item style="margin-bottom: 30px" class="shadow-1 bg-grey-2">
+        <q-page padding style="width: 100%; max-width: 100vw;">
+          <q-card class="shadow-24" style="padding: 24px;">
+            <q-item class="shadow-2 bg-grey-3">
               <q-item-side left>
-                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-calendar" />
+                <q-item-tile style="font-size: 30px;" color="primary" icon="fa-edit" />
               </q-item-side>
               <q-item-main>
-                <q-item-tile style="font-size: 30px;" class="text-center" label>Új tanulmány létrehozása</q-item-tile>
-              </q-item-main>
-            </q-item>
-            <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
-              <q-item-side icon="fa-globe" color="primary"></q-item-side>
-              <q-item-main>
-                <q-input v-model="research.name" float-label="A tanulmány neve"></q-input>
-              </q-item-main>
-            </q-item>
-            <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
-              <q-item-side icon="fa-newspaper" color="primary"></q-item-side>
-              <q-item-main>
-                <q-input v-model="research.description" float-label="A tanulmány rövid leírása. Ez fog megjelenni mindenhol ahol a hosszú nem fér ki."></q-input>
-              </q-item-main>
-            </q-item>
-            <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
-              <q-item-side>
-                <q-item-tile color="primary" icon="fa-eye" />
-              </q-item-side>
-              <q-item-main>
-                <p>Maga a tanulmány:</p>
-                <q-btn-toggle
-                  v-model="research.active"
-                  toggle-color="primary"
-                  :options="[
-                        {label: 'Legyen látható', value: 1},
-                        {label: 'Ne legyen látható', value: 0}
-                      ]"
-                />
+                <q-item-tile style="font-size: 30px;" class="text-center" label>Szerkesztő</q-item-tile>
               </q-item-main>
             </q-item>
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
@@ -106,9 +78,9 @@
                       verdana: 'Verdana'
                     }"
                 />
+                <q-btn color="primary" class="float-right" icon-right="fa-save" @click="createNewResearch()" label="Mentés és bezárás" />
               </q-item-main>
             </q-item>
-            <q-btn color="primary" class="float-right" icon-right="fa-sign-in-alt" @click="createNewResearch()" label="Tanulmány létrehozása" />
           </q-card>
         </q-page>
       </q-page-container>
@@ -117,25 +89,27 @@
 </template>
 
 <script>
-import AXIOS from 'axios'
 import { Notify } from 'quasar'
+import AXIOS from 'axios'
 export default {
-  name: 'new-research',
+  name: 'research-editor',
   data: function () {
     return {
-      research: {
-        name: '',
-        content: '',
-        date: '',
-        categories: [],
-        active: 1
-      }
+      research: {}
     }
+  },
+  props: ['id'],
+  beforeMount () {
+    let self = this
+    AXIOS.get('/api/research/' + self.id)
+      .then(response => {
+        self.$data.research = response.data
+      })
   },
   methods: {
     createNewResearch () {
       let self = this
-      AXIOS.post('/api/research/new', this.$data.research)
+      AXIOS.post('/api/research/edit', this.$data.research)
         .then(response => {
           self.$router.push('/tanulmany/' + response.data)
           Notify.create({
@@ -143,7 +117,7 @@ export default {
             color: 'positive',
             position: 'center',
             timeout: 3000,
-            message: 'A Tanulmány sikeresen létre lett hozva. Át is irányítottalak a tanulmány oldalára.'
+            message: 'A Tanulmány sikeresen mentésre került..'
           })
         })
         .catch(error => {
@@ -153,7 +127,7 @@ export default {
             color: 'warning',
             position: 'bottom',
             timeout: 2000,
-            message: 'Valami hiba történt az tanulmány létrehozásakor.'
+            message: 'Valami hiba történt a tanulmány frissítése közbe.'
           })
         })
     }
