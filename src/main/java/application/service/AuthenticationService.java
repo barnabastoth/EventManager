@@ -1,4 +1,4 @@
-package application.utils;
+package application.service;
 
 import application.model.authentication.RegisterUser;
 import application.model.authentication.Role;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
-public class AuthenticationUtils {
+public class AuthenticationService {
     @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired private UserService userService;
     @Autowired private RoleRepository roleRepository;

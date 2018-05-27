@@ -22,8 +22,8 @@
         <q-item-tile sublabel>{{event.date}}</q-item-tile>
       </q-item-main>
       <q-item-side right>
-        <q-item-tile v-if="event.active === '1'" color="primary" icon="fa-eye"></q-item-tile>
-        <q-item-tile v-if="event.active === '0'" color="red" icon="fa-eye-slash"></q-item-tile>
+        <q-item-tile v-if="event.active === 1" color="primary" icon="fa-eye"></q-item-tile>
+        <q-item-tile v-if="event.active === 0" color="red" icon="fa-eye-slash"></q-item-tile>
       </q-item-side>
     </q-item>
   </q-list>

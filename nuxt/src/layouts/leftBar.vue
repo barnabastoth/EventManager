@@ -18,25 +18,25 @@
         </q-item-main>
         <q-item-side right icon="info" />
       </q-item>
-      <q-item class="cursor-pointer">
+      <q-item @click.native="$router.push('/tanulmanyok')">
         <q-item-side icon="folder" inverted color="amber" />
         <q-item-main>
           <q-item-tile label>Tanulmányok</q-item-tile>
         </q-item-main>
       </q-item>
-      <q-item @click.native="$router.push('/idovonal')" class="cursor-pointer">
+      <q-item @click.native="$router.push('/esemenyek')" >
         <q-item-side icon="fa-calendar" inverted color="amber" />
         <q-item-main>
           <q-item-tile label>Események</q-item-tile>
         </q-item-main>
       </q-item>
-      <q-item @click.native="$router.push('/projekt')" class="cursor-pointer">
+      <q-item @click.native="$router.push('/projekt')" >
         <q-item-side icon="fa-calendar" inverted color="amber" />
         <q-item-main>
           <q-item-tile label>A Projekt</q-item-tile>
         </q-item-main>
       </q-item>
-      <q-item @click.native="$router.push('/kapcsolat')" class="cursor-pointer">
+      <q-item @click.native="$router.push('/kapcsolat')" >
         <q-item-side icon="fa-address-card" inverted color="amber" />
         <q-item-main>
           <q-item-tile label>Kapcsolat</q-item-tile>

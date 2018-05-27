@@ -84,7 +84,7 @@ export default {
     },
     performRegistration () {
       let self = this
-      AXIOS.post('http://localhost:8089/api/register', this.$data.register)
+      AXIOS.post('/api/register', this.$data.register)
         .then(function (response) {
           self.login.username = self.register.username
           self.login.password = self.register.password

@@ -17,7 +17,7 @@ public class NewEvent {
     private String date;
     private String description;
     private String shortDescription;
-    private String active;
+    private Integer active;
     private double latitude;
     private double longitude;
     private List<Map<String, String>> fields = new ArrayList<>();

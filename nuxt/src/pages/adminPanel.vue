@@ -18,8 +18,9 @@
             </q-item>
             <q-tabs color="primary" class="shadow-1" glossy>
               <q-tab default name="Események" slot="title" icon="fa-calendar" label="Események" />
+              <q-tab name="Tanulmányok" slot="title" icon="fa-book" label="Tanulmányok" />
               <q-tab name="Felhasználók" slot="title" icon="fa-user" label="Felhasználók" />
-              <q-tab name="Oldalak" slot="title" icon="fa-link" label="Oldalak" />
+              <q-tab name="Kategóriák" slot="title" icon="fa-sticky-note" label="Kategóriák" />
               <q-tab name="Oldal üzenetek" slot="title" icon="fa-envelope" :label="'Oldal üzenetek (' + unReadContactMessageCount + ')'" />
               <q-tab name="Beállítások" slot="title" icon="fa-cog" label="Beállítások" />
 
@@ -31,8 +32,12 @@
                 <userList></userList>
               </q-tab-pane>
 
-              <q-tab-pane name="Oldalak">
-                Oldalak
+              <q-tab-pane name="Kategóriák">
+                Kategóriák
+              </q-tab-pane>
+
+              <q-tab-pane name="Tanulmányok">
+                <researchList></researchList>
               </q-tab-pane>
 
               <q-tab-pane name="Oldal üzenetek">
@@ -57,13 +62,15 @@ import editSiteSettings from '../components/adminPanel/editSiteSettings'
 import contactMessage from '../components/adminPanel/contactMessage'
 import userList from '../components/adminPanel/userList'
 import eventList from '../components/adminPanel/eventList'
+import researchList from '../components/adminPanel/researchList'
 export default {
   name: 'adminPanel',
   components: {
     editSiteSettings,
     contactMessage,
     userList,
-    eventList
+    eventList,
+    researchList
   },
   data: function () {
     return {

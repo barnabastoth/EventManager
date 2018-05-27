@@ -1,4 +1,4 @@
-package application.utils;
+package application.service;
 
 import application.model.authentication.User;
 import application.model.event.Event;
@@ -9,26 +9,27 @@ import application.repository.EventFieldRepository;
 import application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.security.jca.GetInstance;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
-public class EventUtils {
+public class EventService {
 
     @Autowired EventRepository eventRepository;
     @Autowired EventFieldRepository eventFieldRepository;
     @Autowired UserRepository userRepository;
 
-    public int createNewEvent(NewEvent newEvent) {
+    public Long createNewEvent(NewEvent newEvent) {
         Event event = new Event();
         eventRepository.saveAndFlush(event);
         event.setName(newEvent.getName());
         event.setAddress(newEvent.getAddress());
         if(newEvent.getDate().length() > 0) {
-            event.setDate(LocalDateTime.parse(newEvent.getDate()));
+            DateTimeFormatter formatter = DateTimeFormatter
+                    .ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxx][xx][X]");
+            event.setDate(LocalDateTime.parse(newEvent.getDate(), formatter));
         } else {
             event.setDate(LocalDateTime.of(2080, 4, 20, 1, 30));
         }
@@ -59,7 +60,7 @@ public class EventUtils {
 
         eventRepository.saveAndFlush(event);
 
-        return (int) (long) event.getId();
+        return event.getId();
     }
 
     public void saveEditedEvent (NewEvent newEvent) {
@@ -67,15 +68,17 @@ public class EventUtils {
         event.ifPresent(event1 -> {
             event1.setName(newEvent.getName());
             event1.setAddress(newEvent.getAddress());
-            if(newEvent.getDate() != null) {
-                event1.setDate(LocalDateTime.parse(newEvent.getDate()));
+            if(newEvent.getDate().length() > 0) {
+                DateTimeFormatter formatter = DateTimeFormatter
+                        .ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS[xxx][xx][X]");
+                event1.setDate(LocalDateTime.parse(newEvent.getDate(), formatter));
             } else {
-                event1.setDate(LocalDateTime.of(2080, 4, 20, 3, 15));
+                event1.setDate(LocalDateTime.of(2080, 4, 20, 1, 30));
             }
             event1.setDescription(newEvent.getDescription());
 
             if(event1.getActive() == null) {
-                event1.setActive("0");
+                event1.setActive(0);
             } else {
                 event1.setActive(newEvent.getActive());
             }

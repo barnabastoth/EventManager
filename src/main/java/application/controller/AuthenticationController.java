@@ -4,7 +4,7 @@ import application.config.JwtTokenUtil;
 import application.model.authentication.*;
 import application.repository.RoleRepository;
 import application.service.UserService;
-import application.utils.AuthenticationUtils;
+import application.service.AuthenticationService;
 import application.utils.DataExtractionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,7 +34,8 @@ public class AuthenticationController {
     @Autowired private UserService userService;
     @Autowired BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired RoleRepository roleRepository;
-    @Autowired AuthenticationUtils authenticationUtils;
+    @Autowired
+    AuthenticationService authenticationService;
     @Autowired DataExtractionUtils dataExtractionUtils;
 
     @PreAuthorize("isAnonymous()")
@@ -69,7 +69,7 @@ public class AuthenticationController {
             if(bindingResult.hasErrors()) {
                 return new ResponseEntity<>(dataExtractionUtils.extractErrors(bindingResult), HttpStatus.CONFLICT);
             } else {
-                authenticationUtils.registerNewUser(registerUser);
+                authenticationService.registerNewUser(registerUser);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }

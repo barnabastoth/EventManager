@@ -234,37 +234,53 @@
               </q-item-main>
             </q-item>
 
-            <q-item>
-              <q-btn style="width: 100%" color="info" icon-right="fa-comment" @click="showNewCommentSection = true" label="Hozzászólás írása" />
-            </q-item>
+            <transition
+              v-if="showNewCommentSection === false"
+              appear
+              enter-active-class="animated zoomIn"
+              leave-active-class="animated zoomOut"
+            >
+              <q-item>
+                <q-btn style="width: 100%" color="info" icon-right="fa-comment" @click="showNewCommentSection = true" label="Hozzászólás írása" />
+              </q-item>
+            </transition>
 
-            <q-item class="shadow-24" style="margin: 10px" v-show="showNewCommentSection">
-              <q-item-side avatar="statics/guy-avatar.png" />
-              <q-item-main>
-                <q-item-tile>{{this.$store.state.loggedInUser.username}}</q-item-tile>
-                <q-item-tile>
-                  <q-input v-model="newComment.message" float-label="Hozzzászólás szövege"></q-input>
-                </q-item-tile>
-                <q-item-tile class="float-right">
-                  <q-btn
-                  icon-right="fa-step-forward"
-                  color="primary"
-                  style="margin-top: 5px"
-                  @click="addNewComment()"
-                  >
-                    Hozzászólás küldése
-                  </q-btn>
-                  <q-btn
+            <transition
+              v-if="showNewCommentSection"
+              appear
+              enter-active-class="animated zoomIn"
+              leave-active-class="animated zoomOut"
+            >
+              <q-item class="shadow-24" style="margin: 10px">
+                <q-item-side avatar="statics/guy-avatar.png" />
+                <q-item-main>
+                  <q-item-tile class="float-right">
+                    <q-btn
+                      push
+                      icon="fa-times"
+                      color="info"
+                      style="margin-top: 5px"
+                      @click="showNewCommentSection = false"
+                    >
+                    </q-btn>
+                  </q-item-tile>
+                  <q-item-tile>{{this.$store.state.loggedInUser.username}}</q-item-tile>
+                  <q-item-tile>
+                    <q-input v-model="newComment.message" float-label="Hozzzászólás szövege"></q-input>
+                  </q-item-tile>
+                  <q-item-tile class="float-right">
+                    <q-btn
                     icon-right="fa-step-forward"
                     color="primary"
                     style="margin-top: 5px"
-                    @click="showNewCommentSection = false"
-                  >
-                    Bezárás
-                  </q-btn>
-                </q-item-tile>
-              </q-item-main>
-            </q-item>
+                    @click="addNewComment()"
+                    >
+                      Hozzászólás küldése
+                    </q-btn>
+                  </q-item-tile>
+                </q-item-main>
+              </q-item>
+            </transition>
 
             <q-item class="shadow-2" style="margin: 10px" v-for="comment in event.comments" :key="comment.id">
               <q-item-main>
@@ -346,8 +362,7 @@ export default {
       },
       isUserAnAttendee: false,
       showAttendeesModal: false,
-      showNewCommentSection: false,
-      countDownStart: true
+      showNewCommentSection: false
     }
   },
   props: ['id'],
@@ -373,6 +388,7 @@ export default {
         .then(() => {
           this.$data.event.comments.push(this.$data.newComment)
           this.$data.newComment = {message: ''}
+          this.$data.showNewCommentSection = false
           Notify.create({
             type: 'positive',
             color: 'positive',

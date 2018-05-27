@@ -54,7 +54,7 @@
             <q-item class="shadow-2 bg-grey-1" style="margin-bottom: 15px;">
               <q-item-side icon="fa-book" color="primary"></q-item-side>
               <q-item-main>
-                <q-input v-model="event.description" float-label="Az esemény részletes leírása"></q-input>
+                <q-input v-model="event.description" type="textarea" float-label="Az esemény részletes leírása"></q-input>
               </q-item-main>
             </q-item>
           </q-step>
@@ -203,8 +203,8 @@
                     v-model="event.active"
                     toggle-color="primary"
                     :options="[
-                          {label: 'Legyen látható', value: '1'},
-                          {label: 'Ne legyen látható', value: '0'}
+                          {label: 'Legyen látható', value: 1},
+                          {label: 'Ne legyen látható', value: 0}
                         ]"
                   />
                 </q-item-main>

@@ -23,7 +23,7 @@ public class Event {
     private String name;
     private String address;
     private LocalDateTime date;
-    private String active;
+    private Integer active;
     private byte[] image;
     private double latitude;
     private double longitude;
@@ -39,7 +39,7 @@ public class Event {
 
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_speakers"
+    @JoinTable(name = "event_speakers"
             , joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )

@@ -22,7 +22,7 @@
               :subtitle="event.date"
               :side="event.side"
             >
-              <div>{{event.description}}</div>
+              <div>{{event.shortDescription}}</div>
               <q-btn size="sm" @click="$router.push('/esemeny/' + event.id)" color="primary" icon-right="fa-external-link-alt" label="Megnyitás" />
             </q-timeline-entry>
           </q-timeline>

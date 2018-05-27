@@ -6,8 +6,8 @@ import application.model.authentication.Role;
 import application.model.authentication.User;
 import application.repository.RoleRepository;
 import application.repository.UserRepository;
+import application.service.AuthenticationService;
 import application.service.UserService;
-import application.utils.AuthenticationUtils;
 import application.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class UserController {
     @Autowired private UserRepository userRepository;
     @Autowired private UserUtils userUtils;
     @Autowired private RoleRepository roleRepository;
-    @Autowired private AuthenticationUtils authenticationUtils;
+    @Autowired private AuthenticationService authenticationService;
 
     @RequestMapping(value="/", method = RequestMethod.GET)
     public List<User> listUser(){ return userService.findAll(); }

@@ -19,7 +19,7 @@ export default [
         component: () => import('pages/contact')
       },
       {
-        path: '/idovonal',
+        path: '/esemenyek',
         component: () => import('pages/eventsTimeLine')
       },
       {
@@ -72,6 +72,26 @@ export default [
             router.push('/noAccess')
           }
         }
+      },
+      {
+        path: '/tanulmanyok',
+        component: () => import('pages/researchPanel')
+      },
+      { path: '/tanulmany/uj',
+        component: () => import('pages/newResearch'),
+        beforeEnter: (to, from, next) => {
+          if (store.state.loggedInUser.role.role === 'Admin' ||
+            store.state.loggedInUser.role.role === 'Tulajdonos') {
+            next()
+          } else {
+            router.push('/noAccess')
+          }
+        }
+      },
+      {
+        path: '/tanulmany/:id',
+        component: () => import('pages/research'),
+        props: true
       }
     ]
   },

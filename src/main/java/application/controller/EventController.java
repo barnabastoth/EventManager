@@ -8,20 +8,14 @@ import application.model.event.NewEvent;
 import application.repository.CommentRepository;
 import application.repository.EventRepository;
 import application.repository.UserRepository;
-import application.utils.AuthenticationUtils;
-import application.utils.EventUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import application.service.AuthenticationService;
+import application.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -32,10 +26,12 @@ import java.util.Set;
 public class EventController {
 
     @Autowired EventRepository eventRepository;
-    @Autowired EventUtils eventUtils;
+    @Autowired
+    EventService eventService;
     @Autowired UserRepository userRepository;
     @Autowired CommentRepository commentRepository;
-    @Autowired AuthenticationUtils authenticationUtils;
+    @Autowired
+    AuthenticationService authenticationService;
 
     @GetMapping("/")
     public List<Event> serveAllEvent(Principal principal) {
@@ -67,11 +63,11 @@ public class EventController {
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/new")
-    public int saveNewEvent(@RequestBody NewEvent newEvent) { return eventUtils.createNewEvent(newEvent); }
+    public Long saveNewEvent(@RequestBody NewEvent newEvent) { return eventService.createNewEvent(newEvent); }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @PostMapping("/edit")
-    public void editEvent(@RequestBody NewEvent newEvent) { eventUtils.saveEditedEvent(newEvent); }
+    public void editEvent(@RequestBody NewEvent newEvent) { eventService.saveEditedEvent(newEvent); }
 
     @PreAuthorize("hasAuthority('Admin') or hasAuthority('Tulajdonos')")
     @GetMapping("/{id}/delete")
@@ -107,7 +103,7 @@ public class EventController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/comment/new")
-    public void saveNewComment (@RequestBody NewComment newComment) {
+    public Comment saveNewComment (@RequestBody NewComment newComment) {
         Optional<User> user = userRepository.findById(newComment.getUserId());
         Optional<Event> event = eventRepository.findById(newComment.getEventId());
 
@@ -121,8 +117,9 @@ public class EventController {
             user.get().getComments().add(comment);
             event.get().getComments().add(comment);
             commentRepository.saveAndFlush(comment);
-            System.out.println("success");
+            return comment;
         }
+        return null;
     }
 
 //    @PreAuthorize("isAuthenticated()")
